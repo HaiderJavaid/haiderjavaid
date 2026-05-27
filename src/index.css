@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply text-pip font-mono overflow-hidden;
+    background-color: #000000;
+    overscroll-behavior: none;
+  }
+}
+
+@layer components {
+  /* The CRT Screen Effect */
+  .crt-overlay {
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+  }
+  
+  /* Scrollbar Styling */
+  .pip-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .pip-scrollbar::-webkit-scrollbar-track {
+    background: rgba(20, 184, 166, 0.05);
+  }
+  .pip-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(20, 184, 166, 0.4);
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .animate-flicker-in {
+    animation: flicker-in-frames 0.8s ease-out both;
+  }
+}
+
+@keyframes flicker-in-frames {
+  0% { opacity: 0; filter: contrast(1) brightness(1); }
+  10% { opacity: 1; filter: contrast(1.5) brightness(1.5); }
+  20% { opacity: 0; filter: contrast(1) brightness(1); }
+  35% { opacity: 0.8; filter: contrast(1.2) brightness(1.2); }
+  50% { opacity: 0.2; filter: contrast(1) brightness(1); }
+  65% { opacity: 1; filter: contrast(1.4) brightness(1.2); }
+  80% { opacity: 0.5; filter: contrast(1) brightness(1); }
+  100% { opacity: 1; filter: contrast(1) brightness(1); }
+}
