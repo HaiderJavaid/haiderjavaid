@@ -19,10 +19,10 @@ Static client-side portfolio. No backend, auth, database, cookies, forms, or sec
 - Prefer provider-managed auth for any future admin/CMS flow.
 
 ## Release Checklist
-- [ ] No placeholder project or experience claims.
-- [ ] No `example.com` links.
+- [x] No placeholder project or experience claims.
+- [x] No `example.com` links.
 - [ ] Resume file exists and is intentionally public.
 - [ ] Contact details are intentional.
-- [ ] `npm run lint` passes.
-- [ ] `npm run build` passes.
+- [x] `npm run lint` passes.
+- [x] `npm run build` passes.
 - [ ] Dependency audit has no critical unresolved issues.

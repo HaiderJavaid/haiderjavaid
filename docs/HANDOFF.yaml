@@ -1,0 +1,40 @@
+date: 2026-05-28
+project:
+  local_path: /Users/kinghaider/Desktop/Coding/projects/web-portfolio
+  release_clone_path: /Users/kinghaider/Desktop/Coding/projects/web-portfolio-release
+  github_repo: https://github.com/HaiderJavaid/haiderjavaid.git
+status:
+  active_ui: DevView
+  positioning: digital-solutions-specialist
+  work_section: verified-projects-added-assets-pending
+  about_page: added
+  resume_asset: src/assets/resume.pdf
+  host_target: netlify
+deployment:
+  branch: replace-portfolio
+  latest_commit: e4b919b
+  pr_branch_purpose: replace old static site with Vite Pip-Boy portfolio
+  netlify:
+    build_command: npm run build
+    publish_dir: dist
+    config_file: netlify.toml
+notes:
+  - local folder is not a git repo; git work was done from release_clone_path
+  - github-pages workflow was removed from replacement branch
+  - original Netlify project should be reused, not recreated
+  - if netlify shows blank and github.io is live, branch/build settings in existing Netlify site still need correction
+done:
+  - resume-backed hero/contact/experience added
+  - about page added with image placeholder
+  - hero name kept large
+  - resume download wired
+  - marketing lint issue fixed
+  - verified KasiJobs and Yello Skincare project entries added
+  - generic GitHub and example.com work links removed
+  - README converted into GitHub-profile-facing terminal/Pip-Boy profile using verified content
+next:
+  - repoint existing Netlify site to replace-portfolio or merged main
+  - verify production netlify.app URL
+  - update metadata
+  - add project screenshots/assets
+  - add CI

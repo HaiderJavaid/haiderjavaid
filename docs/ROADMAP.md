@@ -5,11 +5,13 @@ Goal: make the existing UI safe to show publicly.
 
 Deliver:
 - Verified positioning and hero copy.
+- Resume-backed about page with image placeholder.
 - Resume-backed experience content.
 - Real project cards, links, screenshots, and outcomes.
 - Working resume download.
 - Real contact details.
 - Production metadata.
+- Netlify production deploy verification.
 - Passing lint/build.
 
 Exit:

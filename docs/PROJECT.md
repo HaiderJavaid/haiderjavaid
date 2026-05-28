@@ -17,25 +17,24 @@ Build a memorable, truthful portfolio for Haider that demonstrates UI craft and 
 Built:
 - React + Vite + Tailwind scaffold.
 - Full-screen `DevView` shell with boot sequence, matrix background, CRT overlay, and slot-machine navigation.
-- Work, experience, contact, resume, and project-detail screens.
+- Work, about, experience, contact, resume, and project-detail screens.
 - Unmounted `MarketingView` slide concept.
+- Netlify-ready static build config via `netlify.toml`.
 
 Missing:
-- Real project data, links, screenshots, outcomes, and case-study proof.
-- Working `View Work` content that matches the chosen positioning.
+- Project screenshots and public proof assets beyond text-based case studies.
 - Production title, description, favicon, and social metadata.
 - CI gate for install, lint, and build.
-- Any public proof assets for case studies beyond the resume itself.
+- Final production verification on the existing Netlify site.
 
 ## Publish Readiness
 Status: **not ready**.
 
 Blockers:
-- `DevView.jsx` still contains placeholder project cards and placeholder project links in `View Work`.
-- `View Work` still includes `https://example.com` and generic GitHub URLs.
 - Project screenshots and case-study proof are still missing.
 - `index.html` still uses starter Vite favicon/title-level metadata.
 - CI is still missing.
+- The existing Netlify site still needs its production branch/build settings pointed at this Vite portfolio and verified live.
 
 ## Next Priority
-Finish the publish-readiness pass by replacing or hiding placeholder project content in `View Work`, then update metadata and add CI.
+Verify the existing Netlify site is serving this portfolio correctly, then finish the publish-readiness pass by updating metadata, adding CI, and replacing project image placeholders with real assets.

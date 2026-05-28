@@ -1,12 +1,13 @@
 # Tasks
 
 ## Now: Release Blockers
+- [ ] Point the existing Netlify site at the replacement Vite build and verify the `netlify.app` production URL.
 - [x] Decide final public positioning: digital solutions specialist blending sales, marketing, and front-end web development.
-- [ ] Replace fictional project cards with verified projects.
+- [x] Replace fictional project cards with verified projects.
 - [x] Replace fictional experience entries with resume-backed experience.
 - [x] Replace placeholder contact email and any fake contact paths.
 - [x] Add an intentional public resume asset and wire the resume button.
-- [ ] Replace `example.com` and generic GitHub links with verified URLs.
+- [x] Replace `example.com` and generic GitHub links with verified URLs.
 - [ ] Add real project screenshots or remove image placeholders.
 - [x] Fix lint failure in `MarketingView.jsx`.
 - [ ] Replace starter title, description, favicon, and social metadata in `index.html`.
@@ -16,6 +17,7 @@
 - [ ] Decide whether `MarketingView.jsx` should be removed, routed later, or kept as a separate concept.
 - [ ] Remove unused starter files/assets after replacement metadata exists.
 - [ ] Add CI for install, lint, and build.
+- [x] Add Netlify build config via `netlify.toml`.
 - [ ] Add a short manual QA checklist for desktop, mobile, keyboard, and reduced-motion behavior.
 
 ## Later: Product Polish
@@ -31,3 +33,4 @@
 - [x] Project-detail screen pattern.
 - [x] Initial documentation system.
 - [x] Documentation audit and consolidation.
+- [x] Convert `README.md` into a GitHub-profile-facing terminal/Pip-Boy profile.

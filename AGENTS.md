@@ -5,18 +5,20 @@
 
 ## Current Reality
 - `src/App.jsx` renders `src/pages/DevView.jsx` only.
-- `src/pages/MarketingView.jsx` is an unmounted alternate concept and still affects lint health.
-- Portfolio content is hardcoded in `DevView.jsx`.
-- Public content currently includes fictional projects, fictional experience, a placeholder email, missing resume download behavior, generic links, and starter metadata.
+- `src/pages/MarketingView.jsx` is an unmounted alternate concept and still participates in lint/dependency health.
+- Resume-backed profile and experience content now live in `src/content/*`.
+- Verified `View Work` content now lives in `src/content/projects.js`; screenshots/assets and starter metadata gaps remain.
+- The project uses `netlify.toml` for the intended Netlify build settings.
 - The project has no CI workflow.
 
 ## Source Of Truth
 Read in this order before changing behavior:
-1. `docs/PROJECT.md` - product state, audience, readiness, and next priority.
-2. `docs/ARCHITECTURE.md` - inferred code structure and active surfaces.
-3. `docs/TASKS.md` - current backlog and release blockers.
-4. `docs/DECISIONS.md` - accepted constraints and pending choices.
-5. `docs/CODING-STANDARDS.md` - local implementation rules.
+1. `docs/HANDOFF.yaml` - compact carry-forward memory from the latest conversation, including branch/deploy state.
+2. `docs/PROJECT.md` - product state, audience, readiness, and next priority.
+3. `docs/ARCHITECTURE.md` - inferred code structure and active surfaces.
+4. `docs/TASKS.md` - current backlog and release blockers.
+5. `docs/DECISIONS.md` - accepted constraints and pending choices.
+6. `docs/CODING-STANDARDS.md` - local implementation rules.
 
 ## Operating Rules
 - Preserve the current Pip-Boy/terminal direction unless explicitly asked to redesign.

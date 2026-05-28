@@ -9,11 +9,12 @@
 - Avoid new dependencies unless they solve an immediate problem.
 - Treat placeholder public claims as blockers, not harmless demo content.
 - Position the public portfolio around a digital solutions specialist profile spanning sales, marketing, client consultation, and front-end web development.
+- Use Netlify as the intended production host for the replacement portfolio build.
 
 ## Pending
 - Whether `MarketingView.jsx` should be removed, routed later, or kept as a concept.
 - Final project shortlist and proof assets.
-- Deployment target and CI provider.
+- CI provider and final production branch strategy inside the existing Netlify site.
 
 ## Revisit Later
 - Router adoption if project case studies need direct URLs.

@@ -6,6 +6,7 @@ import BootScreen from '../components/dev/BootScreen';
 import resumePdf from '../assets/resume.pdf';
 import { PROFILE } from '../content/profile';
 import { EXPERIENCES } from '../content/experience';
+import { PROJECTS } from '../content/projects';
 
 const MENU_ITEMS = [
   { id: 'work', label: 'View Work', icon: Briefcase },
@@ -13,18 +14,6 @@ const MENU_ITEMS = [
   { id: 'exp', label: 'Experience', icon: User },
   { id: 'contact', label: 'Contact Me', icon: Terminal },
   { id: 'resume', label: 'Download Resume', icon: FileText },
-];
-
-const PROJECTS = [
-  {
-    id: 1, title: 'PROJECT ALPHA', shortDesc: 'Full stack e-commerce solution built for the wasteland.', longDesc: 'A comprehensive full-stack e-commerce system featuring a fully custom-built backend in Node.js and a highly responsive React frontend. It features real-time inventory management, robust state management using Redux, and cap currency stripe integration.', tech: ['React', 'Node.js', 'Stripe', 'MongoDB'], features: ['Real-time inventory syncing', 'User authentication', 'Secure payment processing', 'Admin dashboard analytics'], github: 'https://github.com/haider', live: 'https://example.com'
-  },
-  {
-    id: 2, title: 'NEURAL NET VIS', shortDesc: '3D visualization of neural networks using Three.js and WebGL technology.', longDesc: 'An interactive analytical tool allowing AI researchers to dynamically visualize intermediate layers of neural networks. Using Three.js and custom WebGL shaders, it renders massive point clouds representing node weights without dropping frame rates.', tech: ['Three.js', 'WebGL', 'React', 'Python'], features: ['60 FPS point cloud rendering', 'Custom WebGL shaders', 'Real-time weight updates', 'Interactive 3D camera controls'], github: 'https://github.com/haider', live: 'https://example.com'
-  },
-  {
-    id: 3, title: 'VAULT KEEPER', shortDesc: 'Personal finance tracker with retro aesthetics and budget forecasting.', longDesc: 'A retro-themed budget forecasting suite. Designed with meticulous attention to UI layout imitating classic terminal interfaces. Tracks daily expenses with beautiful D3.js powered terminal charting.', tech: ['Vue.js', 'Firebase', 'D3.js', 'TailwindCSS'], features: ['Authentication via Firebase', 'Secure database rules', 'D3.js Data visualization', 'Export to CSV functionality'], github: 'https://github.com/haider', live: 'https://example.com'
-  }
 ];
 
 const DevView = () => {
@@ -207,16 +196,31 @@ const DevView = () => {
                             {/* Image Placeholder */}
                             <div className="w-full md:w-48 h-32 md:h-full shrink-0 border-2 border-pip/30 bg-pip-bg/60 flex items-center justify-center group-hover:border-pip/80 group-hover:bg-pip/10 transition-colors relative overflow-hidden">
                               <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay pointer-events-none"></div>
-                              <ImageIcon className="w-8 h-8 text-pip/40 group-hover:text-pip/80 z-10" />
+                              <div className="relative z-10 text-center">
+                                <ImageIcon className="mx-auto mb-2 w-8 h-8 text-pip/40 group-hover:text-pip/80" />
+                                <p className="text-[10px] uppercase tracking-[0.2em] text-pip/55">
+                                  {project.assetLabel}
+                                </p>
+                              </div>
                             </div>
 
                             {/* Info */}
                             <div className="flex-1 flex flex-col h-full">
                               <div className="flex justify-between items-start mb-2">
-                                <h3 className="text-xl md:text-2xl font-bold text-pip-light group-hover:text-white transition-colors">{project.title}</h3>
+                                <div>
+                                  <h3 className="text-xl md:text-2xl font-bold text-pip-light group-hover:text-white transition-colors">{project.title}</h3>
+                                  <p className="mt-1 text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-pip/55">
+                                    {project.category}
+                                  </p>
+                                </div>
                                 <ExternalLink size={16} className="text-pip/40 group-hover:text-pip" />
                               </div>
                               <p className="opacity-80 leading-relaxed mb-4 text-sm md:text-base line-clamp-2">{project.shortDesc}</p>
+                              <div className="flex flex-wrap gap-2 mb-4">
+                                <span className="text-[10px] md:text-xs font-bold bg-pip/15 border border-pip/25 px-2 py-1 uppercase tracking-wide">
+                                  {project.statusLabel}
+                                </span>
+                              </div>
                               <div className="flex flex-wrap gap-2 mt-auto">
                                 {project.tech.slice(0, 3).map(t => (
                                   <span key={t} className="text-[10px] md:text-xs font-bold bg-pip/20 px-2 py-1">{t.toUpperCase()}</span>
@@ -420,26 +424,41 @@ const DevView = () => {
                   <div className="absolute bottom-0 left-0 w-4 h-4 md:w-6 md:h-6 border-b-2 border-l-2 md:border-b-4 md:border-l-4 border-pip" />
                   <div className="absolute bottom-0 right-0 w-4 h-4 md:w-6 md:h-6 border-b-2 border-r-2 md:border-b-4 md:border-r-4 border-pip" />
 
-                  <div className="pb-8 space-y-6 md:space-y-8">
-                    {/* HERO IMAGE PLACEHOLDER FOR PROJECT */}
+                    <div className="pb-8 space-y-6 md:space-y-8">
+                      {/* HERO IMAGE PLACEHOLDER FOR PROJECT */}
                     <div className="w-full h-48 md:h-72 border-2 border-pip/40 bg-pip/5 flex flex-col items-center justify-center relative overflow-hidden group">
                       <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none"></div>
                       <ImageIcon className="w-12 h-12 text-pip/30 mb-2 z-10" />
-                      <span className="text-pip/40 text-xs tracking-widest uppercase z-10">[IMG_MISSING]</span>
-                      <div className="absolute bottom-2 right-2 text-[10px] opacity-30 z-10">1920x1080</div>
+                      <span className="text-pip/40 text-xs tracking-widest uppercase z-10">{selectedProject.assetLabel}</span>
                     </div>
 
                     <div className="flex flex-col md:flex-row md:justify-between items-start gap-4">
                       <div>
                         <h2 className="text-2xl md:text-4xl font-black text-pip-light drop-shadow-[0_0_8px_rgba(20,184,166,0.5)] mb-2 uppercase">{selectedProject.title}</h2>
-                        <div className="flex flex-wrap gap-4 mt-4">
-                          <a href={selectedProject.github} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs font-bold hover:text-white transition-colors bg-pip/20 px-3 py-1.5 border border-pip/30 hover:border-pip hover:bg-pip/40">
-                            <Github size={14} /> GITHUB
-                          </a>
-                          <a href={selectedProject.live} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs font-bold hover:text-white transition-colors bg-pip/20 px-3 py-1.5 border border-pip/30 hover:border-pip hover:bg-pip/40">
-                            <ExternalLink size={14} /> LIVE SITE
-                          </a>
+                        <p className="text-xs font-bold uppercase tracking-[0.25em] text-pip/55">
+                          {selectedProject.category}
+                        </p>
+                        <div className="flex flex-wrap gap-3 mt-4">
+                          {selectedProject.repoUrl && (
+                            <a href={selectedProject.repoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs font-bold hover:text-white transition-colors bg-pip/20 px-3 py-1.5 border border-pip/30 hover:border-pip hover:bg-pip/40">
+                              <Github size={14} /> GITHUB
+                            </a>
+                          )}
+                          {selectedProject.liveUrl && (
+                            <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs font-bold hover:text-white transition-colors bg-pip/20 px-3 py-1.5 border border-pip/30 hover:border-pip hover:bg-pip/40">
+                              <ExternalLink size={14} /> LIVE SITE
+                            </a>
+                          )}
+                          {!selectedProject.repoUrl && !selectedProject.liveUrl && (
+                            <span className="flex items-center gap-1.5 text-xs font-bold bg-pip/10 px-3 py-1.5 border border-pip/20 text-pip/70">
+                              {selectedProject.statusLabel}
+                            </span>
+                          )}
                         </div>
+                      </div>
+                      <div className="border border-pip/20 bg-pip/5 px-3 py-2">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">Status</p>
+                        <p className="mt-1 text-sm text-pip-light">{selectedProject.statusLabel}</p>
                       </div>
                     </div>
 
@@ -447,6 +466,14 @@ const DevView = () => {
                       <div className="border-l-2 border-pip/40 pl-4 py-1">
                         <h4 className="text-xs uppercase tracking-widest opacity-60 mb-2">System Overview</h4>
                         <p className="text-sm md:text-base leading-relaxed opacity-90">{selectedProject.longDesc}</p>
+                      </div>
+                      <div className="border-l-2 border-pip/40 pl-4 py-1">
+                        <h4 className="text-xs uppercase tracking-widest opacity-60 mb-2">Outcome</h4>
+                        <p className="text-sm md:text-base leading-relaxed opacity-90">{selectedProject.outcome}</p>
+                      </div>
+                      <div className="border-l-2 border-pip/40 pl-4 py-1">
+                        <h4 className="text-xs uppercase tracking-widest opacity-60 mb-2">Role</h4>
+                        <p className="text-sm md:text-base leading-relaxed opacity-90">{selectedProject.role}</p>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
