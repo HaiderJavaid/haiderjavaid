@@ -1,0 +1,96 @@
+<svg width="1500" height="500" viewBox="0 0 1500 500" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Haider Javaid banner</title>
+  <desc id="desc">Dark navy banner with cyan accents and the name Haider Javaid in large type.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1500" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F2331"/>
+      <stop offset="0.55" stop-color="#0A1124"/>
+      <stop offset="1" stop-color="#070C1C"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(150 110) rotate(18) scale(420 260)">
+      <stop stop-color="#21D4C4" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#21D4C4" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" stroke="#143447" stroke-width="1"/>
+    </pattern>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, Arial, Helvetica, sans-serif; }
+      .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; }
+      .line { stroke: #21D4C4; stroke-width: 2; stroke-linecap: square; }
+      .muted { fill: #AAB7C7; }
+      .bright { fill: #21D4C4; }
+      .white { fill: #F5F7FA; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="500" fill="url(#bg)"/>
+  <rect width="1500" height="500" fill="url(#grid)" opacity="0.08"/>
+  <rect width="1500" height="500" fill="url(#glow)"/>
+  <g filter="url(#soft)" opacity="0.25">
+    <circle cx="138" cy="102" r="88" fill="#21D4C4"/>
+  </g>
+
+  <path d="M44 104L74 74H622" class="line" opacity="0.95"/>
+  <path d="M44 104V160" class="line" opacity="0.95"/>
+  <path d="M74 438H886" class="line" opacity="0.5"/>
+  <path d="M932 0L910 74L894 278L926 336H1490" stroke="#516079" stroke-width="1.4" opacity="0.55"/>
+  <path d="M995 336H1454" stroke="#516079" stroke-width="1.4" opacity="0.55"/>
+  <path d="M995 336L983 398H1490" stroke="#516079" stroke-width="1.4" opacity="0.55"/>
+
+  <text x="88" y="56" class="mono bright" font-size="20" letter-spacing="2.4">USER: HAIDER_JAVAID</text>
+  <rect x="430" y="40" width="10" height="10" fill="#21D4C4" opacity="0.9"/>
+
+  <text x="86" y="232" class="sans white" font-size="112" font-weight="800">Haider Javaid</text>
+  <text x="88" y="296" class="mono bright" font-size="30" letter-spacing="8">DIGITAL SOLUTIONS SPECIALIST</text>
+  <path d="M90 320H172" class="line"/>
+
+  <text x="90" y="380" class="mono muted" font-size="25" letter-spacing="1.2">Bridging business, marketing, and web execution to build</text>
+  <text x="90" y="418" class="mono muted" font-size="25" letter-spacing="1.2">practical digital systems with clear commercial intent.</text>
+
+  <text x="990" y="106" class="mono bright" font-size="19" letter-spacing="3">SYSTEM STATUS: ONLINE</text>
+  <circle cx="1293" cy="100" r="5" fill="#21D4C4"/>
+
+  <path d="M990 134H1024" class="line"/>
+  <path d="M990 184H1024" class="line"/>
+  <path d="M990 234H1024" class="line"/>
+  <path d="M990 284H1024" class="line"/>
+  <path d="M990 334H1024" class="line"/>
+
+  <text x="1044" y="142" class="mono white" font-size="21" letter-spacing="1.8">BUSINESS DEVELOPMENT</text>
+  <text x="1044" y="192" class="mono white" font-size="21" letter-spacing="1.8">DIGITAL STRATEGY</text>
+  <text x="1044" y="242" class="mono white" font-size="21" letter-spacing="1.8">WEB SOLUTIONS</text>
+  <text x="1044" y="292" class="mono white" font-size="21" letter-spacing="1.8">AUTOMATION SYSTEMS</text>
+  <text x="1044" y="342" class="mono white" font-size="21" letter-spacing="1.8">FRONTEND EXPERIENCES</text>
+
+  <text x="1008" y="454" class="mono bright" font-size="20" letter-spacing="3">FOCUS: SOLVE • BUILD • GROW</text>
+  <path d="M1008 474H1074" class="line"/>
+
+  <g opacity="0.42">
+    <path d="M1288 132H1328V312H1288V132Z" stroke="#21D4C4" stroke-width="1.4"/>
+    <path d="M1352 312V168C1352 140 1374 118 1402 118H1436V312" stroke="#21D4C4" stroke-width="1.4"/>
+    <path d="M1352 312V240C1352 220 1368 204 1388 204C1408 204 1424 220 1424 240V312" stroke="#21D4C4" stroke-width="1.4"/>
+  </g>
+
+  <g opacity="0.18">
+    <path d="M1216 72H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 96H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 120H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 144H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 168H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 192H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 216H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 240H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 264H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 288H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 312H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 336H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 360H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 384H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 408H1426" stroke="#21D4C4" stroke-width="1"/>
+    <path d="M1216 432H1426" stroke="#21D4C4" stroke-width="1"/>
+  </g>
+</svg>
