@@ -27,13 +27,14 @@ Current content is split between view code and data modules:
 - `src/content/experience.js`
 
 ## Assets
-- `public/vite.svg` and `src/assets/react.svg` are starter assets.
 - `src/assets/resume.pdf` is the mounted resume asset.
-- No project screenshots exist yet.
+- `src/assets/kasijob-review.png` and `src/assets/yelloskincare.png` are mounted project screenshots.
+- `public/favicon.png` is the active favicon.
+- `public/vite.svg` and `src/assets/react.svg` are unused starter assets.
 
 ## Technical Debt
 1. `DevView.jsx` still mixes local state, rendering, and inline CSS in one large file.
 2. Project image placeholders still imply assets that do not exist yet.
 3. `MarketingView.jsx` is dormant but still part of the codebase surface.
-4. Starter metadata and favicon remain in `index.html` and `public/vite.svg`.
+4. Unused starter assets remain in `public/vite.svg` and `src/assets/react.svg`.
 5. Wheel/touch handlers are global and can block normal page scrolling; verify carefully on mobile.

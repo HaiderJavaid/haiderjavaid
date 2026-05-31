@@ -7,22 +7,31 @@ Docs were reorganized after reading the repository code, configs, existing docs,
 - `App.jsx` renders `DevView` only.
 - `DevView.jsx` contains the mounted UI, local state machine, and now renders verified project data from `src/content/projects.js`, alongside the resume-backed hero, about, experience, contact, and resume content.
 - `MarketingView.jsx` is present but unmounted.
-- `README.md` has been converted from a repo setup README into a GitHub-profile-facing terminal/Pip-Boy profile README using verified resume-backed content.
+- `README.md` has been redesigned into a cleaner GitHub-profile layout with a GitHub-native intro, stack badges, featured work, and stats cards.
+- `README.md` now embeds `assets/readme-banner.svg` at the top as a resume-matched profile banner.
 - `src/assets/resume.pdf` is the mounted public resume asset.
+- `src/assets/haider-portrait.png` is cropped from the mounted resume and used on the About page.
+- `src/assets/kasijob-review.png` and `src/assets/yelloskincare.png` are mounted project screenshots.
 - `src/content/` stores extracted profile and experience content for the active view.
 - `src/content/projects.js` now stores verified project content for KasiJobs and the Yello Skincare case study.
 - `netlify.toml` defines the expected Netlify build command and publish directory.
-- `View Work` no longer uses fictional projects or fake links; screenshots/assets are still pending.
-- Current session changed only `README.md` and project memory docs; no app runtime files changed.
+- `View Work` no longer uses fictional projects or fake links; project screenshots are wired into cards and detail views.
+- `index.html` now uses the public title `Haider Javaid`, portfolio metadata, and `public/favicon.png`.
+- Home/contact now expose GitHub, LinkedIn, and Instagram links from `src/content/profile.js`.
+- Intro flicker is state-gated after the first post-boot animation so returning home does not replay it.
+- The home slot-nav now defaults to `About Me`.
+- `View Work` card thumbnails are fixed to a uniform frame size.
+- Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
 - Latest deployment-related commit on that branch is `e4b919b` (`Switch deployment config to Netlify`).
+- GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 
 ## Working Assumptions
 - Preserve the current visual direction.
 - Keep the digital solutions specialist positioning.
-- Make metadata, CI, and deploy verification the next focus.
+- Make CI and deploy verification the next focus.
 - Keep docs small and avoid parallel task lists.
 - Keep the existing Netlify site/project and repoint it instead of creating a new hosting project.
 
 ## Next Recommended Task
-Point the existing Netlify site at `replace-portfolio` and verify the `netlify.app` production URL, then update metadata, add CI, and replace image placeholders with real project assets.
+Point the existing Netlify site at `replace-portfolio` and verify the `netlify.app` production URL, then add CI and a short manual QA checklist.

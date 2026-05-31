@@ -10,7 +10,7 @@ Deliver:
 - Real project cards, links, screenshots, and outcomes.
 - Working resume download.
 - Real contact details.
-- Production metadata.
+- Production metadata and favicon.
 - Netlify production deploy verification.
 - Passing lint/build.
 

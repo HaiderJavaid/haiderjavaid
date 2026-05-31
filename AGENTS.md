@@ -7,7 +7,9 @@
 - `src/App.jsx` renders `src/pages/DevView.jsx` only.
 - `src/pages/MarketingView.jsx` is an unmounted alternate concept and still participates in lint/dependency health.
 - Resume-backed profile and experience content now live in `src/content/*`.
-- Verified `View Work` content now lives in `src/content/projects.js`; screenshots/assets and starter metadata gaps remain.
+- Verified `View Work` content now lives in `src/content/projects.js` with mounted screenshots.
+- The About page now uses a portrait cropped from `src/assets/resume.pdf`.
+- Home nav defaults to `About Me`; project detail screenshots expand inline from a top crop.
 - The project uses `netlify.toml` for the intended Netlify build settings.
 - The project has no CI workflow.
 

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info, Linkedin, Instagram } from 'lucide-react';
 import SlotMachineNav from '../components/dev/SlotMachineNav';
 import MatrixRain from '../components/dev/MatrixRain';
 import BootScreen from '../components/dev/BootScreen';
 import resumePdf from '../assets/resume.pdf';
+import portraitImage from '../assets/haider-portrait.png';
 import { PROFILE } from '../content/profile';
 import { EXPERIENCES } from '../content/experience';
 import { PROJECTS } from '../content/projects';
@@ -16,13 +17,64 @@ const MENU_ITEMS = [
   { id: 'resume', label: 'Download Resume', icon: FileText },
 ];
 
+const SOCIAL_ICONS = {
+  github: Github,
+  linkedin: Linkedin,
+  instagram: Instagram,
+};
+
+const DEFAULT_ACTIVE_INDEX = 1;
+const COLLAPSED_PROJECT_IMAGE_HEIGHT = 224;
+
 const DevView = () => {
   const [isBooting, setIsBooting] = useState(true);
   const [view, setView] = useState('home');
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(DEFAULT_ACTIVE_INDEX);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [hasPlayedIntroFlicker, setHasPlayedIntroFlicker] = useState(false);
+  const [isProjectImageExpanded, setIsProjectImageExpanded] = useState(false);
+  const [projectImageFullHeight, setProjectImageFullHeight] = useState(COLLAPSED_PROJECT_IMAGE_HEIGHT);
+  const projectImageFrameRef = useRef(null);
+  const projectImageRef = useRef(null);
+
+  useEffect(() => {
+    if (isBooting || hasPlayedIntroFlicker) return undefined;
+
+    const timeoutId = window.setTimeout(() => {
+      setHasPlayedIntroFlicker(true);
+    }, 1400);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [hasPlayedIntroFlicker, isBooting]);
+
+  useEffect(() => {
+    const frameNode = projectImageFrameRef.current;
+
+    if (!frameNode || !selectedProject?.image) return undefined;
+
+    const updateHeight = () => {
+      const imageNode = projectImageRef.current;
+
+      if (!imageNode?.naturalWidth || !frameNode.clientWidth) return;
+
+      setProjectImageFullHeight(
+        Math.round((imageNode.naturalHeight / imageNode.naturalWidth) * frameNode.clientWidth),
+      );
+    };
+
+    const resizeObserver = new ResizeObserver(updateHeight);
+    resizeObserver.observe(frameNode);
+    const frameId = window.requestAnimationFrame(updateHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [selectedProject]);
 
   const handleOpenProject = (project) => {
+    setIsProjectImageExpanded(false);
+    setProjectImageFullHeight(COLLAPSED_PROJECT_IMAGE_HEIGHT);
     setSelectedProject(project);
     handleNavigate('project_details');
   };
@@ -49,6 +101,7 @@ const DevView = () => {
   };
 
   const activeItem = MENU_ITEMS[activeIndex];
+  const introFlickerClass = hasPlayedIntroFlicker ? '' : 'animate-flicker-in';
 
   return (
     <div className="fixed top-0 left-0 w-full h-[100vh] bg-pip-bg text-pip font-mono overflow-hidden selection:bg-pip selection:text-pip-bg flex flex-col">
@@ -82,7 +135,7 @@ const DevView = () => {
         <div className="relative z-10 container mx-auto h-[100dvh] flex flex-col p-4 md:p-6 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-bottom,1rem))] pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] max-w-5xl min-h-0 w-full">
 
           {/* HEADER */}
-          <header className="flex justify-between items-end border-b-2 border-pip/50 pb-4 mb-4 h-20 shrink-0 animate-flicker-in" style={{ animationDelay: '0.1s' }}>
+          <header className={`flex justify-between items-end border-b-2 border-pip/50 pb-4 mb-4 h-20 shrink-0 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '0.1s' }}>
             <div>
               <div className="flex items-center gap-2 text-xs font-bold mb-1 opacity-80">
                 <Shield className="w-4 h-4" />
@@ -115,7 +168,7 @@ const DevView = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 animate-in fade-in zoom-in-95 duration-500 w-full h-full relative py-2 md:py-8">
 
                 {/* LEFT SECTION: HERO TITLE & DESCRIPTION */}
-                <div className="flex-1 flex flex-col items-center md:items-start justify-center space-y-4 md:space-y-6 transform hover:scale-[1.02] transition-transform duration-500 cursor-default px-4 md:px-0 md:pl-8 z-10 w-full mt-4 md:mt-0 animate-flicker-in" style={{ animationDelay: '0.4s' }}>
+                <div className={`flex-1 flex flex-col items-center md:items-start justify-center space-y-4 md:space-y-6 transform hover:scale-[1.02] transition-transform duration-500 cursor-default px-4 md:px-0 md:pl-8 z-10 w-full mt-4 md:mt-0 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '0.4s' }}>
                   <h1 className="text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-black tracking-tighter text-pip drop-shadow-[0_0_20px_rgba(20,184,166,0.6)] leading-none text-center md:text-left">
                     {PROFILE.displayName}
                   </h1>
@@ -126,7 +179,7 @@ const DevView = () => {
                     <div className="h-[2px] w-6 md:w-12 bg-pip shrink-0 hidden"></div>
                   </div>
 
-                  <div className="hidden md:block text-xs md:text-sm text-center md:text-left opacity-70 max-w-[95%] font-mono leading-relaxed border-t-2 md:border-t-0 md:border-l-2 border-pip/50 pt-4 md:pt-0 md:pl-4 mt-2 animate-flicker-in" style={{ animationDelay: '0.7s' }}>
+                  <div className={`hidden md:block text-xs md:text-sm text-center md:text-left opacity-70 max-w-[95%] font-mono leading-relaxed border-t-2 md:border-t-0 md:border-l-2 border-pip/50 pt-4 md:pt-0 md:pl-4 mt-2 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '0.7s' }}>
                     <p className="mb-2 font-bold text-pip-light animate-pulse">&gt; SYS.INIT()</p>
                     <p>{PROFILE.summary}</p>
                   </div>
@@ -138,10 +191,29 @@ const DevView = () => {
                       </span>
                     ))}
                   </div>
+
+                  <div className="flex items-center justify-center md:justify-start gap-3 w-full">
+                    {PROFILE.socialLinks.map((social) => {
+                      const SocialIcon = SOCIAL_ICONS[social.id] ?? ExternalLink;
+
+                      return (
+                        <a
+                          key={social.id}
+                          href={social.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={social.label}
+                          className="flex h-10 w-10 items-center justify-center border border-pip/35 bg-pip/10 text-pip-light transition-colors hover:border-pip hover:bg-pip/20 hover:text-white"
+                        >
+                          <SocialIcon size={18} />
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* RIGHT SECTION: NAVIGATION */}
-                <div className="flex-1 w-full md:max-w-[50%] relative group flex flex-col justify-center mb-8 md:mb-0 z-10 animate-flicker-in" style={{ animationDelay: '1.0s' }}>
+                <div className={`flex-1 w-full md:max-w-[50%] relative group flex flex-col justify-center mb-8 md:mb-0 z-10 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '1.0s' }}>
                   <div className="scale-90 md:scale-100 origin-center w-full">
                     <SlotMachineNav
                       items={MENU_ITEMS}
@@ -193,15 +265,22 @@ const DevView = () => {
                       <div className="space-y-6 md:space-y-8">
                         {PROJECTS.map((project) => (
                           <div key={project.id} className="bg-pip/5 p-4 md:p-6 border border-pip/20 hover:border-pip/60 transition-all group flex flex-col md:flex-row gap-4 md:gap-6 items-start cursor-pointer" onClick={() => handleOpenProject(project)}>
-                            {/* Image Placeholder */}
-                            <div className="w-full md:w-48 h-32 md:h-full shrink-0 border-2 border-pip/30 bg-pip-bg/60 flex items-center justify-center group-hover:border-pip/80 group-hover:bg-pip/10 transition-colors relative overflow-hidden">
+                            <div className="w-full md:w-48 h-36 md:h-32 shrink-0 border-2 border-pip/30 bg-pip-bg/60 flex items-center justify-center group-hover:border-pip/80 group-hover:bg-pip/10 transition-colors relative overflow-hidden">
                               <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay pointer-events-none"></div>
-                              <div className="relative z-10 text-center">
-                                <ImageIcon className="mx-auto mb-2 w-8 h-8 text-pip/40 group-hover:text-pip/80" />
-                                <p className="text-[10px] uppercase tracking-[0.2em] text-pip/55">
-                                  {project.assetLabel}
-                                </p>
-                              </div>
+                              {project.image ? (
+                                <img
+                                  src={project.image}
+                                  alt={project.imageAlt}
+                                  className="h-full w-full object-cover opacity-80 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
+                                />
+                              ) : (
+                                <div className="relative z-10 text-center">
+                                  <ImageIcon className="mx-auto mb-2 w-8 h-8 text-pip/40 group-hover:text-pip/80" />
+                                  <p className="text-[10px] uppercase tracking-[0.2em] text-pip/55">
+                                    {project.assetLabel}
+                                  </p>
+                                </div>
+                              )}
                             </div>
 
                             {/* Info */}
@@ -237,17 +316,13 @@ const DevView = () => {
                         <div className="border border-pip/25 bg-pip/5 p-5 md:p-6 shadow-[inset_0_0_20px_rgba(20,184,166,0.05)]">
                           <div className="flex flex-col gap-6 md:flex-row md:items-start">
                             <div className="w-full md:w-56 md:shrink-0">
-                              <div className="relative flex h-56 w-full items-center justify-center border-2 border-dashed border-pip/35 bg-pip-bg/50 md:h-64">
+                              <div className="relative h-56 w-full overflow-hidden border-2 border-pip/35 bg-pip-bg/50 md:h-64">
                                 <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none"></div>
-                                <div className="relative z-10 text-center">
-                                  <User className="mx-auto mb-3 h-10 w-10 text-pip/50" />
-                                  <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-pip/60">
-                                    Image Placeholder
-                                  </p>
-                                  <p className="mt-2 text-[10px] md:text-xs opacity-45">
-                                    Add portrait here
-                                  </p>
-                                </div>
+                                <img
+                                  src={portraitImage}
+                                  alt="Haider Javaid portrait"
+                                  className="relative z-10 h-full w-full object-cover object-top"
+                                />
                               </div>
                             </div>
 
@@ -361,6 +436,25 @@ const DevView = () => {
                           </div>
                         </div>
 
+                        <div className="mt-6 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
+                          {PROFILE.socialLinks.map((social) => {
+                            const SocialIcon = SOCIAL_ICONS[social.id] ?? ExternalLink;
+
+                            return (
+                              <a
+                                key={social.id}
+                                href={social.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex items-center justify-center gap-3 border-2 border-pip/45 bg-pip/10 px-4 py-4 text-sm font-bold uppercase tracking-[0.2em] text-pip-light transition-colors hover:border-pip hover:bg-pip/20 hover:text-white"
+                              >
+                                <SocialIcon size={20} />
+                                <span>{social.label}</span>
+                              </a>
+                            );
+                          })}
+                        </div>
+
                         <div className="mt-6 flex w-full max-w-3xl flex-wrap gap-2">
                           {Object.values(PROFILE.coreSkills)
                             .flat()
@@ -425,12 +519,50 @@ const DevView = () => {
                   <div className="absolute bottom-0 right-0 w-4 h-4 md:w-6 md:h-6 border-b-2 border-r-2 md:border-b-4 md:border-r-4 border-pip" />
 
                     <div className="pb-8 space-y-6 md:space-y-8">
-                      {/* HERO IMAGE PLACEHOLDER FOR PROJECT */}
-                    <div className="w-full h-48 md:h-72 border-2 border-pip/40 bg-pip/5 flex flex-col items-center justify-center relative overflow-hidden group">
-                      <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none"></div>
-                      <ImageIcon className="w-12 h-12 text-pip/30 mb-2 z-10" />
-                      <span className="text-pip/40 text-xs tracking-widest uppercase z-10">{selectedProject.assetLabel}</span>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsProjectImageExpanded((current) => !current)}
+                      className="w-full text-left"
+                    >
+                      <div
+                        ref={projectImageFrameRef}
+                        className="w-full border-2 border-pip/40 bg-pip/5 relative overflow-hidden group transition-[height] duration-500 ease-out"
+                        style={{
+                          height: isProjectImageExpanded
+                            ? `${projectImageFullHeight}px`
+                            : `${COLLAPSED_PROJECT_IMAGE_HEIGHT}px`,
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none"></div>
+                        {selectedProject.image ? (
+                          <img
+                            ref={projectImageRef}
+                            src={selectedProject.image}
+                            alt={selectedProject.imageAlt}
+                            onLoad={(event) => {
+                              const { naturalHeight, naturalWidth } = event.currentTarget;
+                              const frameWidth = projectImageFrameRef.current?.clientWidth;
+
+                              if (!naturalWidth || !frameWidth) return;
+
+                              setProjectImageFullHeight(Math.round((naturalHeight / naturalWidth) * frameWidth));
+                            }}
+                            className="block w-full opacity-85 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
+                          />
+                        ) : (
+                          <div className="flex h-full flex-col items-center justify-center">
+                            <ImageIcon className="w-12 h-12 text-pip/30 mb-2 z-10" />
+                            <span className="text-pip/40 text-xs tracking-widest uppercase z-10">{selectedProject.assetLabel}</span>
+                          </div>
+                        )}
+                      </div>
+                      {selectedProject.image && (
+                        <div className="mt-3 flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-pip/60">
+                          <span>{isProjectImageExpanded ? 'Collapse Preview' : 'Expand Preview'}</span>
+                          <span>{selectedProject.assetLabel}</span>
+                        </div>
+                      )}
+                    </button>
 
                     <div className="flex flex-col md:flex-row md:justify-between items-start gap-4">
                       <div>
@@ -505,7 +637,7 @@ const DevView = () => {
             )}
 
             {/* BREADCRUMBS FOOTER */}
-            <footer className="mt-4 border-t-2 border-pip/50 pt-2 shrink-0 flex justify-between items-center text-[8px] md:text-xs animate-flicker-in font-bold uppercase tracking-widest" style={{ animationDelay: '1.2s' }}>
+            <footer className={`mt-4 border-t-2 border-pip/50 pt-2 shrink-0 flex justify-between items-center text-[8px] md:text-xs ${introFlickerClass} font-bold uppercase tracking-widest`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '1.2s' }}>
               <div className="flex items-center">
                 <span>ROOT</span>
                 {view !== 'home' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}

@@ -1,87 +1,40 @@
-<div align="center">
+<p align="center">
+  <img src="./assets/readme-banner.svg" alt="Haider Javaid banner" />
+</p>
 
-```txt
-+------------------------------------------------------------+
-|  PIP-BOY://HAIDER_JAVAID                                   |
-|  STATUS: ONLINE                                            |
-|  ROLE: DIGITAL SOLUTIONS SPECIALIST                        |
-|  MODE: SALES x MARKETING x FRONTEND WEB                    |
-+------------------------------------------------------------+
-```
+<p align="center"><strong>Digital Solutions Specialist</strong> building practical web experiences that connect business goals, marketing systems, and frontend execution.</p>
 
-# Haider Javaid
 
-### Digital Solutions Specialist
+### About
 
-I help identify business problems, sell practical digital solutions, and support custom websites and web experiences aligned with commercial goals.
+I work across business development, client consultation, digital strategy, and frontend web delivery, with a focus on turning commercial problems into practical digital systems.
 
-![Portfolio](https://img.shields.io/badge/Portfolio-Pip--Boy_Interface-9cff57?style=for-the-badge&labelColor=10180f)
-[![Email](https://img.shields.io/badge/Email-muhd.haider111%40gmail.com-9cff57?style=for-the-badge&labelColor=10180f)](mailto:muhd.haider111@gmail.com)
+I build websites, funnels, lead capture flows, automation layers, and product-facing interfaces that are meant to be useful in real business operations, not just visually polished.
 
-</div>
+### Reach Me
 
----
+- Email: `muhd.haider111@gmail.com`
+- Phone: `+60 14-542 9137`
+- Languages: `English`, `Bahasa Melayu`
 
-## `> whoami`
+### Core Stack
 
-Digital Solutions Specialist blending sales, marketing, client consultation, and front-end web development.
+<p>
+  <img src="https://img.shields.io/badge/React-111827?style=flat-square&logo=react&logoColor=61dafb" alt="React" />
+  <img src="https://img.shields.io/badge/JavaScript-111827?style=flat-square&logo=javascript&logoColor=f7df1e" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-111827?style=flat-square&logo=tailwindcss&logoColor=38bdf8" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Next.js-111827?style=flat-square&logo=nextdotjs&logoColor=ffffff" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Firebase-111827?style=flat-square&logo=firebase&logoColor=ffca28" alt="Firebase" />
+  <img src="https://img.shields.io/badge/WordPress-111827?style=flat-square&logo=wordpress&logoColor=21759b" alt="WordPress" />
+  <img src="https://img.shields.io/badge/Shopify-111827?style=flat-square&logo=shopify&logoColor=95bf47" alt="Shopify" />
+  <img src="https://img.shields.io/badge/Framer_Motion-111827?style=flat-square&logo=framer&logoColor=ffffff" alt="Framer Motion" />
+  <img src="https://img.shields.io/badge/Three.js-111827?style=flat-square&logo=threedotjs&logoColor=ffffff" alt="Three.js" />
+  <img src="https://img.shields.io/badge/n8n-111827?style=flat-square&logo=n8n&logoColor=ea4b71" alt="n8n" />
+</p>
 
-I bridge commercial goals with digital execution by shaping practical solutions, supporting proposals, and helping deliver websites, campaigns, and web experiences that make business sense.
+### Experience Snapshot
 
-## `> operating_system`
-
-| Layer | Signal |
-| --- | --- |
-| Commercial | Business development, lead generation, client consultation, proposal pitching |
-| Marketing | Digital strategy, campaign ideation, advertising solutions |
-| Frontend | React.js, JavaScript, HTML5, CSS3, Tailwind CSS |
-| Interactive Web | GSAP, Framer Motion, Three.js, WebGL |
-| Web Systems | Headless CMS, API integration, Shopify, WordPress |
-
-## `> current_loadout`
-
-```txt
-[01] Translate business needs into practical digital solutions
-[02] Bridge clients, creative direction, and technical execution
-[03] Support websites and campaigns with commercial intent
-[04] Build responsive interfaces with a strong visual direction
-```
-
-## `> experience_log`
-
-| Period | Role | Company |
-| --- | --- | --- |
-| Oct 2025 - Current | Digital Solutions, Marketing & Web Development | Luminous Labs |
-| Oct 2023 - Oct 2025 | Sales Executive | Omnia, Media Prima Berhad |
-| Jun 2022 - Oct 2023 | Sales, Marketing & Web Development Consultant | Digital Craft Solution |
-| Jun 2021 - Jun 2022 | Frontend Web Developer | SocialGrooves, Digitally Asia |
-
-## `> featured_project`
-
-### Retro Terminal Portfolio
-
-This GitHub profile is backed by a static React + Vite portfolio designed as a retro terminal/Pip-Boy developer interface.
-
-```txt
-STACK: React 19 / Vite 7 / Tailwind CSS / Lucide React
-STYLE: CRT overlay / boot sequence / matrix canvas / slot navigation
-STATE: Static MVP, content being cleaned for public release
-```
-
-## `> contact`
-
-```txt
-EMAIL:    muhd.haider111@gmail.com
-LOCATION: Putra Heights, Subang Jaya, Malaysia
-LANG:     English / Bahasa Melayu
-```
-
----
-
-<div align="center">
-
-```txt
-END_TRANSMISSION
-```
-
-</div>
+- `Luminous Labs` - Digital Solutions, Marketing & Web Development
+- `Omnia, Media Prima Berhad` - Sales Executive & Client Servicing
+- `Digital Craft Solution` - Sales, Marketing & Web Development Consultant
+- `SocialGrooves, Digitally Asia` - Frontend Web Developer

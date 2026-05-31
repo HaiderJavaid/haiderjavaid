@@ -1,3 +1,6 @@
+import kasijobReview from '../assets/kasijob-review.png';
+import yelloSkincarePreview from '../assets/yelloskincare.png';
+
 export const PROJECTS = [
   {
     id: 'kasijobs',
@@ -30,8 +33,10 @@ export const PROJECTS = [
     repoUrl: 'https://github.com/HaiderJavaid/kasijob.git',
     liveUrl: 'https://kasijob.my',
     statusLabel: 'Live + public repo',
-    assetState: 'pending',
-    assetLabel: 'Screenshots coming later',
+    assetState: 'available',
+    assetLabel: 'KasiJobs product screenshot',
+    image: kasijobReview,
+    imageAlt: 'KasiJobs web app interface screenshot',
   },
   {
     id: 'yello-skincare',
@@ -62,7 +67,9 @@ export const PROJECTS = [
     ],
     role: 'Digital Marketing Strategist and Funnel Systems Developer',
     statusLabel: 'Private / available on request',
-    assetState: 'pending',
-    assetLabel: 'Case study assets coming later',
+    assetState: 'available',
+    assetLabel: 'Yello Skincare funnel screenshot',
+    image: yelloSkincarePreview,
+    imageAlt: 'Yello Skincare website and funnel screenshot',
   },
 ];

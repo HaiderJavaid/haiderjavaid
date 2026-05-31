@@ -13,7 +13,6 @@
 
 ## Pending
 - Whether `MarketingView.jsx` should be removed, routed later, or kept as a concept.
-- Final project shortlist and proof assets.
 - CI provider and final production branch strategy inside the existing Netlify site.
 
 ## Revisit Later

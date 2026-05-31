@@ -15,6 +15,23 @@ export const PROFILE = {
     phone: '+6014-5429137',
     location: 'Putra Heights, Subang Jaya, 47650',
   },
+  socialLinks: [
+    {
+      id: 'github',
+      label: 'GitHub',
+      url: 'https://github.com/HaiderJavaid',
+    },
+    {
+      id: 'linkedin',
+      label: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/haider-javaid-08634b114/',
+    },
+    {
+      id: 'instagram',
+      label: 'Instagram',
+      url: 'https://www.instagram.com/muhd_haider',
+    },
+  ],
   coreSkills: {
     'Sales & Marketing': [
       'Business Development',

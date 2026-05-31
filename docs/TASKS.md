@@ -8,9 +8,9 @@
 - [x] Replace placeholder contact email and any fake contact paths.
 - [x] Add an intentional public resume asset and wire the resume button.
 - [x] Replace `example.com` and generic GitHub links with verified URLs.
-- [ ] Add real project screenshots or remove image placeholders.
+- [x] Add real project screenshots or remove image placeholders.
 - [x] Fix lint failure in `MarketingView.jsx`.
-- [ ] Replace starter title, description, favicon, and social metadata in `index.html`.
+- [x] Replace starter title, description, favicon, and social metadata in `index.html`.
 
 ## Next: Maintainability
 - [x] Extract portfolio data from `DevView.jsx` into `src/content/*`.
@@ -33,4 +33,4 @@
 - [x] Project-detail screen pattern.
 - [x] Initial documentation system.
 - [x] Documentation audit and consolidation.
-- [x] Convert `README.md` into a GitHub-profile-facing terminal/Pip-Boy profile.
+- [x] Redesign `README.md` into a cleaner GitHub-profile layout and push it to `main`.

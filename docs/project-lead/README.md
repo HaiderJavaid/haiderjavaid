@@ -11,5 +11,5 @@ Use these instead:
 Preserved findings:
 - The portfolio shell is visually strong but not publish-ready.
 - Content must be verified against resume and project sources.
-- Resume, contact, metadata, CI, lint, and project links are release blockers.
+- CI and production deploy verification remain release blockers.
 - Content should move into `src/content/*` before the portfolio expands.

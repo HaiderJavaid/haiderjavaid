@@ -45,7 +45,7 @@
 - Modify: `docs/SESSION.md`
 
 - [ ] Record the approved public positioning and the new truthful-content state.
-- [ ] Update release blockers to reflect that `View Work`, metadata, and CI remain the primary gaps.
+- [ ] Update release blockers to reflect that CI and production deploy verification remain the primary gaps.
 
 ### Task 5: Verify
 
