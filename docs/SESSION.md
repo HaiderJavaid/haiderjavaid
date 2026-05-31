@@ -23,7 +23,7 @@ Docs were reorganized after reading the repository code, configs, existing docs,
 - `View Work` card thumbnails are fixed to a uniform frame size.
 - Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
-- Latest deployment-related commit on that branch is `e4b919b` (`Switch deployment config to Netlify`).
+- Latest deployment-related commit on that branch is `e724c77` (`Polish portfolio UI and wire assets`).
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 
 ## Working Assumptions
