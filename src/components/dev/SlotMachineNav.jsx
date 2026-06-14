@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 
 const ITEM_HEIGHT = 60; // Height of each menu item in px
 
-const SlotMachineNav = ({ items, activeIndex, onNavigate, onSelect }) => {
+const SlotMachineNav = ({ items, activeIndex, onNavigate, onSelect, disabled = false }) => {
   const containerRef = useRef(null);
   const isLocked = useRef(false); 
   const clearLockTimeout = useRef(null); 
@@ -12,6 +12,8 @@ const SlotMachineNav = ({ items, activeIndex, onNavigate, onSelect }) => {
   const touchStartY = useRef(0);
 
   useEffect(() => {
+    if (disabled) return undefined;
+
     const handleWheel = (e) => {
       e.preventDefault();
       e.stopImmediatePropagation();
@@ -90,7 +92,7 @@ const SlotMachineNav = ({ items, activeIndex, onNavigate, onSelect }) => {
         clearTimeout(clearLockTimeout.current);
       }
     };
-  }, [items.length, onNavigate, onSelect]);
+  }, [disabled, items.length, onNavigate, onSelect]);
 
   return (
     <div 
@@ -147,17 +149,17 @@ const SlotMachineNav = ({ items, activeIndex, onNavigate, onSelect }) => {
       {/* Interaction Zones */}
       <div className="absolute inset-0 z-30 grid grid-rows-3 pointer-events-auto">
          {/* Top Click: Scroll Up */}
-         <div className="cursor-pointer" onClick={() => onNavigate((prev) => (prev - 1 + items.length) % items.length)}></div>
+         <div className="cursor-pointer" onClick={() => !disabled && onNavigate((prev) => (prev - 1 + items.length) % items.length)}></div>
          
          {/* Center Click: SELECT / ENTER */}
          <div 
             className="cursor-pointer hover:bg-teal-500/5 transition-colors" 
             title="Click to Enter"
-            onClick={onSelect}
+            onClick={() => !disabled && onSelect()}
          ></div>
          
          {/* Bottom Click: Scroll Down */}
-         <div className="cursor-pointer" onClick={() => onNavigate((prev) => (prev + 1) % items.length)}></div>
+         <div className="cursor-pointer" onClick={() => !disabled && onNavigate((prev) => (prev + 1) % items.length)}></div>
       </div>
     </div>
   );

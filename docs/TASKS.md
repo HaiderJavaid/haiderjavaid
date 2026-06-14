@@ -21,6 +21,8 @@
 - [ ] Add a short manual QA checklist for desktop, mobile, keyboard, and reduced-motion behavior.
 
 ## Later: Product Polish
+- [x] Rework the home-page color system to match the resume/PDF direction while keeping the Pip-Boy shell.
+- [x] Add a one-time GSAP post-boot intro with a centered profile reveal and glitch-started slot navigation.
 - [ ] Add deep-linkable project routes only if case studies need shareable URLs.
 - [ ] Add contact or booking integration only after content is real.
 - [ ] Consider a lighter or skippable boot sequence if recruiter comprehension suffers.

@@ -8,10 +8,10 @@ export default {
     extend: {
       colors: {
         pip: {
-          light: '#5eead4', // teal-300
-          DEFAULT: '#14b8a6', // teal-500
-          dark: '#0f766e', // teal-700
-          bg: '#020617', // slate-950
+          light: '#d2ddd7',
+          DEFAULT: '#14b8a6',
+          dark: '#0f766e',
+          bg: '#020617',
         }
       },
       animation: {

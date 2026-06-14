@@ -18,6 +18,45 @@
     background-size: 100% 4px, 6px 100%;
     pointer-events: none;
   }
+
+  .home-nav-intro {
+    --nav-glitch-opacity: 0;
+  }
+
+  .home-profile-intro-pending [data-home-intro-item] {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .home-support-intro-pending {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .home-profile-heading-glow {
+    text-shadow: 0 0 20px rgba(20, 184, 166, 0.6);
+  }
+
+  .home-nav-intro::before {
+    content: '';
+    position: absolute;
+    inset: 8% -2%;
+    z-index: 30;
+    pointer-events: none;
+    opacity: var(--nav-glitch-opacity);
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 0 12%,
+        rgba(94, 234, 212, 0.22) 12% 15%,
+        transparent 15% 38%,
+        rgba(20, 184, 166, 0.3) 38% 43%,
+        transparent 43% 70%,
+        rgba(94, 234, 212, 0.16) 70% 76%,
+        transparent 76% 100%
+      );
+    mix-blend-mode: screen;
+  }
   
   /* Scrollbar Styling */
   .pip-scrollbar::-webkit-scrollbar {

@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
 import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info, Linkedin, Instagram } from 'lucide-react';
 import SlotMachineNav from '../components/dev/SlotMachineNav';
 import MatrixRain from '../components/dev/MatrixRain';
@@ -31,21 +32,218 @@ const DevView = () => {
   const [view, setView] = useState('home');
   const [activeIndex, setActiveIndex] = useState(DEFAULT_ACTIVE_INDEX);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [hasPlayedIntroFlicker, setHasPlayedIntroFlicker] = useState(false);
+  const [hasPlayedHomeIntro, setHasPlayedHomeIntro] = useState(false);
   const [isProjectImageExpanded, setIsProjectImageExpanded] = useState(false);
   const [projectImageFullHeight, setProjectImageFullHeight] = useState(COLLAPSED_PROJECT_IMAGE_HEIGHT);
+  const homeLayoutRef = useRef(null);
+  const homeProfileRef = useRef(null);
+  const homeNavRef = useRef(null);
+  const homeHeaderRef = useRef(null);
+  const homeFooterRef = useRef(null);
+  const homeInstructionsRef = useRef(null);
+  const homeIntroStartedRef = useRef(false);
+  const homeIntroCompletedRef = useRef(false);
   const projectImageFrameRef = useRef(null);
   const projectImageRef = useRef(null);
 
-  useEffect(() => {
-    if (isBooting || hasPlayedIntroFlicker) return undefined;
+  useLayoutEffect(() => {
+    if (
+      isBooting
+      || view !== 'home'
+      || homeIntroCompletedRef.current
+      || homeIntroStartedRef.current
+      || !homeLayoutRef.current
+      || !homeProfileRef.current
+      || !homeNavRef.current
+    ) {
+      return undefined;
+    }
 
-    const timeoutId = window.setTimeout(() => {
-      setHasPlayedIntroFlicker(true);
-    }, 1400);
+    homeIntroStartedRef.current = true;
 
-    return () => window.clearTimeout(timeoutId);
-  }, [hasPlayedIntroFlicker, isBooting]);
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const homeLayout = homeLayoutRef.current;
+    const profileGroup = homeProfileRef.current;
+      const navGroup = homeNavRef.current;
+    const profileItems = profileGroup.querySelectorAll('[data-home-intro-item]');
+    const profileHeading = profileGroup.querySelector('[data-home-intro-heading]');
+    const header = homeHeaderRef.current;
+    const footer = homeFooterRef.current;
+    const instructions = homeInstructionsRef.current;
+
+    if (reduceMotion) {
+      const frameId = window.requestAnimationFrame(() => {
+        homeIntroCompletedRef.current = true;
+        setHasPlayedHomeIntro(true);
+      });
+
+      return () => window.cancelAnimationFrame(frameId);
+    }
+
+    const context = gsap.context(() => {
+      const layoutRect = homeLayout.getBoundingClientRect();
+      const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+      const layoutCenterX = layoutRect.left + (layoutRect.width / 2);
+      const profileRect = profileGroup.getBoundingClientRect();
+      const mobileCenteredOffsetY = isDesktop
+        ? 0
+        : layoutRect.top + (layoutRect.height / 2) - (profileRect.top + (profileRect.height / 2));
+      const centeredOffsets = Array.from(profileItems, (item) => {
+        const itemRect = item.getBoundingClientRect();
+        return isDesktop
+          ? layoutCenterX - (itemRect.left + (itemRect.width / 2))
+          : 0;
+      });
+
+      gsap.set(profileGroup, { y: mobileCenteredOffsetY });
+      profileItems.forEach((item, index) => {
+        gsap.set(item, {
+          autoAlpha: 0,
+          x: centeredOffsets[index],
+          filter: 'contrast(1) brightness(1)',
+          transformOrigin: 'center center',
+        });
+      });
+      gsap.set(navGroup, {
+        autoAlpha: 0,
+        x: 72,
+        clipPath: 'inset(46% 0 46% 0)',
+        filter: 'brightness(2.2) contrast(2)',
+        '--nav-glitch-opacity': 0,
+      });
+      gsap.set([header, footer, instructions], { autoAlpha: 0 });
+
+      const addFlickerReveal = (timeline, element, position) => {
+        timeline.to(element, {
+          keyframes: [
+            { autoAlpha: 1, filter: 'contrast(1.5) brightness(1.5)', duration: 0.07 },
+            { autoAlpha: 0, filter: 'contrast(1) brightness(1)', duration: 0.06 },
+            { autoAlpha: 0.8, filter: 'contrast(1.25) brightness(1.25)', duration: 0.1 },
+            { autoAlpha: 0.2, filter: 'contrast(1) brightness(1)', duration: 0.08 },
+            { autoAlpha: 1, filter: 'contrast(1.35) brightness(1.2)', duration: 0.12 },
+            { autoAlpha: 0.55, filter: 'contrast(1) brightness(1)', duration: 0.08 },
+            { autoAlpha: 1, filter: 'contrast(1) brightness(1)', duration: 0.16 },
+          ],
+          ease: 'none',
+        }, position);
+      };
+
+      const startNavBoot = () => {
+        gsap.timeline({
+          defaults: { overwrite: 'auto' },
+          onComplete: () => {
+            profileHeading?.classList.add('home-profile-heading-glow');
+            const closingTimeline = gsap.timeline({
+              onComplete: () => {
+                homeIntroCompletedRef.current = true;
+                setHasPlayedHomeIntro(true);
+              },
+            });
+
+            addFlickerReveal(closingTimeline, instructions, 0);
+          },
+        })
+          .set(navGroup, { autoAlpha: 1, '--nav-glitch-opacity': 0.85 })
+          .to(navGroup, {
+            x: -18,
+            clipPath: 'inset(38% 0 38% 0)',
+            duration: 0.06,
+            ease: 'steps(1)',
+          })
+          .to(navGroup, {
+            x: 14,
+            clipPath: 'inset(12% 0 58% 0)',
+            filter: 'brightness(3) contrast(2.6)',
+            duration: 0.07,
+            ease: 'steps(1)',
+          })
+          .to(navGroup, {
+            x: -8,
+            clipPath: 'inset(56% 0 8% 0)',
+            filter: 'brightness(1.4) contrast(2.2)',
+            '--nav-glitch-opacity': 0.45,
+            duration: 0.08,
+            ease: 'steps(1)',
+          })
+          .to(navGroup, {
+            x: 6,
+            clipPath: 'inset(5% 0 24% 0)',
+            filter: 'brightness(2.4) contrast(2.4)',
+            '--nav-glitch-opacity': 1,
+            duration: 0.07,
+            ease: 'steps(1)',
+          })
+          .to(navGroup, {
+            x: 0,
+            clipPath: 'inset(0% 0 0% 0)',
+            filter: 'brightness(1) contrast(1)',
+            '--nav-glitch-opacity': 0,
+            duration: 0.34,
+            ease: 'power2.out',
+          })
+          .fromTo(navGroup, {
+            filter: 'drop-shadow(0 0 18px rgba(94, 234, 212, 0.75))',
+          }, {
+            filter: 'drop-shadow(0 0 0 rgba(94, 234, 212, 0))',
+            duration: 0.45,
+            ease: 'power2.out',
+          });
+      };
+
+      const moveProfileLeft = () => {
+        gsap.timeline({ onComplete: startNavBoot })
+          .to(profileItems, {
+            x: 0,
+            duration: 1.05,
+            ease: 'power3.inOut',
+          })
+          .to(profileGroup, {
+            y: 0,
+            duration: 1.05,
+            ease: 'power3.inOut',
+          }, '<')
+          .fromTo('[data-home-intro-heading]', {
+            textShadow: '0 0 0 rgba(20, 184, 166, 0)',
+          }, {
+            textShadow: '0 0 20px rgba(20, 184, 166, 0.6)',
+            duration: 0.8,
+            ease: 'power2.out',
+          });
+      };
+
+      const profileTimeline = gsap.timeline({
+        defaults: { overwrite: 'auto' },
+        paused: true,
+        onComplete: () => {
+          moveProfileLeft();
+        },
+      })
+        .to(profileItems, {
+          keyframes: [
+            { autoAlpha: 1, filter: 'contrast(1.5) brightness(1.5)', duration: 0.08 },
+            { autoAlpha: 0, filter: 'contrast(1) brightness(1)', duration: 0.08 },
+            { autoAlpha: 0.8, filter: 'contrast(1.2) brightness(1.2)', duration: 0.12 },
+            { autoAlpha: 0.2, filter: 'contrast(1) brightness(1)', duration: 0.1 },
+            { autoAlpha: 1, filter: 'contrast(1.4) brightness(1.2)', duration: 0.12 },
+            { autoAlpha: 0.5, filter: 'contrast(1) brightness(1)', duration: 0.1 },
+            { autoAlpha: 1, filter: 'contrast(1) brightness(1)', duration: 0.2 },
+          ],
+          stagger: 0.16,
+          ease: 'none',
+        })
+        .to({}, { duration: 0.4 });
+
+      const openingTimeline = gsap.timeline();
+      addFlickerReveal(openingTimeline, header, 0);
+      openingTimeline.call(() => profileTimeline.play(), null, 0.14);
+      addFlickerReveal(openingTimeline, footer, 0.3);
+    }, homeLayout);
+
+    return () => {
+      context.revert();
+      homeIntroStartedRef.current = false;
+    };
+  }, [isBooting, view]);
 
   useEffect(() => {
     const frameNode = projectImageFrameRef.current;
@@ -101,8 +299,6 @@ const DevView = () => {
   };
 
   const activeItem = MENU_ITEMS[activeIndex];
-  const introFlickerClass = hasPlayedIntroFlicker ? '' : 'animate-flicker-in';
-
   return (
     <div className="fixed top-0 left-0 w-full h-[100vh] bg-pip-bg text-pip font-mono overflow-hidden selection:bg-pip selection:text-pip-bg flex flex-col">
 
@@ -126,7 +322,11 @@ const DevView = () => {
       <div className="absolute -inset-[10vh] bg-[radial-gradient(circle_at_center,_transparent_50%,_rgba(0,0,0,0.8)_100%)] pointer-events-none z-40 transform-gpu" />
 
       {/* MATRIX RAIN FULL SCREEN (Reveals after boot) */}
-      {view === 'home' && !isBooting && <MatrixRain />}
+      {view === 'home' && !isBooting && (
+        <div className="absolute inset-0 z-0">
+          <MatrixRain />
+        </div>
+      )}
 
       {isBooting ? (
         <BootScreen onComplete={() => setIsBooting(false)} />
@@ -135,27 +335,32 @@ const DevView = () => {
         <div className="relative z-10 container mx-auto h-[100dvh] flex flex-col p-4 md:p-6 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-bottom,1rem))] pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] max-w-5xl min-h-0 w-full">
 
           {/* HEADER */}
-          <header className={`flex justify-between items-end border-b-2 border-pip/50 pb-4 mb-4 h-20 shrink-0 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '0.1s' }}>
-            <div>
-              <div className="flex items-center gap-2 text-xs font-bold mb-1 opacity-80">
-                <Shield className="w-4 h-4" />
-                <span>PIP-OS V3.0</span>
+          <header
+            ref={homeHeaderRef}
+            className={`border-b-2 border-pip/50 pb-4 mb-4 h-20 shrink-0 ${hasPlayedHomeIntro ? '' : 'home-support-intro-pending'}`}
+          >
+            <div className="flex h-full justify-between items-end">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-bold mb-1 opacity-80">
+                  <Shield className="w-4 h-4" />
+                  <span>PIP-OS V3.0</span>
+                </div>
+                {view !== 'home' && (
+                  <h1 className="text-2xl md:text-4xl font-black tracking-tighter drop-shadow-[0_0_10px_rgba(20,184,166,0.5)] animate-in fade-in slide-in-from-left-4 truncate max-w-[200px] md:max-w-none">
+                    {activeItem.label.toUpperCase()}
+                  </h1>
+                )}
               </div>
-              {view !== 'home' && (
-                <h1 className="text-2xl md:text-4xl font-black tracking-tighter drop-shadow-[0_0_10px_rgba(20,184,166,0.5)] animate-in fade-in slide-in-from-left-4 truncate max-w-[200px] md:max-w-none">
-                  {activeItem.label.toUpperCase()}
-                </h1>
-              )}
-            </div>
 
-            <div className="flex flex-col items-end gap-1 text-xs font-bold opacity-75">
-              <div className="flex items-center gap-2">
-                <span>HP 100/100</span>
-                <Battery className="w-4 h-4" />
-              </div>
-              <div className="flex items-center gap-2">
-                <span>SIGNAL</span>
-                <Wifi className="w-4 h-4 animate-pulse" />
+              <div className="flex flex-col items-end gap-1 text-xs font-bold opacity-75">
+                <div className="flex items-center gap-2">
+                  <span>HP 100/100</span>
+                  <Battery className="w-4 h-4" />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span>SIGNAL</span>
+                  <Wifi className="w-4 h-4 animate-pulse" />
+                </div>
               </div>
             </div>
           </header>
@@ -165,34 +370,41 @@ const DevView = () => {
 
             {/* HOME VIEW */}
             {view === 'home' && (
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 animate-in fade-in zoom-in-95 duration-500 w-full h-full relative py-2 md:py-8">
+              <div ref={homeLayoutRef} className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 w-full h-full relative py-2 md:py-8">
 
                 {/* LEFT SECTION: HERO TITLE & DESCRIPTION */}
-                <div className={`flex-1 flex flex-col items-center md:items-start justify-center space-y-4 md:space-y-6 transform hover:scale-[1.02] transition-transform duration-500 cursor-default px-4 md:px-0 md:pl-8 z-10 w-full mt-4 md:mt-0 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '0.4s' }}>
-                  <h1 className="text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-black tracking-tighter text-pip drop-shadow-[0_0_20px_rgba(20,184,166,0.6)] leading-none text-center md:text-left">
+                <div
+                  ref={homeProfileRef}
+                  className={`flex-1 flex flex-col items-center md:items-start justify-center space-y-4 md:space-y-6 cursor-default px-4 md:px-0 md:pl-8 z-10 w-full mt-4 md:mt-0 ${hasPlayedHomeIntro ? '' : 'home-profile-intro-pending'}`}
+                >
+                  <h1
+                    data-home-intro-item
+                    data-home-intro-heading
+                    className={`home-profile-intro-item text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-black tracking-tighter text-pip leading-none text-center md:text-left ${hasPlayedHomeIntro ? 'home-profile-heading-glow' : ''}`}
+                  >
                     {PROFILE.displayName}
                   </h1>
 
-                  <div className="flex items-center justify-center md:justify-start gap-2 md:gap-4 opacity-80 w-full mb-4 md:mb-0">
+                  <div data-home-intro-item className="home-profile-intro-item flex items-center justify-center md:justify-start gap-2 md:gap-4 opacity-80 mb-4 md:mb-0">
                     <div className="h-[2px] w-6 md:w-12 bg-pip shrink-0 hidden md:block"></div>
                     <p className="tracking-[0.1em] md:tracking-[0.3em] text-xs md:text-sm font-bold text-pip-light whitespace-normal text-center md:text-left">{PROFILE.role.toUpperCase()}</p>
                     <div className="h-[2px] w-6 md:w-12 bg-pip shrink-0 hidden"></div>
                   </div>
 
-                  <div className={`hidden md:block text-xs md:text-sm text-center md:text-left opacity-70 max-w-[95%] font-mono leading-relaxed border-t-2 md:border-t-0 md:border-l-2 border-pip/50 pt-4 md:pt-0 md:pl-4 mt-2 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '0.7s' }}>
+                  <div data-home-intro-item className="home-profile-intro-item hidden md:block text-xs md:text-sm text-center md:text-left opacity-70 max-w-[95%] font-mono leading-relaxed border-t-2 md:border-t-0 md:border-l-2 border-pip/50 pt-4 md:pt-0 md:pl-4 mt-2">
                     <p className="mb-2 font-bold text-pip-light animate-pulse">&gt; SYS.INIT()</p>
-                    <p>{PROFILE.summary}</p>
+                    <p className="text-pip-light/80">{PROFILE.summary}</p>
                   </div>
 
-                  <div className="flex flex-wrap justify-center md:justify-start gap-2 w-full max-w-2xl">
+                  <div data-home-intro-item className="home-profile-intro-item flex flex-wrap justify-center md:justify-start gap-2 max-w-2xl">
                     {PROFILE.footerTags.map((tag) => (
-                      <span key={tag} className="text-[10px] md:text-xs font-bold bg-pip/15 border border-pip/30 px-2 py-1 uppercase tracking-wide">
+                      <span key={tag} className="text-[10px] md:text-xs font-bold bg-pip/15 border border-pip/30 px-2 py-1 uppercase tracking-wide text-pip-light">
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-center md:justify-start gap-3 w-full">
+                  <div data-home-intro-item className="home-profile-intro-item flex items-center justify-center md:justify-start gap-3">
                     {PROFILE.socialLinks.map((social) => {
                       const SocialIcon = SOCIAL_ICONS[social.id] ?? ExternalLink;
 
@@ -213,13 +425,17 @@ const DevView = () => {
                 </div>
 
                 {/* RIGHT SECTION: NAVIGATION */}
-                <div className={`flex-1 w-full md:max-w-[50%] relative group flex flex-col justify-center mb-8 md:mb-0 z-10 ${introFlickerClass}`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '1.0s' }}>
+                <div
+                  ref={homeNavRef}
+                  className={`home-nav-intro flex-1 w-full md:max-w-[50%] relative group flex flex-col justify-center mb-8 md:mb-0 z-10 ${hasPlayedHomeIntro ? '' : 'pointer-events-none'}`}
+                >
                   <div className="scale-90 md:scale-100 origin-center w-full">
                     <SlotMachineNav
                       items={MENU_ITEMS}
                       activeIndex={activeIndex}
                       onNavigate={setActiveIndex}
                       onSelect={() => handleNavigate('content')}
+                      disabled={!hasPlayedHomeIntro}
                     />
                   </div>
 
@@ -228,7 +444,10 @@ const DevView = () => {
                 </div>
 
                 {/* Bottom Instructions Center */}
-                <div className="absolute bottom-2 md:bottom-0 left-0 right-0 flex flex-col items-center gap-1 md:gap-2 pointer-events-none pb-2 z-10">
+                <div
+                  ref={homeInstructionsRef}
+                  className={`absolute bottom-2 md:bottom-0 left-0 right-0 flex flex-col items-center gap-1 md:gap-2 pointer-events-none pb-2 z-10 ${hasPlayedHomeIntro ? '' : 'home-support-intro-pending'}`}
+                >
                   <div className="text-[10px] md:text-xs uppercase tracking-widest opacity-60 animate-pulse text-center">
                     [TAP CENTER OF NAV] TO ENTER
                   </div>
@@ -637,17 +856,22 @@ const DevView = () => {
             )}
 
             {/* BREADCRUMBS FOOTER */}
-            <footer className={`mt-4 border-t-2 border-pip/50 pt-2 shrink-0 flex justify-between items-center text-[8px] md:text-xs ${introFlickerClass} font-bold uppercase tracking-widest`} style={{ animationDelay: hasPlayedIntroFlicker ? undefined : '1.2s' }}>
-              <div className="flex items-center">
-                <span>ROOT</span>
-                {view !== 'home' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
-                {view !== 'home' && <span>{view === 'project_details' ? 'VIEW WORK' : activeItem.label}</span>}
-                {view === 'project_details' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
-                {view === 'project_details' && <span className="text-pip-light truncate max-w-[100px] md:max-w-none">{selectedProject.title}</span>}
-              </div>
-              <div className="flex gap-2 md:gap-4 text-right">
-                <span className="hidden md:inline">SYSTEM: ONLINE</span>
-                <span>SECURE</span>
+            <footer
+              ref={homeFooterRef}
+              className={`mt-4 border-t-2 border-pip/50 pt-2 shrink-0 text-[8px] md:text-xs font-bold uppercase tracking-widest ${hasPlayedHomeIntro ? '' : 'home-support-intro-pending'}`}
+            >
+              <div className="flex justify-between items-center">
+                <div className="flex items-center">
+                  <span>ROOT</span>
+                  {view !== 'home' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
+                  {view !== 'home' && <span>{view === 'project_details' ? 'VIEW WORK' : activeItem.label}</span>}
+                  {view === 'project_details' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
+                  {view === 'project_details' && <span className="text-pip-light truncate max-w-[100px] md:max-w-none">{selectedProject.title}</span>}
+                </div>
+                <div className="flex gap-2 md:gap-4 text-right">
+                  <span className="hidden md:inline">SYSTEM: ONLINE</span>
+                  <span>SECURE</span>
+                </div>
               </div>
             </footer>
 
