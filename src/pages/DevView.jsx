@@ -585,13 +585,12 @@ const DevView = () => {
                                 className="group flex w-full cursor-pointer flex-col items-start gap-4 border border-pip/20 bg-pip/5 p-4 text-left transition-all hover:border-pip/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:flex-row md:gap-6 md:p-6"
                                 onClick={() => handleOpenProject(project)}
                               >
-                                <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden border-2 border-pip/30 bg-pip-bg/60 transition-colors group-hover:border-pip/80 group-hover:bg-pip/10 md:h-32 md:w-48">
-                                  <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay pointer-events-none"></div>
+                                <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden bg-transparent md:h-32 md:w-48">
                                   {project.logo || project.image ? (
                                     <img
                                       src={project.logo || project.image}
                                       alt={project.logoAlt || project.imageAlt}
-                                      className="h-full w-full object-contain p-6 opacity-90 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0 md:p-7"
+                                      className="h-full w-full object-contain"
                                     />
                                   ) : (
                                     <div className="relative z-10 text-center">

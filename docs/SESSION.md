@@ -32,12 +32,14 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - Home/About positioning now reads `Software & Digital Marketing Specialist`; the home shows three tags: AI Software, Digital Marketing, and Product Systems.
 - Home copy now reflects the wider portfolio across learning, privacy, marketplaces, e-commerce, frontend delivery, and growth.
 - Software listings are ordered Stonecode, Anonymail, BikeBaju, then KasiJobs. Cards use product logos, combined title/category headings, and three product/role tags without status labels.
+- Listing logos now render large and borderless in their original colors with no hover filter. Stonecode uses its correct square app icon instead of the discarded concept wordmark.
 - Anonymail uses verified local product content and media from `/Users/kinghaider/Desktop/anonymail`; BikeBaju uses its live storefront, official logo, and a captured homepage preview.
 - The home screen retains the original teal Pip-Boy palette and CRT treatment.
 - `View Work` card thumbnails are fixed to a uniform frame size.
 - Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
 - Latest portfolio code commit is `be7d425` (`Add Anonymail and BikeBaju portfolio work`) on pushed branch `replace-portfolio`.
+- Remote branch head is `64d14cc`; the latest logo polish remains local and unpushed.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 
