@@ -28,7 +28,7 @@ const BootScreen = ({ onComplete }) => {
     <div className="w-full h-full flex flex-col justify-center items-center p-8 md:p-16 text-pip selection:bg-pip selection:text-pip-bg z-20 relative">
       <div className="w-full max-w-xs md:max-w-md flex flex-col gap-3 md:gap-4 animate-in fade-in duration-500">
         <div className="flex justify-between items-end font-bold tracking-widest text-xs md:text-sm text-pip-light uppercase">
-          <span className="opacity-80 animate-pulse">Loading System</span>
+          <span className="opacity-80 animate-pulse">Loading Portfolio</span>
           <span>{Math.min(Math.floor(progress), 100)}%</span>
         </div>
         

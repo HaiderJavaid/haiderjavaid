@@ -20,6 +20,8 @@ Built:
 - Work, about, experience, contact, resume, and project-detail screens.
 - Unmounted `MarketingView` slide concept.
 - Netlify-ready static build config via `netlify.toml`.
+- Software/Marketing work chooser with Stonecode presented as the latest WIP software project.
+- Software and digital marketing positioning across the home, About, and metadata surfaces.
 
 Missing:
 - Production deployment verification on the existing Netlify site.

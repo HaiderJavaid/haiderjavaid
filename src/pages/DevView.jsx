@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info, Linkedin, Instagram } from 'lucide-react';
+import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info, Linkedin, Instagram, Code2, Megaphone, ChevronDown, ChevronRight } from 'lucide-react';
 import SlotMachineNav from '../components/dev/SlotMachineNav';
 import MatrixRain from '../components/dev/MatrixRain';
 import BootScreen from '../components/dev/BootScreen';
@@ -8,10 +8,10 @@ import resumePdf from '../assets/resume.pdf';
 import portraitImage from '../assets/haider-portrait.png';
 import { PROFILE } from '../content/profile';
 import { EXPERIENCES } from '../content/experience';
-import { PROJECTS } from '../content/projects';
+import { PROJECTS, WORK_CATEGORIES } from '../content/projects';
 
 const MENU_ITEMS = [
-  { id: 'work', label: 'View Work', icon: Briefcase },
+  { id: 'work', label: 'View Recent Work', icon: Briefcase },
   { id: 'about', label: 'About Me', icon: Info },
   { id: 'exp', label: 'Experience', icon: User },
   { id: 'contact', label: 'Contact Me', icon: Terminal },
@@ -24,7 +24,47 @@ const SOCIAL_ICONS = {
   instagram: Instagram,
 };
 
-const DEFAULT_ACTIVE_INDEX = 1;
+const WORK_CATEGORY_ICONS = {
+  software: Code2,
+  marketing: Megaphone,
+};
+
+const PROJECT_DETAIL_SECTIONS = [
+  { id: 'outcome', label: 'Outcome' },
+  { id: 'features', label: 'Key Features' },
+  { id: 'tech', label: 'Tech Specs' },
+];
+
+const ProjectDetailContent = ({ sectionId, project }) => {
+  if (sectionId === 'features') {
+    return (
+      <ul className="space-y-3">
+        {project.features.map((feature) => (
+          <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed opacity-85 md:text-base">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-pip" />
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (sectionId === 'tech') {
+    return (
+      <div className="flex flex-wrap gap-2">
+        {project.tech.map((technology) => (
+          <span key={technology} className="border border-pip/30 bg-pip/10 px-2 py-1 text-xs font-bold">
+            {technology}
+          </span>
+        ))}
+      </div>
+    );
+  }
+
+  return <p className="text-sm leading-relaxed opacity-90 md:text-base">{project.outcome}</p>;
+};
+
+const DEFAULT_ACTIVE_INDEX = 0;
 const COLLAPSED_PROJECT_IMAGE_HEIGHT = 224;
 
 const DevView = () => {
@@ -32,6 +72,8 @@ const DevView = () => {
   const [view, setView] = useState('home');
   const [activeIndex, setActiveIndex] = useState(DEFAULT_ACTIVE_INDEX);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedWorkCategory, setSelectedWorkCategory] = useState(null);
+  const [openProjectSection, setOpenProjectSection] = useState(null);
   const [hasPlayedHomeIntro, setHasPlayedHomeIntro] = useState(false);
   const [isProjectImageExpanded, setIsProjectImageExpanded] = useState(false);
   const [projectImageFullHeight, setProjectImageFullHeight] = useState(COLLAPSED_PROJECT_IMAGE_HEIGHT);
@@ -45,6 +87,14 @@ const DevView = () => {
   const homeIntroCompletedRef = useRef(false);
   const projectImageFrameRef = useRef(null);
   const projectImageRef = useRef(null);
+  const activeProjectImage = selectedProject?.image
+    ? {
+        src: selectedProject.image,
+        alt: selectedProject.imageAlt,
+        label: selectedProject.assetLabel,
+      }
+    : null;
+  const activeProjectImageSource = activeProjectImage?.src;
 
   useLayoutEffect(() => {
     if (
@@ -248,7 +298,7 @@ const DevView = () => {
   useEffect(() => {
     const frameNode = projectImageFrameRef.current;
 
-    if (!frameNode || !selectedProject?.image) return undefined;
+    if (!frameNode || !activeProjectImageSource) return undefined;
 
     const updateHeight = () => {
       const imageNode = projectImageRef.current;
@@ -268,11 +318,12 @@ const DevView = () => {
       resizeObserver.disconnect();
       window.cancelAnimationFrame(frameId);
     };
-  }, [selectedProject]);
+  }, [activeProjectImageSource]);
 
   const handleOpenProject = (project) => {
     setIsProjectImageExpanded(false);
     setProjectImageFullHeight(COLLAPSED_PROJECT_IMAGE_HEIGHT);
+    setOpenProjectSection(null);
     setSelectedProject(project);
     handleNavigate('project_details');
   };
@@ -299,6 +350,23 @@ const DevView = () => {
   };
 
   const activeItem = MENU_ITEMS[activeIndex];
+  const visibleProjects = PROJECTS.filter(
+    (project) => project.workCategory === selectedWorkCategory,
+  );
+
+  const handleOpenActiveSection = () => {
+    if (activeItem.id === 'work') setSelectedWorkCategory(null);
+    handleNavigate('content');
+  };
+
+  const handleContentBack = () => {
+    if (activeItem.id === 'work' && selectedWorkCategory) {
+      setSelectedWorkCategory(null);
+      return;
+    }
+
+    handleNavigate('home');
+  };
   return (
     <div className="fixed top-0 left-0 w-full h-[100vh] bg-pip-bg text-pip font-mono overflow-hidden selection:bg-pip selection:text-pip-bg flex flex-col">
 
@@ -392,7 +460,6 @@ const DevView = () => {
                   </div>
 
                   <div data-home-intro-item className="home-profile-intro-item hidden md:block text-xs md:text-sm text-center md:text-left opacity-70 max-w-[95%] font-mono leading-relaxed border-t-2 md:border-t-0 md:border-l-2 border-pip/50 pt-4 md:pt-0 md:pl-4 mt-2">
-                    <p className="mb-2 font-bold text-pip-light animate-pulse">&gt; SYS.INIT()</p>
                     <p className="text-pip-light/80">{PROFILE.summary}</p>
                   </div>
 
@@ -434,7 +501,7 @@ const DevView = () => {
                       items={MENU_ITEMS}
                       activeIndex={activeIndex}
                       onNavigate={setActiveIndex}
-                      onSelect={() => handleNavigate('content')}
+                      onSelect={handleOpenActiveSection}
                       disabled={!hasPlayedHomeIntro}
                     />
                   </div>
@@ -446,13 +513,10 @@ const DevView = () => {
                 {/* Bottom Instructions Center */}
                 <div
                   ref={homeInstructionsRef}
-                  className={`absolute bottom-2 md:bottom-0 left-0 right-0 flex flex-col items-center gap-1 md:gap-2 pointer-events-none pb-2 z-10 ${hasPlayedHomeIntro ? '' : 'home-support-intro-pending'}`}
+                  className={`absolute bottom-2 md:bottom-0 left-0 right-0 flex items-center justify-center pointer-events-none pb-2 z-10 ${hasPlayedHomeIntro ? '' : 'home-support-intro-pending'}`}
                 >
-                  <div className="text-[10px] md:text-xs uppercase tracking-widest opacity-60 animate-pulse text-center">
-                    [TAP CENTER OF NAV] TO ENTER
-                  </div>
-                  <div className="text-[9px] md:text-[10px] uppercase tracking-widest opacity-40 text-center w-full">
-                    SWIPE/SCROLL TO NAVIGATE // TAP TO CONFIRM
+                  <div className="text-center text-[9px] uppercase tracking-widest opacity-50 md:text-[10px]">
+                    Scroll or swipe to browse · tap to open
                   </div>
                 </div>
               </div>
@@ -462,13 +526,15 @@ const DevView = () => {
             {view === 'content' && (
               <div className="h-full flex flex-col animate-in slide-in-from-bottom-10 duration-500 min-h-0">
                 <button
-                  onClick={() => handleNavigate('home')}
+                  onClick={handleContentBack}
                   className="self-start flex items-center gap-2 mb-4 md:mb-6 hover:underline decoration-2 underline-offset-4 group shrink-0"
                 >
                   <div className="bg-pip/20 p-1 rounded group-hover:bg-pip/40 transition-colors">
                     <ArrowLeft size={16} md:size={20} />
                   </div>
-                  <span className="font-bold tracking-widest text-xs md:text-sm">RETURN TO HUB</span>
+                  <span className="font-bold tracking-widest text-xs md:text-sm">
+                    {activeItem.id === 'work' && selectedWorkCategory ? 'BACK TO WORK TYPES' : 'BACK HOME'}
+                  </span>
                 </button>
 
                 <div className="flex-1 border-2 border-pip/30 bg-pip-bg/40 p-4 md:p-8 rounded relative overflow-y-auto pip-scrollbar shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] min-h-0">
@@ -481,53 +547,85 @@ const DevView = () => {
                   {/* Content Rendering */}
                   <div className="pb-8"> {/* Added padding bottom to ensure last item is visible */}
                     {activeItem.id === 'work' && (
-                      <div className="space-y-6 md:space-y-8">
-                        {PROJECTS.map((project) => (
-                          <div key={project.id} className="bg-pip/5 p-4 md:p-6 border border-pip/20 hover:border-pip/60 transition-all group flex flex-col md:flex-row gap-4 md:gap-6 items-start cursor-pointer" onClick={() => handleOpenProject(project)}>
-                            <div className="w-full md:w-48 h-36 md:h-32 shrink-0 border-2 border-pip/30 bg-pip-bg/60 flex items-center justify-center group-hover:border-pip/80 group-hover:bg-pip/10 transition-colors relative overflow-hidden">
-                              <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay pointer-events-none"></div>
-                              {project.image ? (
-                                <img
-                                  src={project.image}
-                                  alt={project.imageAlt}
-                                  className="h-full w-full object-cover opacity-80 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
-                                />
-                              ) : (
-                                <div className="relative z-10 text-center">
-                                  <ImageIcon className="mx-auto mb-2 w-8 h-8 text-pip/40 group-hover:text-pip/80" />
-                                  <p className="text-[10px] uppercase tracking-[0.2em] text-pip/55">
-                                    {project.assetLabel}
-                                  </p>
-                                </div>
-                              )}
-                            </div>
+                      <div className="min-h-full">
+                        {!selectedWorkCategory ? (
+                          <div className="flex min-h-[420px] items-center">
+                            <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+                              {WORK_CATEGORIES.map((category) => {
+                                const CategoryIcon = WORK_CATEGORY_ICONS[category.id] ?? Briefcase;
 
-                            {/* Info */}
-                            <div className="flex-1 flex flex-col h-full">
-                              <div className="flex justify-between items-start mb-2">
-                                <div>
-                                  <h3 className="text-xl md:text-2xl font-bold text-pip-light group-hover:text-white transition-colors">{project.title}</h3>
-                                  <p className="mt-1 text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-pip/55">
-                                    {project.category}
-                                  </p>
-                                </div>
-                                <ExternalLink size={16} className="text-pip/40 group-hover:text-pip" />
-                              </div>
-                              <p className="opacity-80 leading-relaxed mb-4 text-sm md:text-base line-clamp-2">{project.shortDesc}</p>
-                              <div className="flex flex-wrap gap-2 mb-4">
-                                <span className="text-[10px] md:text-xs font-bold bg-pip/15 border border-pip/25 px-2 py-1 uppercase tracking-wide">
-                                  {project.statusLabel}
-                                </span>
-                              </div>
-                              <div className="flex flex-wrap gap-2 mt-auto">
-                                {project.tech.slice(0, 3).map(t => (
-                                  <span key={t} className="text-[10px] md:text-xs font-bold bg-pip/20 px-2 py-1">{t.toUpperCase()}</span>
-                                ))}
-                                {project.tech.length > 3 && <span className="text-[10px] md:text-xs font-bold bg-pip/10 px-2 py-1">+{project.tech.length - 3} MORE</span>}
-                              </div>
+                                return (
+                                  <button
+                                    key={category.id}
+                                    type="button"
+                                    onClick={() => setSelectedWorkCategory(category.id)}
+                                    className="group flex min-h-48 flex-col items-center justify-center border-2 border-pip/25 bg-pip/5 p-6 text-center transition-all hover:border-pip hover:bg-pip/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:min-h-64 md:p-8"
+                                  >
+                                    <div className="mb-6 border border-pip/30 bg-pip/10 p-3 text-pip-light transition-colors group-hover:bg-pip/20">
+                                      <CategoryIcon size={30} />
+                                    </div>
+                                    <h3 className="text-xl font-black uppercase text-pip-light transition-colors group-hover:text-white md:text-2xl">
+                                      {category.label}
+                                    </h3>
+                                    <p className="mt-3 max-w-sm text-sm leading-relaxed opacity-65">{category.description}</p>
+                                    <span className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-pip-light">
+                                      Click to view <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" />
+                                    </span>
+                                  </button>
+                                );
+                              })}
                             </div>
                           </div>
-                        ))}
+                        ) : (
+                          <div className="space-y-5">
+                            {visibleProjects.map((project) => (
+                              <button
+                                key={project.id}
+                                type="button"
+                                className="group flex w-full cursor-pointer flex-col items-start gap-4 border border-pip/20 bg-pip/5 p-4 text-left transition-all hover:border-pip/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:flex-row md:gap-6 md:p-6"
+                                onClick={() => handleOpenProject(project)}
+                              >
+                                <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden border-2 border-pip/30 bg-pip-bg/60 transition-colors group-hover:border-pip/80 group-hover:bg-pip/10 md:h-32 md:w-48">
+                                  <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay pointer-events-none"></div>
+                                  {project.image ? (
+                                    <img
+                                      src={project.image}
+                                      alt={project.imageAlt}
+                                      className="h-full w-full object-cover opacity-80 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
+                                    />
+                                  ) : (
+                                    <div className="relative z-10 text-center">
+                                      <ImageIcon className="mx-auto mb-2 h-8 w-8 text-pip/40 group-hover:text-pip/80" />
+                                      <p className="text-[10px] uppercase tracking-[0.2em] text-pip/55">{project.assetLabel}</p>
+                                    </div>
+                                  )}
+                                </div>
+
+                                <div className="flex h-full flex-1 flex-col">
+                                  <div className="mb-2 flex items-start justify-between gap-4">
+                                    <div>
+                                      <h3 className="text-xl font-bold text-pip-light transition-colors group-hover:text-white md:text-2xl">{project.title}</h3>
+                                      <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.25em] text-pip/55 md:text-xs">{project.category}</p>
+                                    </div>
+                                    <ExternalLink size={16} className="shrink-0 text-pip/40 group-hover:text-pip" />
+                                  </div>
+                                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed opacity-80 md:text-base">{project.shortDesc}</p>
+                                  <div className="mb-4 flex flex-wrap gap-2">
+                                    <span className="border border-pip/25 bg-pip/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wide md:text-xs">{project.statusLabel}</span>
+                                  </div>
+                                  <div className="mt-auto flex flex-wrap gap-2">
+                                    {project.tech.slice(0, 3).map((technology) => (
+                                      <span key={technology} className="bg-pip/20 px-2 py-1 text-[10px] font-bold md:text-xs">{technology.toUpperCase()}</span>
+                                    ))}
+                                    {project.tech.length > 3 && (
+                                      <span className="bg-pip/10 px-2 py-1 text-[10px] font-bold md:text-xs">+{project.tech.length - 3} MORE</span>
+                                    )}
+                                  </div>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     )}
                     {activeItem.id === 'about' && (
@@ -559,7 +657,7 @@ const DevView = () => {
 
                         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.2fr_0.8fr]">
                           <div className="border border-pip/20 bg-pip/5 p-5 md:p-6">
-                            <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] opacity-60">Core Systems</p>
+                            <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] opacity-60">Skills</p>
                             <div className="space-y-5">
                               {Object.entries(PROFILE.coreSkills).map(([group, skills]) => (
                                 <div key={group}>
@@ -626,7 +724,7 @@ const DevView = () => {
                     {activeItem.id === 'contact' && (
                       <div className="py-6 md:py-10 flex flex-col items-center">
                         <Terminal size={48} className="mx-auto mb-4 animate-pulse text-pip" />
-                        <h2 className="text-xl md:text-2xl font-bold mb-4 tracking-widest text-center">ESTABLISH CONNECTION</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-4 tracking-widest text-center">GET IN TOUCH</h2>
                         <p className="text-sm md:text-base opacity-75 text-center max-w-2xl mb-8">{PROFILE.systemNote}</p>
 
                         <div className="grid w-full max-w-3xl grid-cols-1 gap-4 md:grid-cols-3">
@@ -689,9 +787,9 @@ const DevView = () => {
                     {activeItem.id === 'resume' && (
                       <div className="text-center py-10 h-full flex flex-col items-center justify-center">
                         <FileText size={80} className="mb-6 opacity-30" />
-                        <h2 className="text-xl md:text-2xl font-bold mb-4">PERSONNEL FILE FOUND</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-4">RESUME</h2>
                         <p className="mb-6 max-w-xl text-sm md:text-base opacity-75">
-                          Current resume synced for {PROFILE.name}. Open the file in-browser or download the PDF directly.
+                          View {PROFILE.name}&apos;s resume in the browser or download the PDF.
                         </p>
                         <div className="flex flex-col gap-3 sm:flex-row">
                           <a
@@ -737,119 +835,113 @@ const DevView = () => {
                   <div className="absolute bottom-0 left-0 w-4 h-4 md:w-6 md:h-6 border-b-2 border-l-2 md:border-b-4 md:border-l-4 border-pip" />
                   <div className="absolute bottom-0 right-0 w-4 h-4 md:w-6 md:h-6 border-b-2 border-r-2 md:border-b-4 md:border-r-4 border-pip" />
 
-                    <div className="pb-8 space-y-6 md:space-y-8">
-                    <button
-                      type="button"
-                      onClick={() => setIsProjectImageExpanded((current) => !current)}
-                      className="w-full text-left"
-                    >
-                      <div
-                        ref={projectImageFrameRef}
-                        className="w-full border-2 border-pip/40 bg-pip/5 relative overflow-hidden group transition-[height] duration-500 ease-out"
-                        style={{
-                          height: isProjectImageExpanded
-                            ? `${projectImageFullHeight}px`
-                            : `${COLLAPSED_PROJECT_IMAGE_HEIGHT}px`,
-                        }}
+                  <div className="space-y-6 pb-8 md:space-y-8">
+                    <div>
+                      <h2 className="mb-2 text-2xl font-black uppercase text-pip-light drop-shadow-[0_0_8px_rgba(20,184,166,0.5)] md:text-4xl">{selectedProject.title}</h2>
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-pip/55">{selectedProject.category}</p>
+                      <p className="mt-3 max-w-3xl text-sm leading-relaxed opacity-80 md:text-base">{selectedProject.shortDesc}</p>
+                      <div className="mt-4 flex flex-wrap gap-3">
+                        {selectedProject.repoUrl && (
+                          <a href={selectedProject.repoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 border border-pip/30 bg-pip/20 px-3 py-1.5 text-xs font-bold transition-colors hover:border-pip hover:bg-pip/40 hover:text-white">
+                            <Github size={14} /> GITHUB
+                          </a>
+                        )}
+                        {selectedProject.liveUrl && (
+                          <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 border border-pip/30 bg-pip/20 px-3 py-1.5 text-xs font-bold transition-colors hover:border-pip hover:bg-pip/40 hover:text-white">
+                            <ExternalLink size={14} /> LIVE SITE
+                          </a>
+                        )}
+                        <span className="border border-pip/20 bg-pip/10 px-3 py-1.5 text-xs font-bold text-pip/70">
+                          {selectedProject.statusLabel}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => setIsProjectImageExpanded((current) => !current)}
+                        className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip"
+                        aria-label={`${isProjectImageExpanded ? 'Collapse' : 'Expand'} ${activeProjectImage?.label ?? 'project'} preview`}
+                        disabled={!activeProjectImage}
                       >
-                        <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none"></div>
-                        {selectedProject.image ? (
-                          <img
-                            ref={projectImageRef}
-                            src={selectedProject.image}
-                            alt={selectedProject.imageAlt}
-                            onLoad={(event) => {
-                              const { naturalHeight, naturalWidth } = event.currentTarget;
-                              const frameWidth = projectImageFrameRef.current?.clientWidth;
+                        <div
+                          ref={projectImageFrameRef}
+                          className="group relative w-full overflow-hidden border-2 border-pip/40 bg-pip/5 transition-[height] duration-500 ease-out"
+                          style={{
+                            height: isProjectImageExpanded
+                              ? `${projectImageFullHeight}px`
+                              : `${COLLAPSED_PROJECT_IMAGE_HEIGHT}px`,
+                          }}
+                        >
+                          <div className="pointer-events-none absolute inset-0 bg-noise opacity-20 mix-blend-overlay" />
+                          {activeProjectImage ? (
+                            <img
+                              ref={projectImageRef}
+                              src={activeProjectImage.src}
+                              alt={activeProjectImage.alt}
+                              onLoad={(event) => {
+                                const { naturalHeight, naturalWidth } = event.currentTarget;
+                                const frameWidth = projectImageFrameRef.current?.clientWidth;
 
-                              if (!naturalWidth || !frameWidth) return;
+                                if (!naturalWidth || !frameWidth) return;
 
-                              setProjectImageFullHeight(Math.round((naturalHeight / naturalWidth) * frameWidth));
-                            }}
-                            className="block w-full opacity-85 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
-                          />
-                        ) : (
-                          <div className="flex h-full flex-col items-center justify-center">
-                            <ImageIcon className="w-12 h-12 text-pip/30 mb-2 z-10" />
-                            <span className="text-pip/40 text-xs tracking-widest uppercase z-10">{selectedProject.assetLabel}</span>
+                                setProjectImageFullHeight(Math.round((naturalHeight / naturalWidth) * frameWidth));
+                              }}
+                              className="block w-full opacity-90 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
+                            />
+                          ) : (
+                            <div className="flex h-full flex-col items-center justify-center">
+                              <ImageIcon className="z-10 mb-2 h-12 w-12 text-pip/30" />
+                              <span className="z-10 text-xs uppercase tracking-widest text-pip/40">{selectedProject.assetLabel}</span>
+                            </div>
+                          )}
+                        </div>
+                        {activeProjectImage && (
+                          <div className="mt-3 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-pip/60">
+                            <span>{isProjectImageExpanded ? 'Collapse image' : 'View full image'}</span>
+                            <span>{activeProjectImage.label}</span>
                           </div>
                         )}
-                      </div>
-                      {selectedProject.image && (
-                        <div className="mt-3 flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-pip/60">
-                          <span>{isProjectImageExpanded ? 'Collapse Preview' : 'Expand Preview'}</span>
-                          <span>{selectedProject.assetLabel}</span>
-                        </div>
-                      )}
-                    </button>
+                      </button>
+                    </div>
 
-                    <div className="flex flex-col md:flex-row md:justify-between items-start gap-4">
-                      <div>
-                        <h2 className="text-2xl md:text-4xl font-black text-pip-light drop-shadow-[0_0_8px_rgba(20,184,166,0.5)] mb-2 uppercase">{selectedProject.title}</h2>
-                        <p className="text-xs font-bold uppercase tracking-[0.25em] text-pip/55">
-                          {selectedProject.category}
-                        </p>
-                        <div className="flex flex-wrap gap-3 mt-4">
-                          {selectedProject.repoUrl && (
-                            <a href={selectedProject.repoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs font-bold hover:text-white transition-colors bg-pip/20 px-3 py-1.5 border border-pip/30 hover:border-pip hover:bg-pip/40">
-                              <Github size={14} /> GITHUB
-                            </a>
-                          )}
-                          {selectedProject.liveUrl && (
-                            <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs font-bold hover:text-white transition-colors bg-pip/20 px-3 py-1.5 border border-pip/30 hover:border-pip hover:bg-pip/40">
-                              <ExternalLink size={14} /> LIVE SITE
-                            </a>
-                          )}
-                          {!selectedProject.repoUrl && !selectedProject.liveUrl && (
-                            <span className="flex items-center gap-1.5 text-xs font-bold bg-pip/10 px-3 py-1.5 border border-pip/20 text-pip/70">
-                              {selectedProject.statusLabel}
-                            </span>
-                          )}
-                        </div>
+                    <div className="space-y-6">
+                      <div className="border-l-2 border-pip/40 py-1 pl-4">
+                        <h4 className="mb-3 text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">Overview</h4>
+                        <p className="text-sm leading-relaxed opacity-90 md:text-base">{selectedProject.longDesc}</p>
                       </div>
-                      <div className="border border-pip/20 bg-pip/5 px-3 py-2">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">Status</p>
-                        <p className="mt-1 text-sm text-pip-light">{selectedProject.statusLabel}</p>
+                      <div className="border-l-2 border-pip/40 py-1 pl-4">
+                        <h4 className="mb-3 text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">My Role</h4>
+                        <p className="text-sm leading-relaxed opacity-90 md:text-base">{selectedProject.role}</p>
                       </div>
                     </div>
 
-                    <div className="space-y-6 mt-8">
-                      <div className="border-l-2 border-pip/40 pl-4 py-1">
-                        <h4 className="text-xs uppercase tracking-widest opacity-60 mb-2">System Overview</h4>
-                        <p className="text-sm md:text-base leading-relaxed opacity-90">{selectedProject.longDesc}</p>
-                      </div>
-                      <div className="border-l-2 border-pip/40 pl-4 py-1">
-                        <h4 className="text-xs uppercase tracking-widest opacity-60 mb-2">Outcome</h4>
-                        <p className="text-sm md:text-base leading-relaxed opacity-90">{selectedProject.outcome}</p>
-                      </div>
-                      <div className="border-l-2 border-pip/40 pl-4 py-1">
-                        <h4 className="text-xs uppercase tracking-widest opacity-60 mb-2">Role</h4>
-                        <p className="text-sm md:text-base leading-relaxed opacity-90">{selectedProject.role}</p>
-                      </div>
+                    <div className="divide-y divide-pip/20 border-y border-pip/20">
+                      {PROJECT_DETAIL_SECTIONS.map((section) => {
+                        const isOpen = openProjectSection === section.id;
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-                        <div>
-                          <h4 className="text-xs uppercase tracking-widest opacity-60 mb-4 border-b border-pip/20 pb-2">Tech Specs</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {selectedProject.tech.map(t => (
-                              <span key={t} className="text-xs font-bold bg-pip/10 border border-pip/30 px-2 py-1">{t}</span>
-                            ))}
+                        return (
+                          <div key={section.id}>
+                            <button
+                              type="button"
+                              onClick={() => setOpenProjectSection(isOpen ? null : section.id)}
+                              className="flex w-full items-center justify-between gap-4 py-4 text-left text-sm font-bold uppercase tracking-[0.18em] text-pip-light transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pip md:text-base"
+                              aria-expanded={isOpen}
+                              aria-controls={`project-section-${section.id}`}
+                            >
+                              <span>{section.label}</span>
+                              <ChevronDown className={`h-5 w-5 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                            </button>
+                            {isOpen && (
+                              <div id={`project-section-${section.id}`} className="pb-5 pr-8 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <ProjectDetailContent sectionId={section.id} project={selectedProject} />
+                              </div>
+                            )}
                           </div>
-                        </div>
-
-                        <div>
-                          <h4 className="text-xs uppercase tracking-widest opacity-60 mb-4 border-b border-pip/20 pb-2">Key Features</h4>
-                          <ul className="space-y-2">
-                            {selectedProject.features.map((f, i) => (
-                              <li key={i} className="flex items-start gap-2 text-sm opacity-80">
-                                <span className="text-pip mt-1">&gt;</span> {f}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
+                        );
+                      })}
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -864,7 +956,9 @@ const DevView = () => {
                 <div className="flex items-center">
                   <span>ROOT</span>
                   {view !== 'home' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
-                  {view !== 'home' && <span>{view === 'project_details' ? 'VIEW WORK' : activeItem.label}</span>}
+                  {view !== 'home' && <span>{view === 'project_details' ? 'VIEW RECENT WORK' : activeItem.label}</span>}
+                  {view !== 'home' && activeItem.id === 'work' && selectedWorkCategory && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
+                  {view !== 'home' && activeItem.id === 'work' && selectedWorkCategory && <span>{WORK_CATEGORIES.find((category) => category.id === selectedWorkCategory)?.label}</span>}
                   {view === 'project_details' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
                   {view === 'project_details' && <span className="text-pip-light truncate max-w-[100px] md:max-w-none">{selectedProject.title}</span>}
                 </div>

@@ -7,7 +7,7 @@ Static single-page React app. There is no router, backend, database, auth, CMS, 
 `src/main.jsx` mounts React in `StrictMode`; `src/App.jsx` renders `DevView`; `DevView` owns the portfolio state machine locally.
 
 ## Active Surface
-- `src/pages/DevView.jsx` - mounted portfolio UI, local navigation state, transition state, and project-detail rendering.
+- `src/pages/DevView.jsx` - mounted portfolio UI, local navigation state, transition state, expandable project media, and mixed static/accordion project details.
 - `src/components/dev/BootScreen.jsx` - simulated boot progress before the portfolio appears.
 - `src/components/dev/MatrixRain.jsx` - canvas background animation shown on the home view after boot.
 - `src/components/dev/SlotMachineNav.jsx` - wheel, keyboard, click, and touch navigation for top-level menu selection.
@@ -21,14 +21,15 @@ Static single-page React app. There is no router, backend, database, auth, CMS, 
 
 ## Content Model
 Current content is split between view code and data modules:
-- `src/pages/DevView.jsx` - `MENU_ITEMS` and the view state machine
+- `src/pages/DevView.jsx` - `MENU_ITEMS`, work-category selection, and the view state machine
 - `src/content/profile.js`
-- `src/content/projects.js`
+- `src/content/projects.js` - work categories plus Software and Marketing project records
 - `src/content/experience.js`
 
 ## Assets
 - `src/assets/resume.pdf` is the mounted resume asset.
 - `src/assets/kasijob-review.png` and `src/assets/yelloskincare.png` are mounted project screenshots.
+- `src/assets/stonecode-preview.png` is the mounted Stonecode WIP preview.
 - `public/favicon.png` is the active favicon.
 - `public/vite.svg` and `src/assets/react.svg` are unused starter assets.
 

@@ -1,18 +1,20 @@
-date: 2026-05-30
+date: 2026-07-28
 project:
   local_path: /Users/kinghaider/Desktop/Coding/projects/web-portfolio
   release_clone_path: /Users/kinghaider/Desktop/Coding/projects/web-portfolio-release
   github_repo: https://github.com/HaiderJavaid/haiderjavaid.git
 status:
   active_ui: DevView
-  positioning: digital-solutions-specialist
-  work_section: verified-projects-with-assets
+  positioning: software-and-digital-marketing-specialist
+  work_section: categorized-projects-with-stonecode-wip
   about_page: added-with-portrait
   resume_asset: src/assets/resume.pdf
-  host_target: netlify
 deployment:
+  host_target: netlify
   branch: replace-portfolio
-  latest_commit: e4b919b
+  latest_commit: 20d2cff
+  pushed: false
+  pr_url: null
   pr_branch_purpose: replace old static site with Vite Pip-Boy portfolio
   profile_readme_branch: main
   profile_readme_commit: 9bc6497
@@ -21,7 +23,7 @@ deployment:
     publish_dir: dist
     config_file: netlify.toml
 notes:
-  - local folder is not a git repo; git work was done from release_clone_path
+  - release_clone_path is the canonical Git working tree; local_path has an uncommitted bootstrap repository
   - github-pages workflow was removed from replacement branch
   - original Netlify project should be reused, not recreated
   - if netlify shows blank and github.io is live, branch/build settings in existing Netlify site still need correction
@@ -37,12 +39,21 @@ done:
   - metadata/title/favicon updated for `Haider Javaid`
   - GitHub, LinkedIn, and Instagram links added to home/contact
   - post-boot intro flicker now plays once per mounted app session
-  - home nav now defaults to `About Me`
+  - home nav now defaults to `View Recent Work`
+  - work entry now starts with a Software Projects or Marketing Projects chooser
+  - Stonecode added first under Software Projects as the latest WIP with real product media
+  - public positioning updated to Software & Digital Marketing Specialist with three home tags
+  - header/footer Pip-Boy labels, battery, signal, breadcrumbs, and status chrome are preserved
+  - work-type cards remain stripped back but now include a Click to view indicator
+  - Stonecode detail uses one expandable preview with identity content above it
+  - overview and role are always visible; outcome, features, and tech specs use a single-open accordion
+  - overview and role headings are white, bold, and visually prominent
   - work thumbnails standardized to one frame size
   - project detail screenshots now expand/collapse inline from a top crop
   - README redesigned into a cleaner GitHub-profile layout and pushed to `main`
   - README banner asset added from resume-matched visual direction and embedded at the top of the profile README
 next:
+  - push the current portfolio update to replace-portfolio
   - repoint existing Netlify site to replace-portfolio or merged main
   - verify production netlify.app URL
   - add CI

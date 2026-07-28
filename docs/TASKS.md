@@ -2,7 +2,7 @@
 
 ## Now: Release Blockers
 - [ ] Point the existing Netlify site at the replacement Vite build and verify the `netlify.app` production URL.
-- [x] Decide final public positioning: digital solutions specialist blending sales, marketing, and front-end web development.
+- [x] Update public positioning to software and digital marketing specialist after building Stonecode.
 - [x] Replace fictional project cards with verified projects.
 - [x] Replace fictional experience entries with resume-backed experience.
 - [x] Replace placeholder contact email and any fake contact paths.
@@ -33,6 +33,10 @@
 - [x] `DevView` terminal portfolio shell.
 - [x] `BootScreen`, `MatrixRain`, and `SlotMachineNav` components.
 - [x] Project-detail screen pattern.
+- [x] Add Stonecode as the latest WIP and categorize work into Software and Marketing directories.
+- [x] Default home navigation to `View Recent Work` and keep three focused home tags.
+- [x] Simplify work-category selection while preserving Pip-Boy chrome; use one expandable project image with static Overview/Role and accordion supporting details.
+- [x] Make the static Overview and My Role headings white and more prominent.
 - [x] Initial documentation system.
 - [x] Documentation audit and consolidation.
 - [x] Redesign `README.md` into a cleaner GitHub-profile layout and push it to `main`.

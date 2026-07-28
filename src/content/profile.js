@@ -1,15 +1,15 @@
 export const PROFILE = {
   name: 'Haider Javaid',
   displayName: 'HAIDER JAVAID',
-  role: 'Digital Solutions Specialist',
+  role: 'Software & Digital Marketing Specialist',
   summary:
-    'Blending sales, marketing, and front-end web development to help businesses sell better through custom digital experiences.',
+    'Building AI-powered software and digital marketing systems that turn business goals into useful, growth-focused products.',
   systemNote:
-    'I help identify business problems, sell practical digital solutions, and support custom websites and web experiences aligned with commercial goals.',
+    'I turn business problems into practical software, web products, and digital marketing systems aligned with commercial goals.',
   aboutIntro:
-    'Digital Solutions Specialist with experience across sales, marketing, client consultation, and front-end web development.',
+    'Software and Digital Marketing Specialist building AI products, web applications, and growth systems.',
   aboutBody:
-    'I bridge commercial goals with digital execution by identifying business problems, shaping practical solutions, and helping deliver campaigns, websites, and web experiences that support growth.',
+    'I work across product thinking, software delivery, and digital marketing: identifying business problems, shaping practical systems, and building the applications, funnels, and automation that support growth.',
   contact: {
     email: 'muhd.haider111@gmail.com',
     phone: '+6014-5429137',
@@ -41,15 +41,15 @@ export const PROFILE = {
       'Campaign Ideation',
       'Proposal Pitching',
     ],
-    'Frontend Web': ['React.js', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind CSS'],
+    'Software Development': ['React.js', 'TypeScript', 'JavaScript', 'Supabase', 'API Integration'],
     'Interactive Web': ['GSAP', 'Framer Motion', 'Three.js', 'WebGL'],
     'Web Systems': ['Headless CMS', 'API Integration', 'Shopify', 'WordPress'],
   },
   languages: ['English', 'Bahasa Melayu'],
   strengths: [
-    'Translate business needs into practical digital solutions',
-    'Bridge clients, creative direction, and technical execution',
-    'Support websites and campaigns with commercial intent',
+    'Turn business needs into practical software and growth systems',
+    'Bridge product strategy, marketing, and technical execution',
+    'Build AI-powered web applications from concept through working product',
   ],
-  footerTags: ['Sales', 'Marketing', 'React Frontend', 'Client Solutions'],
+  footerTags: ['AI Software', 'Digital Marketing', 'Product Systems'],
 };

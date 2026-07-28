@@ -8,7 +8,10 @@
 - Use local React state until routing or shared state pressure appears.
 - Avoid new dependencies unless they solve an immediate problem.
 - Treat placeholder public claims as blockers, not harmless demo content.
-- Position the public portfolio around a digital solutions specialist profile spanning sales, marketing, client consultation, and front-end web development.
+- Position the public portfolio around a software and digital marketing specialist profile spanning AI products, web applications, growth systems, and commercial strategy.
+- Make `View Recent Work` the default home selection and separate Software projects from Marketing projects before showing project cards.
+- Preserve decorative header/footer system labels as part of the retro identity; remove jargon only from portfolio content.
+- Put project identity above one expandable image; keep Overview and My Role visible, with Outcome, Key Features, and Tech Specs in a single-open accordion.
 - Use Netlify as the intended production host for the replacement portfolio build.
 
 ## Pending
