@@ -12,7 +12,7 @@ status:
 deployment:
   host_target: netlify
   branch: replace-portfolio
-  latest_commit: 7349b9f
+  latest_commit: 90b5441
   pushed: true
   pr_url: null
   pr_branch_purpose: replace old static site with Vite Pip-Boy portfolio
@@ -24,7 +24,6 @@ deployment:
     config_file: netlify.toml
 notes:
   - release_clone_path is the canonical Git working tree; local_path has an uncommitted bootstrap repository
-  - current logo-frame and short white listing-title changes exist only in local_path and are not pushed
   - github-pages workflow was removed from replacement branch
   - original Netlify project should be reused, not recreated
   - if netlify shows blank and github.io is live, branch/build settings in existing Netlify site still need correction
@@ -61,7 +60,6 @@ done:
   - README redesigned into a cleaner GitHub-profile layout and pushed to `main`
   - README banner asset added from resume-matched visual direction and embedded at the top of the profile README
 next:
-  - sync the current listing polish into release_clone_path and push when explicitly requested
   - repoint existing Netlify site to replace-portfolio or merged main
   - verify production netlify.app URL
   - add CI
