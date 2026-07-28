@@ -13,7 +13,7 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - `src/assets/haider-portrait.png` is cropped from the mounted resume and used on the About page.
 - `src/assets/kasijob-review.png` and `src/assets/yelloskincare.png` are mounted project screenshots.
 - `src/content/` stores extracted profile and experience content for the active view.
-- `src/content/projects.js` stores verified project content for Stonecode, KasiJobs, and the Yello Skincare case study, grouped into Software and Marketing directories.
+- `src/content/projects.js` stores verified project content for Stonecode, Anonymail, BikeBaju, KasiJobs, and the Yello Skincare case study, grouped into Software and Marketing directories.
 - `netlify.toml` defines the expected Netlify build command and publish directory.
 - `View Work` no longer uses fictional projects or fake links; project screenshots are wired into cards and detail views.
 - `index.html` now uses the public title `Haider Javaid`, portfolio metadata, and `public/favicon.png`.
@@ -30,11 +30,15 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - Header/footer system labels, battery, signal, breadcrumbs, and status text were restored; `SYS.INIT()` and work-stepper clutter remain removed from content.
 - Work-type cards now include a compact `Click to view` indicator.
 - Home/About positioning now reads `Software & Digital Marketing Specialist`; the home shows three tags: AI Software, Digital Marketing, and Product Systems.
+- Home copy now reflects the wider portfolio across learning, privacy, marketplaces, e-commerce, frontend delivery, and growth.
+- Software listings are ordered Stonecode, Anonymail, BikeBaju, then KasiJobs. Cards use product logos, combined title/category headings, and three product/role tags without status labels.
+- Anonymail uses verified local product content and media from `/Users/kinghaider/Desktop/anonymail`; BikeBaju uses its live storefront, official logo, and a captured homepage preview.
 - The home screen retains the original teal Pip-Boy palette and CRT treatment.
 - `View Work` card thumbnails are fixed to a uniform frame size.
 - Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
 - Latest portfolio code commit is `8ca674f` (`Add Stonecode portfolio work flow`) on pushed branch `replace-portfolio`.
+- Remote branch head is `5ec2d8e` (`Update handoff after portfolio push`). The Anonymail, BikeBaju, logo-listing, and broad home-copy update remains local and unpushed.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 

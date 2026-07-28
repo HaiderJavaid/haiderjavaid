@@ -3,9 +3,9 @@ export const PROFILE = {
   displayName: 'HAIDER JAVAID',
   role: 'Software & Digital Marketing Specialist',
   summary:
-    'Building AI-powered software and digital marketing systems that turn business goals into useful, growth-focused products.',
+    'Building useful software, conversion-focused websites, and digital marketing systems across learning, privacy, marketplaces, e-commerce, and growth.',
   systemNote:
-    'I turn business problems into practical software, web products, and digital marketing systems aligned with commercial goals.',
+    'I design and build digital products across full-stack software, frontend development, product systems, and growth strategy.',
   aboutIntro:
     'Software and Digital Marketing Specialist building AI products, web applications, and growth systems.',
   aboutBody:

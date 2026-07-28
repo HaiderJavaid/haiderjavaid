@@ -1,4 +1,10 @@
+import anonymailLogo from '../assets/anonymail-logo.png';
+import anonymailPreview from '../assets/anonymail-preview.png';
+import bikebajuLogo from '../assets/bikebaju-logo.png';
+import bikebajuPreview from '../assets/bikebaju-preview.jpg';
 import kasijobReview from '../assets/kasijob-review.png';
+import kasijobsLogo from '../assets/kasijobs-logo.png';
+import stonecodeLogo from '../assets/stonecode-logo.svg';
 import stonecodePreview from '../assets/stonecode-preview.png';
 import yelloSkincarePreview from '../assets/yelloskincare.png';
 
@@ -20,7 +26,7 @@ export const PROJECTS = [
     id: 'stonecode',
     workCategory: 'software',
     title: 'STONECODE',
-    category: 'AI-Powered Learning SaaS',
+    category: 'AI-Powered E-Learning SaaS',
     shortDesc:
       'Persistent AI programming tutor that creates personalized courses, guided projects, and practice inside an IDE-style workspace.',
     longDesc:
@@ -45,11 +51,84 @@ export const PROJECTS = [
       'Stripe subscription and plan-limit foundations for a focused paid beta',
     ],
     role: 'Product Builder and Full-Stack Software Developer',
+    listingTags: ['AI Web App', 'Full Stack', 'Tutor'],
     statusLabel: 'Latest WIP / private beta',
     assetState: 'available',
     assetLabel: 'Stonecode AI discovery workspace',
     image: stonecodePreview,
     imageAlt: 'Stonecode AI course discovery workspace',
+    logo: stonecodeLogo,
+    logoAlt: 'Stonecode logo',
+  },
+  {
+    id: 'anonymail',
+    workCategory: 'software',
+    title: 'ANONYMAIL',
+    category: 'Privacy-First Chrome Extension',
+    shortDesc:
+      'Disposable inbox and signup autofill tool that keeps private email workflows beside the page in Chrome.',
+    longDesc:
+      'Anonymail is a privacy-first Chrome extension that creates a disposable inbox, generates a separate signup password, fills signup forms, and keeps incoming verification mail in a side panel or dashboard tab.',
+    outcome:
+      'Released as a live MVP beta with the extension package, product website, privacy page, and Mail.tm-powered inbox flow deployed through Netlify.',
+    tech: [
+      'React',
+      'TypeScript',
+      'WXT',
+      'Chrome Manifest V3',
+      'Astro',
+      'Mail.tm API',
+      'Netlify',
+    ],
+    features: [
+      'Right-click signup form filling with a disposable email and separate generated password',
+      'One active inbox available in a Chrome side panel or dashboard tab',
+      'Configurable mailbox lifetime with session-aligned password retention',
+      'Privacy-first permissions without permanent access to every website',
+      'Sanitized email reading with remote images and attachments blocked',
+      'Packaged developer-mode beta with a dedicated landing and privacy site',
+    ],
+    role: 'Product Builder and Full-Stack Software Developer',
+    listingTags: ['Browser Extension', 'Full Stack', 'Privacy'],
+    liveUrl: 'https://anony-mail.netlify.app',
+    statusLabel: 'Live beta',
+    assetState: 'available',
+    assetLabel: 'Anonymail disposable inbox dashboard',
+    image: anonymailPreview,
+    imageAlt: 'Anonymail disposable inbox dashboard',
+    logo: anonymailLogo,
+    logoAlt: 'Anonymail logo',
+  },
+  {
+    id: 'bikebaju',
+    workCategory: 'software',
+    title: 'BIKEBAJU',
+    category: 'Cycling Apparel E-Commerce Website',
+    shortDesc:
+      'Responsive storefront for a Malaysian cycling lifestyle brand built around bold apparel, product discovery, and community.',
+    longDesc:
+      'BikeBaju is a Malaysian cycling lifestyle brand and e-commerce storefront for expressive jerseys, bibs, accessories, custom apparel, and cycling-community experiences.',
+    outcome:
+      'Delivered frontend development for a live, responsive storefront that presents the brand, product catalogue, shopping journey, and cycling community in one cohesive experience.',
+    tech: ['Shopify', 'HTML5', 'CSS3', 'JavaScript', 'Responsive UI'],
+    features: [
+      'Responsive product discovery across jerseys, bibs, and accessories',
+      'Collection browsing, quick views, product details, cart, and checkout paths',
+      'Bold campaign-led homepage built around the Stand Out & Be Seen identity',
+      'Custom jersey service and cyclist sizing support',
+      'Crash-replacement, shipping, delivery, and returns information',
+      'Integrated fellowship rides, team stories, news, and community content',
+    ],
+    role: 'Frontend Web Developer',
+    listingTags: ['Web App', 'Frontend', 'E-Commerce'],
+    liveUrl: 'https://bikebaju.com/',
+    statusLabel: 'Live website',
+    assetState: 'available',
+    assetLabel: 'BikeBaju storefront homepage',
+    image: bikebajuPreview,
+    imageAlt: 'BikeBaju cycling apparel storefront homepage',
+    logo: bikebajuLogo,
+    logoAlt: 'BikeBaju logo',
   },
   {
     id: 'kasijobs',
@@ -80,6 +159,7 @@ export const PROJECTS = [
       'Admin tools for tasks, submissions, users, transactions, and referrals',
     ],
     role: 'Product Builder, Frontend Developer, Systems Integrator',
+    listingTags: ['Web App', 'Full Stack', 'Marketplace'],
     repoUrl: 'https://github.com/HaiderJavaid/kasijob.git',
     liveUrl: 'https://kasijob.my',
     statusLabel: 'Live + public repo',
@@ -87,6 +167,8 @@ export const PROJECTS = [
     assetLabel: 'KasiJobs product screenshot',
     image: kasijobReview,
     imageAlt: 'KasiJobs web app interface screenshot',
+    logo: kasijobsLogo,
+    logoAlt: 'KasiJobs logo',
   },
   {
     id: 'yello-skincare',
@@ -117,6 +199,7 @@ export const PROJECTS = [
       'Funnel structure built to reduce dependency on TikTok Shop and Shopee',
     ],
     role: 'Digital Marketing Strategist and Funnel Systems Developer',
+    listingTags: ['Marketing System', 'Full Funnel', 'CRM'],
     statusLabel: 'Private / available on request',
     assetState: 'available',
     assetLabel: 'Yello Skincare funnel screenshot',

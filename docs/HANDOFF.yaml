@@ -6,13 +6,13 @@ project:
 status:
   active_ui: DevView
   positioning: software-and-digital-marketing-specialist
-  work_section: categorized-projects-with-stonecode-wip
+  work_section: logo-led-categorized-projects-with-four-software-entries
   about_page: added-with-portrait
   resume_asset: src/assets/resume.pdf
 deployment:
   host_target: netlify
   branch: replace-portfolio
-  latest_commit: 8ca674f
+  latest_commit: 5ec2d8e
   pushed: true
   pr_url: null
   pr_branch_purpose: replace old static site with Vite Pip-Boy portfolio
@@ -24,6 +24,7 @@ deployment:
     config_file: netlify.toml
 notes:
   - release_clone_path is the canonical Git working tree; local_path has an uncommitted bootstrap repository
+  - current Anonymail, BikeBaju, logo-listing, and home-copy changes exist only in local_path and are not pushed
   - github-pages workflow was removed from replacement branch
   - original Netlify project should be reused, not recreated
   - if netlify shows blank and github.io is live, branch/build settings in existing Netlify site still need correction
@@ -48,11 +49,16 @@ done:
   - Stonecode detail uses one expandable preview with identity content above it
   - overview and role are always visible; outcome, features, and tech specs use a single-open accordion
   - overview and role headings are white, bold, and visually prominent
+  - Software work now lists Stonecode, Anonymail, BikeBaju, then KasiJobs
+  - Software listing cards use product logos, title-category headings, and product/role tags without status labels
+  - Anonymail and BikeBaju have full detail pages with expandable verified product media
+  - home copy now represents learning, privacy, marketplace, e-commerce, frontend, and marketing work
   - work thumbnails standardized to one frame size
   - project detail screenshots now expand/collapse inline from a top crop
   - README redesigned into a cleaner GitHub-profile layout and pushed to `main`
   - README banner asset added from resume-matched visual direction and embedded at the top of the profile README
 next:
+  - sync the current local portfolio update into release_clone_path and push when explicitly requested
   - repoint existing Netlify site to replace-portfolio or merged main
   - verify production netlify.app URL
   - add CI

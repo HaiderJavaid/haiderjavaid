@@ -587,11 +587,11 @@ const DevView = () => {
                               >
                                 <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden border-2 border-pip/30 bg-pip-bg/60 transition-colors group-hover:border-pip/80 group-hover:bg-pip/10 md:h-32 md:w-48">
                                   <div className="absolute inset-0 bg-noise opacity-30 mix-blend-overlay pointer-events-none"></div>
-                                  {project.image ? (
+                                  {project.logo || project.image ? (
                                     <img
-                                      src={project.image}
-                                      alt={project.imageAlt}
-                                      className="h-full w-full object-cover opacity-80 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
+                                      src={project.logo || project.image}
+                                      alt={project.logoAlt || project.imageAlt}
+                                      className="h-full w-full object-contain p-6 opacity-90 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0 md:p-7"
                                     />
                                   ) : (
                                     <div className="relative z-10 text-center">
@@ -603,23 +603,16 @@ const DevView = () => {
 
                                 <div className="flex h-full flex-1 flex-col">
                                   <div className="mb-2 flex items-start justify-between gap-4">
-                                    <div>
-                                      <h3 className="text-xl font-bold text-pip-light transition-colors group-hover:text-white md:text-2xl">{project.title}</h3>
-                                      <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.25em] text-pip/55 md:text-xs">{project.category}</p>
-                                    </div>
+                                    <h3 className="text-lg font-bold text-pip-light transition-colors group-hover:text-white md:text-2xl">
+                                      {project.title} <span className="text-pip/55">— {project.category}</span>
+                                    </h3>
                                     <ExternalLink size={16} className="shrink-0 text-pip/40 group-hover:text-pip" />
                                   </div>
                                   <p className="mb-4 line-clamp-2 text-sm leading-relaxed opacity-80 md:text-base">{project.shortDesc}</p>
-                                  <div className="mb-4 flex flex-wrap gap-2">
-                                    <span className="border border-pip/25 bg-pip/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wide md:text-xs">{project.statusLabel}</span>
-                                  </div>
                                   <div className="mt-auto flex flex-wrap gap-2">
-                                    {project.tech.slice(0, 3).map((technology) => (
-                                      <span key={technology} className="bg-pip/20 px-2 py-1 text-[10px] font-bold md:text-xs">{technology.toUpperCase()}</span>
+                                    {project.listingTags.map((tag) => (
+                                      <span key={tag} className="border border-pip/20 bg-pip/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wide md:text-xs">{tag}</span>
                                     ))}
-                                    {project.tech.length > 3 && (
-                                      <span className="bg-pip/10 px-2 py-1 text-[10px] font-bold md:text-xs">+{project.tech.length - 3} MORE</span>
-                                    )}
                                   </div>
                                 </div>
                               </button>

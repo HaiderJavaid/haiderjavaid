@@ -37,6 +37,8 @@
 - [x] Default home navigation to `View Recent Work` and keep three focused home tags.
 - [x] Simplify work-category selection while preserving Pip-Boy chrome; use one expandable project image with static Overview/Role and accordion supporting details.
 - [x] Make the static Overview and My Role headings white and more prominent.
+- [x] Add Anonymail and BikeBaju case studies, reorder Software work, and replace listing screenshots/status/tech labels with app logos and role/product tags.
+- [x] Broaden home copy to reflect the full software, frontend, e-commerce, marketplace, privacy, and marketing portfolio.
 - [x] Initial documentation system.
 - [x] Documentation audit and consolidation.
 - [x] Redesign `README.md` into a cleaner GitHub-profile layout and push it to `main`.

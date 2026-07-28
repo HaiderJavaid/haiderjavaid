@@ -20,8 +20,9 @@ Built:
 - Work, about, experience, contact, resume, and project-detail screens.
 - Unmounted `MarketingView` slide concept.
 - Netlify-ready static build config via `netlify.toml`.
-- Software/Marketing work chooser with Stonecode presented as the latest WIP software project.
+- Software/Marketing work chooser with four logo-led Software projects: Stonecode, Anonymail, BikeBaju, and KasiJobs.
 - Software and digital marketing positioning across the home, About, and metadata surfaces.
+- Broader home copy spanning learning products, privacy tools, marketplaces, e-commerce, frontend delivery, and growth systems.
 
 Missing:
 - Production deployment verification on the existing Netlify site.
