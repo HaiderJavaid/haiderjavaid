@@ -13,6 +13,7 @@
 - Preserve decorative header/footer system labels as part of the retro identity; remove jargon only from portfolio content.
 - Put project identity above one expandable image; keep Overview and My Role visible, with Outcome, Key Features, and Tech Specs in a single-open accordion.
 - Use app logos in project listings, combine each title and category with an em dash, omit listing status, and use product/role tags instead of framework tags.
+- Keep logo outline frames while preserving original logo colors; listing title and short suffix share one white font treatment and never wrap.
 - Order Software projects as Stonecode, Anonymail, BikeBaju, then KasiJobs.
 - Use Netlify as the intended production host for the replacement portfolio build.
 

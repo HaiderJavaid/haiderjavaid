@@ -32,13 +32,15 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - Home/About positioning now reads `Software & Digital Marketing Specialist`; the home shows three tags: AI Software, Digital Marketing, and Product Systems.
 - Home copy now reflects the wider portfolio across learning, privacy, marketplaces, e-commerce, frontend delivery, and growth.
 - Software listings are ordered Stonecode, Anonymail, BikeBaju, then KasiJobs. Cards use product logos, combined title/category headings, and three product/role tags without status labels.
-- Listing logos now render large and borderless in their original colors with no hover filter. Stonecode uses its correct square app icon instead of the discarded concept wordmark.
+- Listing logos render large inside outline frames in their original colors with no hover filter. Stonecode uses its correct square app icon instead of the discarded concept wordmark.
+- Listing headings use one white font treatment and short, non-wrapping suffixes: AI Programming Tutor, Disposable Mail Chrome Extension, Cycling Apparel E-Commerce, and Gig Marketplace Web App.
 - Anonymail uses verified local product content and media from `/Users/kinghaider/Desktop/anonymail`; BikeBaju uses its live storefront, official logo, and a captured homepage preview.
 - The home screen retains the original teal Pip-Boy palette and CRT treatment.
 - `View Work` card thumbnails are fixed to a uniform frame size.
 - Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
 - Latest portfolio code commit is `42f0c78` (`Polish project listing logos`) on pushed branch `replace-portfolio`.
+- Remote branch head is `7349b9f`; the latest framed-logo and listing-title changes remain local and unpushed.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 

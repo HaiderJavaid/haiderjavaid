@@ -585,7 +585,7 @@ const DevView = () => {
                                 className="group flex w-full cursor-pointer flex-col items-start gap-4 border border-pip/20 bg-pip/5 p-4 text-left transition-all hover:border-pip/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:flex-row md:gap-6 md:p-6"
                                 onClick={() => handleOpenProject(project)}
                               >
-                                <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden bg-transparent md:h-32 md:w-48">
+                                <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden border-2 border-pip/30 bg-pip-bg/60 md:h-32 md:w-48">
                                   {project.logo || project.image ? (
                                     <img
                                       src={project.logo || project.image}
@@ -601,9 +601,9 @@ const DevView = () => {
                                 </div>
 
                                 <div className="flex h-full flex-1 flex-col">
-                                  <div className="mb-2 flex items-start justify-between gap-4">
-                                    <h3 className="text-lg font-bold text-pip-light transition-colors group-hover:text-white md:text-2xl">
-                                      {project.title} <span className="text-pip/55">— {project.category}</span>
+                                  <div className="mb-2 flex min-w-0 items-start justify-between gap-4">
+                                    <h3 className="min-w-0 truncate whitespace-nowrap text-xs font-bold text-white md:text-xl lg:text-2xl">
+                                      {project.title} — {project.listingTitle ?? project.category}
                                     </h3>
                                     <ExternalLink size={16} className="shrink-0 text-pip/40 group-hover:text-pip" />
                                   </div>

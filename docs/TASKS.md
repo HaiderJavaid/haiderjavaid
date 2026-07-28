@@ -40,6 +40,7 @@
 - [x] Add Anonymail and BikeBaju case studies, reorder Software work, and replace listing screenshots/status/tech labels with app logos and role/product tags.
 - [x] Broaden home copy to reflect the full software, frontend, e-commerce, marketplace, privacy, and marketing portfolio.
 - [x] Make project listing logos large, borderless, filter-free, and replace the Stonecode concept wordmark with its real app icon.
+- [x] Restore logo outline frames and shorten project-list suffixes into single-line white headings.
 - [x] Initial documentation system.
 - [x] Documentation audit and consolidation.
 - [x] Redesign `README.md` into a cleaner GitHub-profile layout and push it to `main`.

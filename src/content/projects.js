@@ -27,6 +27,7 @@ export const PROJECTS = [
     workCategory: 'software',
     title: 'STONECODE',
     category: 'AI-Powered E-Learning SaaS',
+    listingTitle: 'AI Programming Tutor',
     shortDesc:
       'Persistent AI programming tutor that creates personalized courses, guided projects, and practice inside an IDE-style workspace.',
     longDesc:
@@ -65,6 +66,7 @@ export const PROJECTS = [
     workCategory: 'software',
     title: 'ANONYMAIL',
     category: 'Privacy-First Chrome Extension',
+    listingTitle: 'Disposable Mail Chrome Extension',
     shortDesc:
       'Disposable inbox and signup autofill tool that keeps private email workflows beside the page in Chrome.',
     longDesc:
@@ -104,6 +106,7 @@ export const PROJECTS = [
     workCategory: 'software',
     title: 'BIKEBAJU',
     category: 'Cycling Apparel E-Commerce Website',
+    listingTitle: 'Cycling Apparel E-Commerce',
     shortDesc:
       'Responsive storefront for a Malaysian cycling lifestyle brand built around bold apparel, product discovery, and community.',
     longDesc:
@@ -135,6 +138,7 @@ export const PROJECTS = [
     workCategory: 'software',
     title: 'KASIJOBS',
     category: 'Marketplace Web App',
+    listingTitle: 'Gig Marketplace Web App',
     shortDesc:
       'Marketplace-style earning platform for small jobs, proof submission, admin review, and wallet-style reward tracking.',
     longDesc:
@@ -175,6 +179,7 @@ export const PROJECTS = [
     workCategory: 'marketing',
     title: 'YELLO SKINCARE',
     category: 'Marketing Funnel Case Study',
+    listingTitle: 'Marketing Funnel',
     shortDesc:
       'Full-funnel revenue recovery system combining lead capture, quiz segmentation, WhatsApp automation, and CRM tracking.',
     longDesc:
