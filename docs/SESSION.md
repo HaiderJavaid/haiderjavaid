@@ -38,8 +38,7 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - `View Work` card thumbnails are fixed to a uniform frame size.
 - Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
-- Latest portfolio code commit is `be7d425` (`Add Anonymail and BikeBaju portfolio work`) on pushed branch `replace-portfolio`.
-- Remote branch head is `64d14cc`; the latest logo polish remains local and unpushed.
+- Latest portfolio code commit is `42f0c78` (`Polish project listing logos`) on pushed branch `replace-portfolio`.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 
