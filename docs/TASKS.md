@@ -1,7 +1,7 @@
 # Tasks
 
 ## Now: Release Blockers
-- [ ] Point the existing Netlify site at the replacement Vite build and verify the `netlify.app` production URL.
+- [x] Point the existing Netlify site at the replacement Vite build and verify `https://haiderjavaid.netlify.app/`.
 - [x] Update public positioning to software and digital marketing specialist after building Stonecode.
 - [x] Replace fictional project cards with verified projects.
 - [x] Replace fictional experience entries with resume-backed experience.
@@ -11,6 +11,7 @@
 - [x] Add real project screenshots or remove image placeholders.
 - [x] Fix lint failure in `MarketingView.jsx`.
 - [x] Replace starter title, description, favicon, and social metadata in `index.html`.
+- [x] Add a 1200×630 Open Graph/Twitter share image and complete social preview metadata.
 
 ## Next: Maintainability
 - [x] Extract portfolio data from `DevView.jsx` into `src/content/*`.

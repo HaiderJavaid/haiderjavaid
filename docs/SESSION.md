@@ -1,7 +1,7 @@
 # Session Memory
 
 ## Latest Audit
-Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
+Project memory was refreshed on 2026-07-29 after the social-sharing metadata pass.
 
 ## Current State
 - `App.jsx` renders `DevView` only.
@@ -16,7 +16,8 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - `src/content/projects.js` stores verified project content for Stonecode, Anonymail, BikeBaju, KasiJobs, and the Yello Skincare case study, grouped into Software and Marketing directories.
 - `netlify.toml` defines the expected Netlify build command and publish directory.
 - `View Work` no longer uses fictional projects or fake links; project screenshots are wired into cards and detail views.
-- `index.html` now uses the public title `Haider Javaid`, portfolio metadata, and `public/favicon.png`.
+- `index.html` now uses the public title `Haider Javaid`, canonical production URL, complete Open Graph/Twitter large-card metadata, and `public/favicon.png`.
+- `public/og-image.png` is the 1200×630 portfolio share card used by WhatsApp, X, Threads, and other Open Graph clients.
 - Home/contact now expose GitHub, LinkedIn, and Instagram links from `src/content/profile.js`.
 - The home screen now runs a one-time GSAP sequence after boot: profile content assembles centrally, glides left, and the slot navigation glitch-boots on the right.
 - Header, footer, matrix background, and navigation instructions independently use randomized flicker or stepped boot reveals during the same startup sequence.
@@ -40,6 +41,7 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - `View Work` card thumbnails are fixed to a uniform frame size.
 - Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
+- The verified Netlify production URL is `https://haiderjavaid.netlify.app/`.
 - Latest portfolio code commit is `e48c364` (`Add Stonecode live preview`) on pushed branch `replace-portfolio`.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
@@ -52,4 +54,4 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - Keep the existing Netlify site/project and repoint it instead of creating a new hosting project.
 
 ## Next Recommended Task
-Point the existing Netlify site at `replace-portfolio` and verify the `netlify.app` production URL, then add CI and a short manual QA checklist.
+Add CI and a short manual QA checklist.
