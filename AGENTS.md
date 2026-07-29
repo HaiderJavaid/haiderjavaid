@@ -9,7 +9,7 @@
 - Resume-backed profile and experience content now live in `src/content/*`.
 - Verified Software and Marketing project content now lives in `src/content/projects.js` with mounted logos and detail screenshots.
 - The About page now uses a portrait cropped from `src/assets/resume.pdf`.
-- Home nav defaults to `View Recent Work`; Software lists Stonecode, Anonymail, BikeBaju, then KasiJobs using logo-led cards, and project details use one expandable image plus a mixed static/accordion layout.
+- Home nav defaults to `View Recent Work`; Software lists Stonecode, Anonymail, BikeBaju, then KasiJobs using logo-led cards. Stonecode details link to `stonecoded.netlify.app` and use the current landing-page preview.
 - The project uses `netlify.toml` for the intended Netlify build settings.
 - The project has no CI workflow.
 

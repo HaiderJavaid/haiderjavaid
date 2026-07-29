@@ -5,7 +5,7 @@ import bikebajuPreview from '../assets/bikebaju-preview.jpg';
 import kasijobReview from '../assets/kasijob-review.png';
 import kasijobsLogo from '../assets/kasijobs-logo.png';
 import stonecodeLogo from '../assets/stonecode-logo.svg';
-import stonecodePreview from '../assets/stonecode-preview.png';
+import stonecodePreview from '../assets/stonecode-landing-preview.png';
 import yelloSkincarePreview from '../assets/yelloskincare.png';
 
 export const WORK_CATEGORIES = [
@@ -53,11 +53,12 @@ export const PROJECTS = [
     ],
     role: 'Product Builder and Full-Stack Software Developer',
     listingTags: ['AI Web App', 'Full Stack', 'Tutor'],
-    statusLabel: 'Latest WIP / private beta',
+    liveUrl: 'https://stonecoded.netlify.app/',
+    statusLabel: 'Live preview',
     assetState: 'available',
-    assetLabel: 'Stonecode AI discovery workspace',
+    assetLabel: 'Stonecode landing page preview',
     image: stonecodePreview,
-    imageAlt: 'Stonecode AI course discovery workspace',
+    imageAlt: 'Stonecode landing page for its AI programming tutor',
     logo: stonecodeLogo,
     logoAlt: 'Stonecode logo',
   },

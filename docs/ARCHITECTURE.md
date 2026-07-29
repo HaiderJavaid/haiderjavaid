@@ -29,7 +29,7 @@ Current content is split between view code and data modules:
 ## Assets
 - `src/assets/resume.pdf` is the mounted resume asset.
 - `src/assets/kasijob-review.png` and `src/assets/yelloskincare.png` are mounted project screenshots.
-- `src/assets/stonecode-preview.png` is the mounted Stonecode WIP preview.
+- `src/assets/stonecode-landing-preview.png` is the mounted Stonecode landing-page preview.
 - `src/assets/anonymail-*` and `src/assets/bikebaju-*` provide logo/listing and detail media for the new Software entries.
 - `src/assets/stonecode-logo.svg` and `src/assets/kasijobs-logo.png` provide logo-led Software listing media.
 - `public/favicon.png` is the active favicon.

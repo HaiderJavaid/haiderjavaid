@@ -1,4 +1,4 @@
-date: 2026-07-28
+date: 2026-07-29
 project:
   local_path: /Users/kinghaider/Desktop/Coding/projects/web-portfolio
   release_clone_path: /Users/kinghaider/Desktop/Coding/projects/web-portfolio-release
@@ -12,7 +12,7 @@ status:
 deployment:
   host_target: netlify
   branch: replace-portfolio
-  latest_commit: 90b5441
+  latest_commit: bd219dd
   pushed: true
   pr_url: null
   pr_branch_purpose: replace old static site with Vite Pip-Boy portfolio
@@ -24,6 +24,7 @@ deployment:
     config_file: netlify.toml
 notes:
   - release_clone_path is the canonical Git working tree; local_path has an uncommitted bootstrap repository
+  - current Stonecode live-link and landing-preview update exists only in local_path and is not pushed
   - github-pages workflow was removed from replacement branch
   - original Netlify project should be reused, not recreated
   - if netlify shows blank and github.io is live, branch/build settings in existing Netlify site still need correction
@@ -53,6 +54,7 @@ done:
   - listing logos are large, framed, and shown in their original color without hover filtering
   - listing headings use one white font treatment with short, single-line title suffixes
   - Stonecode listing uses the product's square app icon rather than a concept wordmark
+  - Stonecode details now link to the verified live preview and use the supplied landing-page screenshot
   - Anonymail and BikeBaju have full detail pages with expandable verified product media
   - home copy now represents learning, privacy, marketplace, e-commerce, frontend, and marketing work
   - work thumbnails standardized to one frame size
@@ -60,6 +62,7 @@ done:
   - README redesigned into a cleaner GitHub-profile layout and pushed to `main`
   - README banner asset added from resume-matched visual direction and embedded at the top of the profile README
 next:
+  - sync the current Stonecode update into release_clone_path and push when explicitly requested
   - repoint existing Netlify site to replace-portfolio or merged main
   - verify production netlify.app URL
   - add CI

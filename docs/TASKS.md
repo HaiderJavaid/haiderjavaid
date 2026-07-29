@@ -41,6 +41,7 @@
 - [x] Broaden home copy to reflect the full software, frontend, e-commerce, marketplace, privacy, and marketing portfolio.
 - [x] Make project listing logos large, borderless, filter-free, and replace the Stonecode concept wordmark with its real app icon.
 - [x] Restore logo outline frames and shorten project-list suffixes into single-line white headings.
+- [x] Add the verified Stonecode live preview link and replace its expandable detail media with the current landing-page screenshot.
 - [x] Initial documentation system.
 - [x] Documentation audit and consolidation.
 - [x] Redesign `README.md` into a cleaner GitHub-profile layout and push it to `main`.
