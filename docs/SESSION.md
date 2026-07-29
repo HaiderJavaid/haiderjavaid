@@ -40,8 +40,7 @@ Project memory was refreshed on 2026-07-28 after the latest portfolio UI pass.
 - `View Work` card thumbnails are fixed to a uniform frame size.
 - Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
-- Latest portfolio code commit is `90b5441` (`Refine project listing titles`) on pushed branch `replace-portfolio`.
-- Remote branch head is `bd219dd`; the Stonecode live-link and landing-preview update remains local and unpushed.
+- Latest portfolio code commit is `e48c364` (`Add Stonecode live preview`) on pushed branch `replace-portfolio`.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 
