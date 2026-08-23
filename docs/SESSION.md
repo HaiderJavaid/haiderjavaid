@@ -44,6 +44,7 @@ Project memory was refreshed on 2026-08-24 after the unified Recent Work gallery
 - Project details omit the redundant Overview block, retain My Role, and style Live Site as the primary filled action.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
 - The verified Netlify production URL is `https://haiderjavaid.netlify.app/`.
+- Production was re-verified on 2026-08-24 after commit `6d1c379`: the unified gallery bundle, complete Open Graph/Twitter metadata, and 1200×630 preview image are live.
 - Latest portfolio code commit is `e48c364` (`Add Stonecode live preview`) on pushed branch `replace-portfolio`.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
