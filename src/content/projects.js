@@ -8,17 +8,14 @@ import stonecodeLogo from '../assets/stonecode-logo.svg';
 import stonecodePreview from '../assets/stonecode-landing-preview.png';
 import yelloSkincarePreview from '../assets/yelloskincare.png';
 
-export const WORK_CATEGORIES = [
-  {
-    id: 'software',
-    label: 'Software Projects',
-    description: 'AI products, web applications, and end-to-end software systems.',
-  },
-  {
-    id: 'marketing',
-    label: 'Marketing Projects',
-    description: 'Growth strategy, conversion funnels, automation, and retention systems.',
-  },
+export const PROJECT_FILTERS = [
+  { id: 'all', label: 'All Work' },
+  { id: 'ai-app', label: 'AI App' },
+  { id: 'web-app', label: 'Web App' },
+  { id: 'chrome-extension', label: 'Chrome Extension' },
+  { id: 'e-commerce', label: 'E-Commerce' },
+  { id: 'marketplace', label: 'Marketplace' },
+  { id: 'marketing-system', label: 'Marketing System' },
 ];
 
 export const PROJECTS = [
@@ -52,9 +49,9 @@ export const PROJECTS = [
       'Stripe subscription and plan-limit foundations for a focused paid beta',
     ],
     role: 'Product Builder and Full-Stack Software Developer',
+    filters: ['ai-app', 'web-app'],
     listingTags: ['AI Web App', 'Full Stack', 'Tutor'],
     liveUrl: 'https://stonecoded.netlify.app/',
-    statusLabel: 'Live preview',
     assetState: 'available',
     assetLabel: 'Stonecode landing page preview',
     image: stonecodePreview,
@@ -92,9 +89,9 @@ export const PROJECTS = [
       'Packaged developer-mode beta with a dedicated landing and privacy site',
     ],
     role: 'Product Builder and Full-Stack Software Developer',
+    filters: ['chrome-extension'],
     listingTags: ['Browser Extension', 'Full Stack', 'Privacy'],
     liveUrl: 'https://anony-mail.netlify.app',
-    statusLabel: 'Live beta',
     assetState: 'available',
     assetLabel: 'Anonymail disposable inbox dashboard',
     image: anonymailPreview,
@@ -124,9 +121,9 @@ export const PROJECTS = [
       'Integrated fellowship rides, team stories, news, and community content',
     ],
     role: 'Frontend Web Developer',
+    filters: ['e-commerce', 'web-app'],
     listingTags: ['Web App', 'Frontend', 'E-Commerce'],
     liveUrl: 'https://bikebaju.com/',
-    statusLabel: 'Live website',
     assetState: 'available',
     assetLabel: 'BikeBaju storefront homepage',
     image: bikebajuPreview,
@@ -164,10 +161,10 @@ export const PROJECTS = [
       'Admin tools for tasks, submissions, users, transactions, and referrals',
     ],
     role: 'Product Builder, Frontend Developer, Systems Integrator',
+    filters: ['web-app', 'marketplace'],
     listingTags: ['Web App', 'Full Stack', 'Marketplace'],
     repoUrl: 'https://github.com/HaiderJavaid/kasijob.git',
     liveUrl: 'https://kasijob.my',
-    statusLabel: 'Live + public repo',
     assetState: 'available',
     assetLabel: 'KasiJobs product screenshot',
     image: kasijobReview,
@@ -205,8 +202,8 @@ export const PROJECTS = [
       'Funnel structure built to reduce dependency on TikTok Shop and Shopee',
     ],
     role: 'Digital Marketing Strategist and Funnel Systems Developer',
+    filters: ['marketing-system'],
     listingTags: ['Marketing System', 'Full Funnel', 'CRM'],
-    statusLabel: 'Private / available on request',
     assetState: 'available',
     assetLabel: 'Yello Skincare funnel screenshot',
     image: yelloSkincarePreview,

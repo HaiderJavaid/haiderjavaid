@@ -69,6 +69,51 @@
     background: rgba(20, 184, 166, 0.4);
     border-radius: 4px;
   }
+
+  .project-card-stack {
+    --project-card-height: clamp(200px, 32vh, 300px);
+    scrollbar-gutter: stable;
+  }
+
+  .project-card-spacer {
+    height: max(0px, calc((100% - var(--project-card-height)) / 2));
+  }
+
+  .project-filter-carousel {
+    --filter-slot-width: 8.25rem;
+    mask-image: linear-gradient(to right, transparent, black 16%, black 84%, transparent);
+  }
+
+  .project-filter-item {
+    width: var(--filter-slot-width);
+    transform:
+      translateX(calc(-50% + (var(--filter-distance) * var(--filter-slot-width))))
+      translateY(-50%)
+      scale(calc(1 - (min(abs(var(--filter-distance)), 2) * 0.08)));
+  }
+
+  .project-filter-glitch {
+    animation: project-filter-glitch 380ms steps(2, end) both;
+  }
+}
+
+@media (min-width: 768px) {
+  .project-filter-carousel {
+    --filter-slot-width: 10.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-stack * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .project-filter-item,
+  .project-filter-glitch {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @layer utilities {
@@ -86,4 +131,12 @@
   65% { opacity: 1; filter: contrast(1.4) brightness(1.2); }
   80% { opacity: 0.5; filter: contrast(1) brightness(1); }
   100% { opacity: 1; filter: contrast(1) brightness(1); }
+}
+
+@keyframes project-filter-glitch {
+  0% { opacity: 0; transform: translateX(0); }
+  20% { opacity: 1; transform: translateX(-1.5%); }
+  45% { opacity: 0.55; transform: translateX(1%); }
+  70% { opacity: 0.9; transform: translateX(-0.5%); }
+  100% { opacity: 0; transform: translateX(0); }
 }

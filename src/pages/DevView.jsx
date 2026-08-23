@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info, Linkedin, Instagram, Code2, Megaphone, ChevronDown, ChevronRight } from 'lucide-react';
+import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info, Linkedin, Instagram, ChevronDown } from 'lucide-react';
 import SlotMachineNav from '../components/dev/SlotMachineNav';
 import MatrixRain from '../components/dev/MatrixRain';
 import BootScreen from '../components/dev/BootScreen';
@@ -8,7 +8,7 @@ import resumePdf from '../assets/resume.pdf';
 import portraitImage from '../assets/haider-portrait.png';
 import { PROFILE } from '../content/profile';
 import { EXPERIENCES } from '../content/experience';
-import { PROJECTS, WORK_CATEGORIES } from '../content/projects';
+import { PROJECTS, PROJECT_FILTERS } from '../content/projects';
 
 const MENU_ITEMS = [
   { id: 'work', label: 'View Recent Work', icon: Briefcase },
@@ -22,11 +22,6 @@ const SOCIAL_ICONS = {
   github: Github,
   linkedin: Linkedin,
   instagram: Instagram,
-};
-
-const WORK_CATEGORY_ICONS = {
-  software: Code2,
-  marketing: Megaphone,
 };
 
 const PROJECT_DETAIL_SECTIONS = [
@@ -67,12 +62,271 @@ const ProjectDetailContent = ({ sectionId, project }) => {
 const DEFAULT_ACTIVE_INDEX = 0;
 const COLLAPSED_PROJECT_IMAGE_HEIGHT = 224;
 
+const ProjectGallery = ({ projects, selectedFilter, onFilterChange, onOpenProject }) => {
+  const galleryRef = useRef(null);
+  const cardRefs = useRef(new Map());
+  const filterChangeTimeoutRef = useRef(null);
+  const filterGlitchTimeoutRef = useRef(null);
+  const galleryResetTimeoutRef = useRef(null);
+  const wheelUnlockTimeoutRef = useRef(null);
+  const wheelLockedRef = useRef(false);
+  const isGalleryResettingRef = useRef(false);
+  const firstProjectId = projects[0]?.id ?? null;
+  const [activeProjectId, setActiveProjectId] = useState(firstProjectId);
+  const [isFilterTransitioning, setIsFilterTransitioning] = useState(false);
+  const activeProjectIdRef = useRef(activeProjectId);
+  const selectedFilterIndex = PROJECT_FILTERS.findIndex((filter) => filter.id === selectedFilter);
+  const projectIdKey = projects.map((project) => project.id).join('|');
+
+  const getFilterDistance = (index) => {
+    const filterCount = PROJECT_FILTERS.length;
+    let distance = index - selectedFilterIndex;
+
+    if (distance > filterCount / 2) distance -= filterCount;
+    if (distance < -(filterCount / 2)) distance += filterCount;
+
+    return distance;
+  };
+
+  const handleFilterSelect = (filterId) => {
+    if (filterId === selectedFilter || isFilterTransitioning) return;
+
+    window.clearTimeout(filterChangeTimeoutRef.current);
+    window.clearTimeout(filterGlitchTimeoutRef.current);
+    setIsFilterTransitioning(true);
+
+    filterChangeTimeoutRef.current = window.setTimeout(() => {
+      onFilterChange(filterId);
+    }, 100);
+
+    filterGlitchTimeoutRef.current = window.setTimeout(() => {
+      setIsFilterTransitioning(false);
+    }, 380);
+  };
+
+  useEffect(() => {
+    const galleryNode = galleryRef.current;
+    isGalleryResettingRef.current = true;
+    window.clearTimeout(galleryResetTimeoutRef.current);
+    if (galleryNode) {
+      galleryNode.style.scrollSnapType = 'none';
+      galleryNode.scrollTop = 0;
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      activeProjectIdRef.current = firstProjectId;
+      setActiveProjectId(firstProjectId);
+      if (galleryNode) {
+        galleryNode.scrollTop = 0;
+        galleryNode.style.scrollSnapType = '';
+      }
+    });
+
+    galleryResetTimeoutRef.current = window.setTimeout(() => {
+      activeProjectIdRef.current = firstProjectId;
+      setActiveProjectId(firstProjectId);
+      if (galleryNode) galleryNode.scrollTop = 0;
+      isGalleryResettingRef.current = false;
+    }, 80);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(galleryResetTimeoutRef.current);
+      if (galleryNode) galleryNode.style.scrollSnapType = '';
+    };
+  }, [firstProjectId, selectedFilter]);
+
+  useEffect(() => {
+    const galleryNode = galleryRef.current;
+    if (!galleryNode) return undefined;
+
+    const observer = new IntersectionObserver(
+      () => {
+        if (isGalleryResettingRef.current) return;
+
+        const galleryRect = galleryNode.getBoundingClientRect();
+        const galleryCenter = galleryRect.top + (galleryRect.height / 2);
+        const centeredCard = [...cardRefs.current.values()].sort((a, b) => {
+          const aRect = a.getBoundingClientRect();
+          const bRect = b.getBoundingClientRect();
+          const aDistance = Math.abs((aRect.top + (aRect.height / 2)) - galleryCenter);
+          const bDistance = Math.abs((bRect.top + (bRect.height / 2)) - galleryCenter);
+          return aDistance - bDistance;
+        })[0];
+
+        if (centeredCard?.dataset.projectId) {
+          activeProjectIdRef.current = centeredCard.dataset.projectId;
+          setActiveProjectId(centeredCard.dataset.projectId);
+        }
+      },
+      {
+        root: galleryNode,
+        rootMargin: '-35% 0px -35% 0px',
+        threshold: [0, 0.25, 0.5],
+      },
+    );
+
+    cardRefs.current.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [selectedFilter]);
+
+  useEffect(() => {
+    const galleryNode = galleryRef.current;
+    if (!galleryNode) return undefined;
+
+    const handleWheel = (event) => {
+      event.preventDefault();
+      if (wheelLockedRef.current || Math.abs(event.deltaY) < 4) return;
+
+      const projectIds = projectIdKey.split('|').filter(Boolean);
+      const currentProjectId = activeProjectIdRef.current;
+      const activeIndex = Math.max(0, projectIds.indexOf(currentProjectId));
+      const direction = event.deltaY > 0 ? 1 : -1;
+      const nextIndex = Math.min(projectIds.length - 1, Math.max(0, activeIndex + direction));
+      const nextProjectId = projectIds[nextIndex];
+
+      if (!nextProjectId || nextProjectId === currentProjectId) return;
+
+      wheelLockedRef.current = true;
+      activeProjectIdRef.current = nextProjectId;
+      setActiveProjectId(nextProjectId);
+      cardRefs.current.get(nextProjectId)?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'center',
+      });
+
+      window.clearTimeout(wheelUnlockTimeoutRef.current);
+      wheelUnlockTimeoutRef.current = window.setTimeout(() => {
+        wheelLockedRef.current = false;
+      }, 500);
+    };
+
+    galleryNode.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      galleryNode.removeEventListener('wheel', handleWheel);
+      window.clearTimeout(wheelUnlockTimeoutRef.current);
+      wheelLockedRef.current = false;
+    };
+  }, [projectIdKey]);
+
+  useEffect(() => () => {
+    window.clearTimeout(filterChangeTimeoutRef.current);
+    window.clearTimeout(filterGlitchTimeoutRef.current);
+  }, []);
+
+  return (
+    <div className="flex h-full min-h-[440px] flex-col">
+      <div className="project-filter-carousel relative mb-4 h-12 shrink-0 overflow-clip border-y border-pip/20 md:mb-5 md:h-14">
+        <div className="pointer-events-none absolute inset-y-0 left-1/2 w-[var(--filter-slot-width)] -translate-x-1/2 border-x border-pip/50 bg-pip/10" />
+        {PROJECT_FILTERS.map((filter, index) => {
+          const isSelected = selectedFilter === filter.id;
+          const distance = getFilterDistance(index);
+
+          return (
+            <button
+              key={filter.id}
+              type="button"
+              aria-pressed={isSelected}
+              onClick={() => handleFilterSelect(filter.id)}
+              style={{
+                '--filter-distance': distance,
+                opacity: isSelected ? 1 : Math.max(0.14, 0.5 - (Math.abs(distance) * 0.12)),
+                filter: isSelected ? 'none' : `blur(${Math.min(2.5, Math.abs(distance) * 0.7)}px)`,
+              }}
+              className={`project-filter-item absolute left-1/2 top-1/2 flex h-9 items-center justify-center whitespace-nowrap border px-3 text-[10px] font-bold uppercase tracking-[0.12em] transition-[transform,opacity,filter,color,background-color,border-color] duration-300 focus-visible:z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:h-10 md:text-xs ${
+                isSelected
+                  ? 'border-pip bg-pip text-pip-bg'
+                  : 'border-pip/20 bg-pip-bg/80 text-pip-light hover:border-pip/70 hover:bg-pip/10 hover:opacity-80'
+              }`}
+            >
+              {filter.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="relative min-h-0 flex-1 overflow-hidden" aria-busy={isFilterTransitioning}>
+        <div
+          ref={galleryRef}
+          tabIndex={0}
+          className="project-card-stack pip-scrollbar h-full snap-y snap-mandatory overflow-y-auto overscroll-contain focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pip"
+          aria-label="Filtered project gallery"
+        >
+          <div className="h-full">
+          <div className="project-card-spacer" aria-hidden="true" />
+          {projects.map((project, index) => {
+            const isActive = activeProjectId === project.id;
+
+            return (
+              <button
+                key={project.id}
+                ref={(node) => {
+                  if (node) cardRefs.current.set(project.id, node);
+                  else cardRefs.current.delete(project.id);
+                }}
+                data-project-id={project.id}
+                type="button"
+                onClick={() => onOpenProject(project)}
+                onFocus={() => {
+                  activeProjectIdRef.current = project.id;
+                  setActiveProjectId(project.id);
+                }}
+                className={`group relative mx-auto block h-[var(--project-card-height)] w-[94%] snap-center snap-always overflow-hidden border-2 bg-pip-bg text-left transition-[opacity,transform,border-color] duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:w-[88%] ${index < projects.length - 1 ? 'mb-4 md:mb-6' : ''} ${
+                  isActive
+                    ? 'scale-100 border-pip/70 opacity-100'
+                    : 'scale-[0.88] border-pip/15 opacity-20 hover:opacity-45 focus:opacity-100'
+                }`}
+                aria-label={`Open ${project.title}: ${project.listingTitle ?? project.category}`}
+              >
+                <img
+                  src={project.image || project.logo}
+                  alt={project.imageAlt || project.logoAlt}
+                  className="absolute inset-0 h-full w-full object-cover object-top grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-500 group-hover:scale-[1.02] group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-pip-bg via-pip-bg/70 to-pip-bg/5" />
+                <div className="absolute inset-x-0 bottom-0 p-5 md:p-7">
+                  <div className="flex items-end justify-between gap-5">
+                    <div className="min-w-0">
+                      <h2 className="text-2xl font-black uppercase leading-tight text-white md:text-4xl">
+                        {project.title}
+                      </h2>
+                      <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-pip-light md:text-sm">
+                        {project.listingTitle ?? project.category}
+                      </p>
+                      <p className="mt-3 max-w-2xl text-xs leading-relaxed text-white/80 md:text-sm">
+                        {project.shortDesc}
+                      </p>
+                    </div>
+                    <ExternalLink className="mb-1 h-5 w-5 shrink-0 text-pip-light md:h-6 md:w-6" />
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+          <div className="project-card-spacer" aria-hidden="true" />
+          </div>
+        </div>
+
+        {isFilterTransitioning && (
+          <div className="project-filter-glitch pointer-events-none absolute inset-0 z-30 overflow-hidden bg-pip-bg/70">
+            <div className="absolute inset-0 bg-noise opacity-35 animate-noise-bg" />
+            <div className="absolute inset-0 bg-pip/10" />
+            <div className="animate-glitch-bar absolute top-[20%] h-1.5 w-full bg-pip/60" />
+            <div className="animate-glitch-bar-alt absolute top-[60%] h-6 w-full bg-pip-light/35" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const DevView = () => {
   const [isBooting, setIsBooting] = useState(true);
   const [view, setView] = useState('home');
   const [activeIndex, setActiveIndex] = useState(DEFAULT_ACTIVE_INDEX);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [selectedWorkCategory, setSelectedWorkCategory] = useState(null);
+  const [selectedWorkFilter, setSelectedWorkFilter] = useState('all');
   const [openProjectSection, setOpenProjectSection] = useState(null);
   const [hasPlayedHomeIntro, setHasPlayedHomeIntro] = useState(false);
   const [isProjectImageExpanded, setIsProjectImageExpanded] = useState(false);
@@ -350,21 +604,16 @@ const DevView = () => {
   };
 
   const activeItem = MENU_ITEMS[activeIndex];
-  const visibleProjects = PROJECTS.filter(
-    (project) => project.workCategory === selectedWorkCategory,
-  );
+  const visibleProjects = selectedWorkFilter === 'all'
+    ? PROJECTS
+    : PROJECTS.filter((project) => project.filters.includes(selectedWorkFilter));
 
   const handleOpenActiveSection = () => {
-    if (activeItem.id === 'work') setSelectedWorkCategory(null);
+    if (activeItem.id === 'work') setSelectedWorkFilter('all');
     handleNavigate('content');
   };
 
   const handleContentBack = () => {
-    if (activeItem.id === 'work' && selectedWorkCategory) {
-      setSelectedWorkCategory(null);
-      return;
-    }
-
     handleNavigate('home');
   };
   return (
@@ -533,11 +782,11 @@ const DevView = () => {
                     <ArrowLeft size={16} md:size={20} />
                   </div>
                   <span className="font-bold tracking-widest text-xs md:text-sm">
-                    {activeItem.id === 'work' && selectedWorkCategory ? 'BACK TO WORK TYPES' : 'BACK HOME'}
+                    BACK HOME
                   </span>
                 </button>
 
-                <div className="flex-1 border-2 border-pip/30 bg-pip-bg/40 p-4 md:p-8 rounded relative overflow-y-auto pip-scrollbar shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] min-h-0">
+                <div className={`flex-1 border-2 border-pip/30 bg-pip-bg/40 p-4 md:p-8 rounded relative shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] min-h-0 ${activeItem.id === 'work' ? 'overflow-hidden' : 'overflow-y-auto pip-scrollbar'}`}>
                   {/* Decoration Corners */}
                   <div className="absolute top-0 left-0 w-4 h-4 md:w-6 md:h-6 border-t-2 border-l-2 md:border-t-4 md:border-l-4 border-pip" />
                   <div className="absolute top-0 right-0 w-4 h-4 md:w-6 md:h-6 border-t-2 border-r-2 md:border-t-4 md:border-r-4 border-pip" />
@@ -545,80 +794,14 @@ const DevView = () => {
                   <div className="absolute bottom-0 right-0 w-4 h-4 md:w-6 md:h-6 border-b-2 border-r-2 md:border-b-4 md:border-r-4 border-pip" />
 
                   {/* Content Rendering */}
-                  <div className="pb-8"> {/* Added padding bottom to ensure last item is visible */}
+                  <div className={activeItem.id === 'work' ? 'h-full min-h-0' : 'pb-8'}>
                     {activeItem.id === 'work' && (
-                      <div className="min-h-full">
-                        {!selectedWorkCategory ? (
-                          <div className="flex min-h-[420px] items-center">
-                            <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-                              {WORK_CATEGORIES.map((category) => {
-                                const CategoryIcon = WORK_CATEGORY_ICONS[category.id] ?? Briefcase;
-
-                                return (
-                                  <button
-                                    key={category.id}
-                                    type="button"
-                                    onClick={() => setSelectedWorkCategory(category.id)}
-                                    className="group flex min-h-48 flex-col items-center justify-center border-2 border-pip/25 bg-pip/5 p-6 text-center transition-all hover:border-pip hover:bg-pip/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:min-h-64 md:p-8"
-                                  >
-                                    <div className="mb-6 border border-pip/30 bg-pip/10 p-3 text-pip-light transition-colors group-hover:bg-pip/20">
-                                      <CategoryIcon size={30} />
-                                    </div>
-                                    <h3 className="text-xl font-black uppercase text-pip-light transition-colors group-hover:text-white md:text-2xl">
-                                      {category.label}
-                                    </h3>
-                                    <p className="mt-3 max-w-sm text-sm leading-relaxed opacity-65">{category.description}</p>
-                                    <span className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-pip-light">
-                                      Click to view <ChevronRight size={15} className="transition-transform group-hover:translate-x-1" />
-                                    </span>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="space-y-5">
-                            {visibleProjects.map((project) => (
-                              <button
-                                key={project.id}
-                                type="button"
-                                className="group flex w-full cursor-pointer flex-col items-start gap-4 border border-pip/20 bg-pip/5 p-4 text-left transition-all hover:border-pip/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:flex-row md:gap-6 md:p-6"
-                                onClick={() => handleOpenProject(project)}
-                              >
-                                <div className="relative flex h-36 w-full shrink-0 items-center justify-center overflow-hidden border-2 border-pip/30 bg-pip-bg/60 md:h-32 md:w-48">
-                                  {project.logo || project.image ? (
-                                    <img
-                                      src={project.logo || project.image}
-                                      alt={project.logoAlt || project.imageAlt}
-                                      className="h-full w-full object-contain"
-                                    />
-                                  ) : (
-                                    <div className="relative z-10 text-center">
-                                      <ImageIcon className="mx-auto mb-2 h-8 w-8 text-pip/40 group-hover:text-pip/80" />
-                                      <p className="text-[10px] uppercase tracking-[0.2em] text-pip/55">{project.assetLabel}</p>
-                                    </div>
-                                  )}
-                                </div>
-
-                                <div className="flex h-full flex-1 flex-col">
-                                  <div className="mb-2 flex min-w-0 items-start justify-between gap-4">
-                                    <h3 className="min-w-0 truncate whitespace-nowrap text-xs font-bold text-white md:text-xl lg:text-2xl">
-                                      {project.title} — {project.listingTitle ?? project.category}
-                                    </h3>
-                                    <ExternalLink size={16} className="shrink-0 text-pip/40 group-hover:text-pip" />
-                                  </div>
-                                  <p className="mb-4 line-clamp-2 text-sm leading-relaxed opacity-80 md:text-base">{project.shortDesc}</p>
-                                  <div className="mt-auto flex flex-wrap gap-2">
-                                    {project.listingTags.map((tag) => (
-                                      <span key={tag} className="border border-pip/20 bg-pip/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wide md:text-xs">{tag}</span>
-                                    ))}
-                                  </div>
-                                </div>
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                      <ProjectGallery
+                        projects={visibleProjects}
+                        selectedFilter={selectedWorkFilter}
+                        onFilterChange={setSelectedWorkFilter}
+                        onOpenProject={handleOpenProject}
+                      />
                     )}
                     {activeItem.id === 'about' && (
                       <div className="space-y-8 md:space-y-10">
@@ -833,19 +1016,16 @@ const DevView = () => {
                       <p className="text-xs font-bold uppercase tracking-[0.2em] text-pip/55">{selectedProject.category}</p>
                       <p className="mt-3 max-w-3xl text-sm leading-relaxed opacity-80 md:text-base">{selectedProject.shortDesc}</p>
                       <div className="mt-4 flex flex-wrap gap-3">
+                        {selectedProject.liveUrl && (
+                          <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 border-2 border-pip bg-pip px-4 py-2 text-sm font-black text-pip-bg transition-colors hover:bg-pip-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                            <ExternalLink size={16} /> LIVE SITE
+                          </a>
+                        )}
                         {selectedProject.repoUrl && (
-                          <a href={selectedProject.repoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 border border-pip/30 bg-pip/20 px-3 py-1.5 text-xs font-bold transition-colors hover:border-pip hover:bg-pip/40 hover:text-white">
+                          <a href={selectedProject.repoUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 border border-pip/30 bg-pip/10 px-3 py-2 text-xs font-bold transition-colors hover:border-pip hover:bg-pip/25 hover:text-white">
                             <Github size={14} /> GITHUB
                           </a>
                         )}
-                        {selectedProject.liveUrl && (
-                          <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 border border-pip/30 bg-pip/20 px-3 py-1.5 text-xs font-bold transition-colors hover:border-pip hover:bg-pip/40 hover:text-white">
-                            <ExternalLink size={14} /> LIVE SITE
-                          </a>
-                        )}
-                        <span className="border border-pip/20 bg-pip/10 px-3 py-1.5 text-xs font-bold text-pip/70">
-                          {selectedProject.statusLabel}
-                        </span>
                       </div>
                     </div>
 
@@ -898,11 +1078,7 @@ const DevView = () => {
                       </button>
                     </div>
 
-                    <div className="space-y-6">
-                      <div className="border-l-2 border-pip/40 py-1 pl-4">
-                        <h4 className="mb-3 text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">Overview</h4>
-                        <p className="text-sm leading-relaxed opacity-90 md:text-base">{selectedProject.longDesc}</p>
-                      </div>
+                    <div>
                       <div className="border-l-2 border-pip/40 py-1 pl-4">
                         <h4 className="mb-3 text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">My Role</h4>
                         <p className="text-sm leading-relaxed opacity-90 md:text-base">{selectedProject.role}</p>
@@ -949,8 +1125,6 @@ const DevView = () => {
                   <span>ROOT</span>
                   {view !== 'home' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
                   {view !== 'home' && <span>{view === 'project_details' ? 'VIEW RECENT WORK' : activeItem.label}</span>}
-                  {view !== 'home' && activeItem.id === 'work' && selectedWorkCategory && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
-                  {view !== 'home' && activeItem.id === 'work' && selectedWorkCategory && <span>{WORK_CATEGORIES.find((category) => category.id === selectedWorkCategory)?.label}</span>}
                   {view === 'project_details' && <span className="mx-1 md:mx-2 text-pip">&gt;</span>}
                   {view === 'project_details' && <span className="text-pip-light truncate max-w-[100px] md:max-w-none">{selectedProject.title}</span>}
                 </div>

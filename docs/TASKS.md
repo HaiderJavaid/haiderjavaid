@@ -35,6 +35,9 @@
 - [x] `BootScreen`, `MatrixRain`, and `SlotMachineNav` components.
 - [x] Project-detail screen pattern.
 - [x] Add Stonecode as the latest WIP and categorize work into Software and Marketing directories.
+- [x] Replace the Software/Marketing chooser with one filterable, scroll-snap project card stack using verified project screenshots.
+- [x] Center the selected filter in an infinite horizontal loop, confine filter glitches to the card viewport, and lock wheel input to one project per gesture.
+- [x] Remove redundant project Overview copy and promote Live Site as the primary project-detail action.
 - [x] Default home navigation to `View Recent Work` and keep three focused home tags.
 - [x] Simplify work-category selection while preserving Pip-Boy chrome; use one expandable project image with static Overview/Role and accordion supporting details.
 - [x] Make the static Overview and My Role headings white and more prominent.
