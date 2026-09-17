@@ -6,6 +6,7 @@ import kasijobReview from '../assets/kasijob-review.png';
 import kasijobsLogo from '../assets/kasijobs-logo.png';
 import stonecodeLogo from '../assets/stonecode-logo.svg';
 import stonecodePreview from '../assets/stonecode-landing-preview.png';
+import stonecodeOnboardingPreview from '../assets/stonecode-preview.png';
 import yelloSkincarePreview from '../assets/yelloskincare.png';
 
 export const PROJECT_FILTERS = [
@@ -56,6 +57,18 @@ export const PROJECTS = [
     assetLabel: 'Stonecode landing page preview',
     image: stonecodePreview,
     imageAlt: 'Stonecode landing page for its AI programming tutor',
+    screenshots: [
+      {
+        src: stonecodeOnboardingPreview,
+        alt: 'Stonecode AI-learning discovery flow',
+        label: 'AI learning discovery',
+      },
+      {
+        src: stonecodePreview,
+        alt: 'Stonecode landing page for its AI programming tutor',
+        label: 'Product landing page',
+      },
+    ],
     logo: stonecodeLogo,
     logoAlt: 'Stonecode logo',
   },

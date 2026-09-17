@@ -29,7 +29,7 @@ Project memory was refreshed on 2026-08-24 after the unified Recent Work gallery
 - Wheel input is locked to one project per gesture; snap spacers keep the active project mathematically centered at every viewport height.
 - The active project card is centered and full-strength; its adjacent cards stay scaled down and faded. Cards use verified screenshots with project text overlaid inside the image.
 - Stonecode is the first Software project and is labeled as the latest WIP/private beta with a real product screenshot.
-- Stonecode uses one expandable product screenshot; the discarded gallery assets were removed.
+- Project details now use clean, compact screenshot galleries. Stonecode has two verified screens (AI discovery and landing page); the remaining projects use their supplied verified screenshot until more source media is available.
 - Project identity appears above the screenshot. Overview and My Role use the original always-visible left-border blocks; Outcome, Key Features, and Tech Specs use a single-open accordion.
 - Overview and My Role headings are white, bold, and more prominent.
 - Header/footer system labels, battery, signal, breadcrumbs, and status text were restored; `SYS.INIT()` and work-stepper clutter remain removed from content.
@@ -40,7 +40,9 @@ Project memory was refreshed on 2026-08-24 after the unified Recent Work gallery
 - Anonymail uses verified local product content and media from `/Users/kinghaider/Desktop/anonymail`; BikeBaju uses its live storefront, official logo, and a captured homepage preview.
 - The home screen retains the original teal Pip-Boy palette and CRT treatment.
 - Recent Work cards use one responsive image-card size with native vertical scroll snapping and center-band active-card detection.
-- Project detail images now open collapsed to a top crop and expand inline on click, pushing the case-study content downward.
+- Project preview images have no grayscale, color-treatment, or grain overlay. On mobile they use a horizontal snap carousel with the next image partially visible; on desktop they form a compact grid.
+- Selecting a project image opens a dimmed, App Store-style modal with a short scale-in transition, an explicit close control, backdrop close, and Escape-key support.
+- Returning from a project detail view restores its project card to the center of the filtered listing. Detail content is ordered Key Features, Tech Stack, My Role, then Outcome; Key Features and Tech Stack begin expanded and can be independently toggled.
 - Project details omit the redundant Overview block, retain My Role, and style Live Site as the primary filled action.
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
 - The verified Netlify production URL is `https://haiderjavaid.netlify.app/`.

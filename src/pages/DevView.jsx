@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Image as ImageIcon, Mail, MapPin, Phone, Info, Linkedin, Instagram, ChevronDown } from 'lucide-react';
+import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Mail, MapPin, Phone, Info, Linkedin, Instagram, ChevronDown, X } from 'lucide-react';
 import SlotMachineNav from '../components/dev/SlotMachineNav';
 import MatrixRain from '../components/dev/MatrixRain';
 import BootScreen from '../components/dev/BootScreen';
@@ -25,9 +25,9 @@ const SOCIAL_ICONS = {
 };
 
 const PROJECT_DETAIL_SECTIONS = [
-  { id: 'outcome', label: 'Outcome' },
   { id: 'features', label: 'Key Features' },
-  { id: 'tech', label: 'Tech Specs' },
+  { id: 'tech', label: 'Tech Stack' },
+  { id: 'outcome', label: 'Outcome' },
 ];
 
 const ProjectDetailContent = ({ sectionId, project }) => {
@@ -60,9 +60,8 @@ const ProjectDetailContent = ({ sectionId, project }) => {
 };
 
 const DEFAULT_ACTIVE_INDEX = 0;
-const COLLAPSED_PROJECT_IMAGE_HEIGHT = 224;
 
-const ProjectGallery = ({ projects, selectedFilter, onFilterChange, onOpenProject }) => {
+const ProjectGallery = ({ projects, selectedFilter, resumeProjectId, onFilterChange, onOpenProject }) => {
   const galleryRef = useRef(null);
   const cardRefs = useRef(new Map());
   const filterChangeTimeoutRef = useRef(null);
@@ -71,8 +70,13 @@ const ProjectGallery = ({ projects, selectedFilter, onFilterChange, onOpenProjec
   const wheelUnlockTimeoutRef = useRef(null);
   const wheelLockedRef = useRef(false);
   const isGalleryResettingRef = useRef(false);
+  const lastResetFilterRef = useRef(null);
   const firstProjectId = projects[0]?.id ?? null;
-  const [activeProjectId, setActiveProjectId] = useState(firstProjectId);
+  const initialProjectId = projects.some((project) => project.id === resumeProjectId)
+    ? resumeProjectId
+    : firstProjectId;
+  const resetTargetProjectIdRef = useRef(initialProjectId);
+  const [activeProjectId, setActiveProjectId] = useState(initialProjectId);
   const [isFilterTransitioning, setIsFilterTransitioning] = useState(false);
   const activeProjectIdRef = useRef(activeProjectId);
   const selectedFilterIndex = PROJECT_FILTERS.findIndex((filter) => filter.id === selectedFilter);
@@ -106,6 +110,12 @@ const ProjectGallery = ({ projects, selectedFilter, onFilterChange, onOpenProjec
 
   useEffect(() => {
     const galleryNode = galleryRef.current;
+    const isFilterChange = lastResetFilterRef.current !== null
+      && lastResetFilterRef.current !== selectedFilter;
+    const targetProjectId = isFilterChange ? firstProjectId : resetTargetProjectIdRef.current;
+
+    lastResetFilterRef.current = selectedFilter;
+    resetTargetProjectIdRef.current = targetProjectId;
     isGalleryResettingRef.current = true;
     window.clearTimeout(galleryResetTimeoutRef.current);
     if (galleryNode) {
@@ -114,18 +124,18 @@ const ProjectGallery = ({ projects, selectedFilter, onFilterChange, onOpenProjec
     }
 
     const frameId = window.requestAnimationFrame(() => {
-      activeProjectIdRef.current = firstProjectId;
-      setActiveProjectId(firstProjectId);
+      activeProjectIdRef.current = targetProjectId;
+      setActiveProjectId(targetProjectId);
       if (galleryNode) {
-        galleryNode.scrollTop = 0;
+        cardRefs.current.get(targetProjectId)?.scrollIntoView({ block: 'center' });
         galleryNode.style.scrollSnapType = '';
       }
     });
 
     galleryResetTimeoutRef.current = window.setTimeout(() => {
-      activeProjectIdRef.current = firstProjectId;
-      setActiveProjectId(firstProjectId);
-      if (galleryNode) galleryNode.scrollTop = 0;
+      activeProjectIdRef.current = targetProjectId;
+      setActiveProjectId(targetProjectId);
+      cardRefs.current.get(targetProjectId)?.scrollIntoView({ block: 'center' });
       isGalleryResettingRef.current = false;
     }, 80);
 
@@ -134,7 +144,7 @@ const ProjectGallery = ({ projects, selectedFilter, onFilterChange, onOpenProjec
       window.clearTimeout(galleryResetTimeoutRef.current);
       if (galleryNode) galleryNode.style.scrollSnapType = '';
     };
-  }, [firstProjectId, selectedFilter]);
+  }, [firstProjectId, projects, resumeProjectId, selectedFilter]);
 
   useEffect(() => {
     const galleryNode = galleryRef.current;
@@ -327,10 +337,9 @@ const DevView = () => {
   const [activeIndex, setActiveIndex] = useState(DEFAULT_ACTIVE_INDEX);
   const [selectedProject, setSelectedProject] = useState(null);
   const [selectedWorkFilter, setSelectedWorkFilter] = useState('all');
-  const [openProjectSection, setOpenProjectSection] = useState(null);
+  const [openProjectSections, setOpenProjectSections] = useState(['features', 'tech']);
   const [hasPlayedHomeIntro, setHasPlayedHomeIntro] = useState(false);
-  const [isProjectImageExpanded, setIsProjectImageExpanded] = useState(false);
-  const [projectImageFullHeight, setProjectImageFullHeight] = useState(COLLAPSED_PROJECT_IMAGE_HEIGHT);
+  const [selectedProjectPreview, setSelectedProjectPreview] = useState(null);
   const homeLayoutRef = useRef(null);
   const homeProfileRef = useRef(null);
   const homeNavRef = useRef(null);
@@ -339,16 +348,11 @@ const DevView = () => {
   const homeInstructionsRef = useRef(null);
   const homeIntroStartedRef = useRef(false);
   const homeIntroCompletedRef = useRef(false);
-  const projectImageFrameRef = useRef(null);
-  const projectImageRef = useRef(null);
-  const activeProjectImage = selectedProject?.image
-    ? {
-        src: selectedProject.image,
-        alt: selectedProject.imageAlt,
-        label: selectedProject.assetLabel,
-      }
-    : null;
-  const activeProjectImageSource = activeProjectImage?.src;
+  const projectScreenshots = selectedProject
+    ? selectedProject.screenshots ?? (selectedProject.image
+      ? [{ src: selectedProject.image, alt: selectedProject.imageAlt, label: selectedProject.assetLabel }]
+      : [])
+    : [];
 
   useLayoutEffect(() => {
     if (
@@ -550,36 +554,29 @@ const DevView = () => {
   }, [isBooting, view]);
 
   useEffect(() => {
-    const frameNode = projectImageFrameRef.current;
+    if (!selectedProjectPreview) return undefined;
 
-    if (!frameNode || !activeProjectImageSource) return undefined;
-
-    const updateHeight = () => {
-      const imageNode = projectImageRef.current;
-
-      if (!imageNode?.naturalWidth || !frameNode.clientWidth) return;
-
-      setProjectImageFullHeight(
-        Math.round((imageNode.naturalHeight / imageNode.naturalWidth) * frameNode.clientWidth),
-      );
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setSelectedProjectPreview(null);
     };
 
-    const resizeObserver = new ResizeObserver(updateHeight);
-    resizeObserver.observe(frameNode);
-    const frameId = window.requestAnimationFrame(updateHeight);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.cancelAnimationFrame(frameId);
-    };
-  }, [activeProjectImageSource]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedProjectPreview]);
 
   const handleOpenProject = (project) => {
-    setIsProjectImageExpanded(false);
-    setProjectImageFullHeight(COLLAPSED_PROJECT_IMAGE_HEIGHT);
-    setOpenProjectSection(null);
+    setSelectedProjectPreview(null);
+    setOpenProjectSections(['features', 'tech']);
     setSelectedProject(project);
     handleNavigate('project_details');
+  };
+
+  const handleToggleProjectSection = (sectionId) => {
+    setOpenProjectSections((currentSections) => (
+      currentSections.includes(sectionId)
+        ? currentSections.filter((currentSectionId) => currentSectionId !== sectionId)
+        : [...currentSections, sectionId]
+    ));
   };
 
   // State to handle the Glitch/Static effect
@@ -799,6 +796,7 @@ const DevView = () => {
                       <ProjectGallery
                         projects={visibleProjects}
                         selectedFilter={selectedWorkFilter}
+                        resumeProjectId={selectedProject?.id}
                         onFilterChange={setSelectedWorkFilter}
                         onOpenProject={handleOpenProject}
                       />
@@ -1029,84 +1027,66 @@ const DevView = () => {
                       </div>
                     </div>
 
-                    <div>
-                      <button
-                        type="button"
-                        onClick={() => setIsProjectImageExpanded((current) => !current)}
-                        className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip"
-                        aria-label={`${isProjectImageExpanded ? 'Collapse' : 'Expand'} ${activeProjectImage?.label ?? 'project'} preview`}
-                        disabled={!activeProjectImage}
-                      >
-                        <div
-                          ref={projectImageFrameRef}
-                          className="group relative w-full overflow-hidden border-2 border-pip/40 bg-pip/5 transition-[height] duration-500 ease-out"
-                          style={{
-                            height: isProjectImageExpanded
-                              ? `${projectImageFullHeight}px`
-                              : `${COLLAPSED_PROJECT_IMAGE_HEIGHT}px`,
-                          }}
-                        >
-                          <div className="pointer-events-none absolute inset-0 bg-noise opacity-20 mix-blend-overlay" />
-                          {activeProjectImage ? (
-                            <img
-                              ref={projectImageRef}
-                              src={activeProjectImage.src}
-                              alt={activeProjectImage.alt}
-                              onLoad={(event) => {
-                                const { naturalHeight, naturalWidth } = event.currentTarget;
-                                const frameWidth = projectImageFrameRef.current?.clientWidth;
-
-                                if (!naturalWidth || !frameWidth) return;
-
-                                setProjectImageFullHeight(Math.round((naturalHeight / naturalWidth) * frameWidth));
-                              }}
-                              className="block w-full opacity-90 grayscale contrast-125 sepia hue-rotate-[120deg] saturate-150 transition duration-300 group-hover:opacity-100 group-hover:grayscale-0 group-hover:sepia-0 group-hover:hue-rotate-0"
-                            />
-                          ) : (
-                            <div className="flex h-full flex-col items-center justify-center">
-                              <ImageIcon className="z-10 mb-2 h-12 w-12 text-pip/30" />
-                              <span className="z-10 text-xs uppercase tracking-widest text-pip/40">{selectedProject.assetLabel}</span>
-                            </div>
-                          )}
+                    {projectScreenshots.length > 0 && (
+                      <section aria-labelledby="project-screenshots-heading">
+                        <div className="mb-3 flex items-end justify-between gap-4">
+                          <h3 id="project-screenshots-heading" className="text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">Product Screens</h3>
+                          <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-pip/65">Tap to expand</span>
                         </div>
-                        {activeProjectImage && (
-                          <div className="mt-3 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-pip/60">
-                            <span>{isProjectImageExpanded ? 'Collapse image' : 'View full image'}</span>
-                            <span>{activeProjectImage.label}</span>
-                          </div>
-                        )}
-                      </button>
-                    </div>
-
-                    <div>
-                      <div className="border-l-2 border-pip/40 py-1 pl-4">
-                        <h4 className="mb-3 text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">My Role</h4>
-                        <p className="text-sm leading-relaxed opacity-90 md:text-base">{selectedProject.role}</p>
-                      </div>
-                    </div>
+                        <div className="-mr-4 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 pr-[22vw] pip-scrollbar md:mr-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:pr-0 xl:grid-cols-3">
+                          {projectScreenshots.map((screenshot, index) => (
+                            <button
+                              key={screenshot.src}
+                              type="button"
+                              onClick={() => setSelectedProjectPreview(screenshot)}
+                              className="group w-[76vw] shrink-0 snap-start overflow-hidden border border-pip/35 bg-black text-left transition-colors hover:border-pip focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:w-auto"
+                              aria-label={`Open ${screenshot.label} preview`}
+                            >
+                              <div className="aspect-[16/10] bg-black">
+                                <img
+                                  src={screenshot.src}
+                                  alt={screenshot.alt}
+                                  loading={index === 0 ? 'eager' : 'lazy'}
+                                  className="h-full w-full object-contain"
+                                />
+                              </div>
+                              <span className="block border-t border-pip/20 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-pip-light">{screenshot.label}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </section>
+                    )}
 
                     <div className="divide-y divide-pip/20 border-y border-pip/20">
                       {PROJECT_DETAIL_SECTIONS.map((section) => {
-                        const isOpen = openProjectSection === section.id;
+                        const isOpen = openProjectSections.includes(section.id);
 
                         return (
-                          <div key={section.id}>
-                            <button
-                              type="button"
-                              onClick={() => setOpenProjectSection(isOpen ? null : section.id)}
-                              className="flex w-full items-center justify-between gap-4 py-4 text-left text-sm font-bold uppercase tracking-[0.18em] text-pip-light transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pip md:text-base"
-                              aria-expanded={isOpen}
-                              aria-controls={`project-section-${section.id}`}
-                            >
-                              <span>{section.label}</span>
-                              <ChevronDown className={`h-5 w-5 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-                            </button>
-                            {isOpen && (
-                              <div id={`project-section-${section.id}`} className="pb-5 pr-8 animate-in fade-in slide-in-from-top-2 duration-200">
-                                <ProjectDetailContent sectionId={section.id} project={selectedProject} />
+                          <React.Fragment key={section.id}>
+                            {section.id === 'outcome' && (
+                              <div className="py-4">
+                                <h4 className="mb-2 text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">My Role</h4>
+                                <p className="text-sm leading-relaxed opacity-90 md:text-base">{selectedProject.role}</p>
                               </div>
                             )}
-                          </div>
+                            <div>
+                              <button
+                                type="button"
+                                onClick={() => handleToggleProjectSection(section.id)}
+                                className="flex w-full items-center justify-between gap-4 py-4 text-left text-sm font-bold uppercase tracking-[0.18em] text-pip-light transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-pip md:text-base"
+                                aria-expanded={isOpen}
+                                aria-controls={`project-section-${section.id}`}
+                              >
+                                <span>{section.label}</span>
+                                <ChevronDown className={`h-5 w-5 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                              </button>
+                              {isOpen && (
+                                <div id={`project-section-${section.id}`} className="pb-5 pr-8 animate-in fade-in slide-in-from-top-2 duration-200">
+                                  <ProjectDetailContent sectionId={section.id} project={selectedProject} />
+                                </div>
+                              )}
+                            </div>
+                          </React.Fragment>
                         );
                       })}
                     </div>
@@ -1136,6 +1116,44 @@ const DevView = () => {
             </footer>
 
           </main>
+        </div>
+      )}
+
+      {selectedProjectPreview && selectedProject && (
+        <div
+          className="project-preview-modal fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4 md:p-8"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setSelectedProjectPreview(null);
+          }}
+        >
+          <section
+            className="project-preview-dialog relative flex max-h-full w-full max-w-6xl flex-col overflow-hidden border border-pip/45 bg-pip-bg shadow-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-preview-title"
+          >
+            <div className="flex items-center justify-between gap-4 border-b border-pip/25 px-4 py-3 md:px-5">
+              <p id="project-preview-title" className="min-w-0 truncate text-xs font-black uppercase tracking-[0.16em] text-pip-light md:text-sm">
+                {selectedProject.title} — {selectedProjectPreview.label}
+              </p>
+              <button
+                type="button"
+                onClick={() => setSelectedProjectPreview(null)}
+                className="flex h-10 w-10 shrink-0 items-center justify-center text-pip transition-colors hover:bg-pip hover:text-pip-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                aria-label="Close image preview"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="min-h-0 overflow-auto bg-black p-3 md:p-5 pip-scrollbar">
+              <img
+                src={selectedProjectPreview.src}
+                alt={selectedProjectPreview.alt}
+                className="mx-auto block max-h-[calc(100vh-10rem)] w-auto max-w-full object-contain"
+              />
+            </div>
+          </section>
         </div>
       )}
 
@@ -1191,6 +1209,26 @@ const DevView = () => {
         .pip-scrollbar::-webkit-scrollbar-thumb {
           background: rgba(20, 184, 166, 0.4);
           border-radius: 4px;
+        }
+        .project-preview-modal {
+          animation: project-preview-fade-in 180ms ease-out both;
+        }
+        .project-preview-dialog {
+          animation: project-preview-scale-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes project-preview-fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes project-preview-scale-in {
+          from { opacity: 0; transform: scale(0.97); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .project-preview-modal,
+          .project-preview-dialog {
+            animation: none;
+          }
         }
       `}</style>
     </div>
