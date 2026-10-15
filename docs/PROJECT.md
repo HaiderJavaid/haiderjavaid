@@ -21,7 +21,7 @@ Built:
 - Unmounted `MarketingView` slide concept.
 - Netlify-ready static build config via `netlify.toml`.
 - Unified filtered Recent Work list led by Replenish Beauty and Hackbox, then Stonecode, Anonymail, BikeBaju, KasiJobs, and Yello Skincare.
-- App Store-style product galleries with 26 verified screens; latest changes are local, not deployed.
+- App Store-style product galleries with 26 verified screens; latest changes are published and verified on the existing Netlify site.
 - Software and digital marketing positioning across the home, About, and metadata surfaces.
 - Broader home copy spanning learning products, privacy tools, marketplaces, e-commerce, frontend delivery, and growth systems.
 
@@ -29,10 +29,10 @@ Missing:
 - CI gate for install, lint, and build.
 
 ## Publish Readiness
-Status: **approved for the October 2026 portfolio refresh**.
+Status: **live; October 2026 portfolio refresh verified**.
 
 Blockers:
 - CI remains a maintenance task. The existing production site uses the replacement Vite build on branch `replace-portfolio`.
 
 ## Next Priority
-Publish and verify the approved project refresh on the existing site; then add CI and a short manual QA checklist.
+Add CI and a short manual QA checklist for future portfolio updates.

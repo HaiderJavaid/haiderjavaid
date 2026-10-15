@@ -30,6 +30,7 @@
 - [ ] Add analytics only with a clear privacy-safe purpose.
 
 ## Completed
+- [x] Deploy and verify the October 2026 project refresh, updated share metadata, and new 1200×630 preview on the existing Netlify site.
 - [x] Add Replenish Beauty first and Hackbox second, with verified case studies and a Game filter; defer unfinished Dead Fit.
 - [x] Add 20 optimized product captures across six projects; expand screenshot rails and full-size keyboard/thumbnail navigation. Yello retains its one supplied image.
 - [x] Replace inline-expanding project media with compact, clean screenshot galleries and an accessible dimmed preview modal; the mobile gallery shows the next screen peeking into view.

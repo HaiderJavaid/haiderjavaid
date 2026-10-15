@@ -1,7 +1,10 @@
 # Session Memory
 
 ## Latest Update — 2026-10-15
-- Owner explicitly approved deployment on 2026-10-15. Publishing the portfolio refresh through the existing production branch/site.
+- Owner explicitly approved deployment on 2026-10-15. Code commit `3980dda` is live at `https://haiderjavaid.netlify.app/` on the existing `replace-portfolio` branch/site.
+- Netlify deploy `6ad09dc38f5b8b573c5ef4ba` is ready. Live checks pass: new project order, 5 Replenish and 6 Hackbox screens, desktop/mobile viewer, keyboard navigation, zero page errors/overflow, complete metadata, exact 1200×630 PNG, and all 20 new screenshot files byte-matched.
+- Release clone tracked files are clean after the documentation commit; the pre-existing job-lead note remains untracked. Local bootstrap repository is preserved.
+- Release quota observed 3%→3% weekly used (below one rounded percentage point); five-hour usage unavailable.
 - Release metadata now highlights Replenish Beauty and Hackbox, with the new `public/og-portfolio-2026-10.png` 1200×630 preview.
 - Replenish Beauty is first (5 screens), Hackbox second (6); Dead Fit remains excluded until finished.
 - Added verified descriptions, roles, features, stacks, production links, Game filter, and Hackbox mobile-play note.
@@ -63,7 +66,7 @@ Project memory was refreshed on 2026-08-24 after the unified Recent Work gallery
 - Replacement branch work was pushed from `/Users/kinghaider/Desktop/Coding/projects/web-portfolio-release` to `HaiderJavaid/haiderjavaid` on branch `replace-portfolio`.
 - The verified Netlify production URL is `https://haiderjavaid.netlify.app/`.
 - Production was re-verified on 2026-08-24 after commit `6d1c379`: the unified gallery bundle, complete Open Graph/Twitter metadata, and 1200×630 preview image are live.
-- Latest portfolio code commit is `e48c364` (`Add Stonecode live preview`) on pushed branch `replace-portfolio`.
+- Latest deployed portfolio code commit is `3980dda` (`Publish Replenish Beauty and Hackbox portfolio galleries`) on pushed branch `replace-portfolio`.
 - Wrap-up verification passed with `npm run lint` and `npm run build` on 2026-07-28.
 - GitHub profile README was pushed separately to `main` at `9bc6497` (`Add profile README banner`).
 

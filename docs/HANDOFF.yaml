@@ -1,6 +1,9 @@
 date: 2026-10-15
+handoff_confidence: high
+git_status: release clone tracked files clean after documentation commit; pre-existing job-leads-remote-2026-05-29.md remains untracked; primary checkout remains an uncommitted bootstrap
+current_diff_scope: approved new project case studies, gallery UI, and final release metadata
 portfolio_refresh:
-  status: approved-for-production-release
+  status: deployed-and-verified
   order: [replenish-beauty, hackbox, stonecode, anonymail, bikebaju, kasijobs, yello-skincare]
   scope: verified new case studies, Game filter, 20 new WebP screenshots, horizontal screenshot rails, native dialog viewer
   excluded: unfinished Dead Fit; private CRM/customer captures
@@ -11,7 +14,7 @@ portfolio_refresh:
   verification: npm run lint and npm run build pass; focus containment, backdrop close, reduced motion verified
   browser: all 26 screens load; seven projects, Game filter, mobile rail, thumbnail and keyboard navigation, Escape, focus restoration, and no mobile overflow verified
   remaining_media: Yello has only its original supplied screenshot
-  deployment: owner explicitly requested deployment on 2026-10-15; existing Netlify site and production branch retained
+  deployment: owner approved; release 3980dda published and verified on existing Netlify site on 2026-10-15
   social_preview: public/og-portfolio-2026-10.png, 1200x630, highlights Replenish Beauty and Hackbox
 project:
   local_path: /Users/kinghaider/Desktop/Coding/projects/web-portfolio
@@ -26,7 +29,7 @@ status:
 deployment:
   host_target: netlify
   branch: replace-portfolio
-  latest_commit: 35987fe
+  latest_commit: 3980dda
   pushed: true
   pr_url: null
   pr_branch_purpose: replace old static site with Vite Pip-Boy portfolio
@@ -34,6 +37,8 @@ deployment:
   profile_readme_commit: 9bc6497
   netlify:
     production_url: https://haiderjavaid.netlify.app/
+    deploy_id: 6ad09dc38f5b8b573c5ef4ba
+    verified_at: 2026-10-15T09:33:58.433Z
     build_command: npm run build
     publish_dir: dist
     config_file: netlify.toml
