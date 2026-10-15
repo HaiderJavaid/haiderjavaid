@@ -20,20 +20,19 @@ Built:
 - Work, about, experience, contact, resume, and project-detail screens.
 - Unmounted `MarketingView` slide concept.
 - Netlify-ready static build config via `netlify.toml`.
-- Software/Marketing work chooser with four logo-led Software projects: Stonecode, Anonymail, BikeBaju, and KasiJobs.
+- Unified filtered Recent Work list led by Replenish Beauty and Hackbox, then Stonecode, Anonymail, BikeBaju, KasiJobs, and Yello Skincare.
+- App Store-style product galleries with 26 verified screens; latest changes are local, not deployed.
 - Software and digital marketing positioning across the home, About, and metadata surfaces.
 - Broader home copy spanning learning products, privacy tools, marketplaces, e-commerce, frontend delivery, and growth systems.
 
 Missing:
-- Production deployment verification on the existing Netlify site.
 - CI gate for install, lint, and build.
 
 ## Publish Readiness
-Status: **not ready**.
+Status: **approved for the October 2026 portfolio refresh**.
 
 Blockers:
-- CI is still missing.
-- The existing Netlify site still needs its production branch/build settings pointed at this Vite portfolio and verified live.
+- CI remains a maintenance task. The existing production site uses the replacement Vite build on branch `replace-portfolio`.
 
 ## Next Priority
-Verify the existing Netlify site is serving this portfolio correctly, then finish the publish-readiness pass by adding CI and a short manual QA checklist.
+Publish and verify the approved project refresh on the existing site; then add CI and a short manual QA checklist.

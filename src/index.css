@@ -95,6 +95,25 @@
   .project-filter-glitch {
     animation: project-filter-glitch 380ms steps(2, end) both;
   }
+
+  .project-screen-rail {
+    scroll-padding-inline: 1px;
+    overscroll-behavior-x: contain;
+  }
+
+  .project-image-dialog::backdrop {
+    background: rgb(0 0 0 / 88%);
+  }
+
+  .project-image-dialog[open] {
+    display: flex;
+    align-items: center;
+  }
+
+  .project-image-panel {
+    width: 100%;
+    height: min(100%, 960px);
+  }
 }
 
 @media (min-width: 768px) {

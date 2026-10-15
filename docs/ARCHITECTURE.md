@@ -11,6 +11,7 @@ Static single-page React app. There is no router, backend, database, auth, CMS, 
 - `src/components/dev/BootScreen.jsx` - simulated boot progress before the portfolio appears.
 - `src/components/dev/MatrixRain.jsx` - canvas background animation shown on the home view after boot.
 - `src/components/dev/SlotMachineNav.jsx` - wheel, keyboard, click, and touch navigation for top-level menu selection.
+- `src/components/dev/ProjectScreenshots.jsx` - responsive screenshot rail, native modal dialog, arrow-key navigation, thumbnail selection, and native focus restoration.
 - `src/index.css` - Tailwind layers, global page locking, CRT overlay, scrollbar utility, flicker animation.
 - `tailwind.config.js` - Pip-Boy color tokens and animation definitions.
 
@@ -27,6 +28,7 @@ Current content is split between view code and data modules:
 - `src/content/experience.js`
 
 ## Assets
+- `src/assets/projects/` contains 20 optimized verified screenshots and the Replenish Beauty/Hackbox icons. Public captures were taken on 2026-10-15; game and Stonecode app screens come from existing local product QA captures.
 - `src/assets/resume.pdf` is the mounted resume asset.
 - `src/assets/kasijob-review.png` and `src/assets/yelloskincare.png` are mounted project screenshots.
 - `src/assets/stonecode-landing-preview.png` is the mounted Stonecode landing-page preview.

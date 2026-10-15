@@ -14,7 +14,8 @@
 - Put project identity and its concise summary above one expandable image; keep My Role visible, with Outcome, Key Features, and Tech Specs in a single-open accordion.
 - Use app logos in project listings, combine each title and category with an em dash, omit listing status, and use product/role tags instead of framework tags.
 - Keep logo outline frames while preserving original logo colors; listing title and short suffix share one white font treatment and never wrap.
-- Order Software projects as Stonecode, Anonymail, BikeBaju, then KasiJobs.
+- Order projects as Replenish Beauty, Hackbox, Stonecode, Anonymail, BikeBaju, KasiJobs, then Yello Skincare. Defer unfinished Dead Fit.
+- Show verified product screens in horizontal rails on desktop and mobile; a native dialog provides full-size viewing, previous/next, thumbnails, Escape, and focus restoration.
 - Use Netlify as the intended production host for the replacement portfolio build.
 
 ## Pending

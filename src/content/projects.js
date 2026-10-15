@@ -8,11 +8,34 @@ import stonecodeLogo from '../assets/stonecode-logo.svg';
 import stonecodePreview from '../assets/stonecode-landing-preview.png';
 import stonecodeOnboardingPreview from '../assets/stonecode-preview.png';
 import yelloSkincarePreview from '../assets/yelloskincare.png';
+import replenishLogo from '../assets/projects/replenish-logo.png';
+import replenishHome from '../assets/projects/replenish-home.webp';
+import replenishShop from '../assets/projects/replenish-shop.webp';
+import replenishProduct from '../assets/projects/replenish-product.webp';
+import replenishQuiz from '../assets/projects/replenish-quiz.webp';
+import replenishMobile from '../assets/projects/replenish-shop-mobile.webp';
+import hackboxLogo from '../assets/projects/hackbox-logo.png';
+import hackboxLanding from '../assets/projects/hackbox-landing.webp';
+import hackboxHome from '../assets/projects/hackbox-home.webp';
+import hackboxTerminal from '../assets/projects/hackbox-terminal.webp';
+import hackboxHackhub from '../assets/projects/hackbox-hackhub.webp';
+import hackboxProgress from '../assets/projects/hackbox-progress.webp';
+import hackboxHardware from '../assets/projects/hackbox-hardware.webp';
+import stonecodeAssessment from '../assets/projects/stonecode-assessment.webp';
+import stonecodeWorkspace from '../assets/projects/stonecode-workspace.webp';
+import anonymailLanding from '../assets/projects/anonymail-landing.webp';
+import anonymailPrivacy from '../assets/projects/anonymail-privacy.webp';
+import bikebajuCollection from '../assets/projects/bikebaju-collection.webp';
+import bikebajuProduct from '../assets/projects/bikebaju-product.webp';
+import kasijobsLanding from '../assets/projects/kasijobs-landing.webp';
+import kasijobsMarketplace from '../assets/projects/kasijobs-marketplace.webp';
+import kasijobsMobile from '../assets/projects/kasijobs-mobile.webp';
 
 export const PROJECT_FILTERS = [
   { id: 'all', label: 'All Work' },
   { id: 'ai-app', label: 'AI App' },
   { id: 'web-app', label: 'Web App' },
+  { id: 'game', label: 'Game' },
   { id: 'chrome-extension', label: 'Chrome Extension' },
   { id: 'e-commerce', label: 'E-Commerce' },
   { id: 'marketplace', label: 'Marketplace' },
@@ -20,6 +43,87 @@ export const PROJECT_FILTERS = [
 ];
 
 export const PROJECTS = [
+  {
+    id: 'replenish-beauty',
+    workCategory: 'software',
+    title: 'REPLENISH BEAUTY',
+    category: 'Headless E-Commerce & Customer CRM',
+    listingTitle: 'Headless Beauty E-Commerce',
+    shortDesc:
+      'Skincare storefront connecting a custom shopping experience, skin quiz, and private customer CRM to WooCommerce.',
+    longDesc:
+      'Replenish Beauty brings a Malaysian skincare brand from ShoppeGo to a headless WooCommerce store. A custom Next.js frontend connects product discovery, a seven-question skin quiz, free-product fulfilment, and a private WordPress CRM with the store’s commerce operations.',
+    outcome:
+      'Launched the custom storefront on the brand’s production domain, migrated five verified active products and their media, and connected WooCommerce checkout, customer records, and campaign fulfilment. The handover includes store-manager training and concise client guides.',
+    tech: ['Next.js', 'React', 'TypeScript', 'WooCommerce', 'WordPress / PHP', 'GSAP', 'ToyyibPay', 'Netlify'],
+    features: [
+      'Custom responsive storefront with an animated campaign story, searchable catalogue, product pages, and customer reviews',
+      'ShoppeGo product and media migration with SKU, price, stock, and image reconciliation',
+      'Persistent cart with current WooCommerce pricing and a secure checkout handoff',
+      'Branded Bag, Contact, Delivery, and Payment checkout with Malaysian shipping and ToyyibPay integration',
+      'Seven-question skin quiz followed by delivery details and server-assigned free-product fulfilment',
+      'Custom WordPress commerce bridge and private CRM with editable contacts, quiz answers, CSV import/export, and consent controls',
+    ],
+    role: 'Full-Stack Developer, E-Commerce Migration and CRM Integration',
+    filters: ['e-commerce', 'web-app', 'marketing-system'],
+    listingTags: ['E-Commerce', 'Full Stack', 'CRM'],
+    liveUrl: 'https://www.thereplenishbeauty.com/',
+    assetState: 'available',
+    assetLabel: 'Replenish Beauty skincare storefront',
+    image: replenishShop,
+    imageAlt: 'Replenish Beauty product catalogue with skincare products and category filters',
+    logo: replenishLogo,
+    logoAlt: 'Replenish Beauty brand icon',
+    screenshots: [
+      { src: replenishHome, alt: 'Replenish Beauty campaign homepage with skincare photography', label: 'Campaign homepage' },
+      { src: replenishShop, alt: 'Replenish Beauty searchable skincare catalogue', label: 'Product catalogue' },
+      { src: replenishProduct, alt: 'The Complete Routine product page with pricing and shopping controls', label: 'Product detail' },
+      { src: replenishQuiz, alt: 'Replenish Beauty mobile skin quiz age-range question', label: 'Skin quiz · mobile', format: 'portrait' },
+      { src: replenishMobile, alt: 'Replenish Beauty responsive product catalogue on mobile', label: 'Shop · mobile', format: 'portrait' },
+    ],
+  },
+  {
+    id: 'hackbox',
+    workCategory: 'software',
+    title: 'HACKBOX',
+    category: 'Mobile Cyber-Simulation Game',
+    listingTitle: 'Cyber-Simulation Game',
+    shortDesc:
+      'Mobile-first hacking story game with a simulated operating system, terminal investigations, contracts, and persistent progression.',
+    longDesc:
+      'Hackbox is a fictional cyber-simulation game delivered as an installable mobile web app. Players explore a simulated computer, investigate networks and services through a terminal, follow story messages, complete contracts, and manage tools, files, and hardware.',
+    outcome:
+      'Published an installable mobile browser game with a playable demo, the OPEN CIRCUIT seasonal campaign, persistent online game state, and a one-time full-game upgrade. A shared simulation engine keeps terminal actions, progression, and server validation consistent.',
+    tech: ['React', 'TypeScript', 'Vite', 'PWA', 'Supabase', 'PostgreSQL', 'Deno Edge Functions', 'RevenueCat'],
+    features: [
+      'Touch-friendly simulated OS with app windows, file explorer, notes, mail, and multiple terminals',
+      'Fictional network discovery, service investigation, access routes, and privilege-based progression',
+      'OPEN CIRCUIT story campaign with contracts, collectible fragments, and season progress',
+      'In-game software and hardware shops, tool installation, and resource-aware actions',
+      'Shared TypeScript simulation with server-authoritative online actions and persisted player state',
+      'OS-aware mobile installation flow, replayable demo, and one-time full-game purchase with restore support',
+    ],
+    role: 'Game Designer, Product Builder and Full-Stack Developer',
+    filters: ['game', 'web-app'],
+    listingTags: ['Game', 'PWA', 'Full Stack'],
+    liveUrl: 'https://hackbox.hiderstudios.com/',
+    liveLabel: 'View Game',
+    liveNote: 'Install and play on iPhone, iPad, or Android.',
+    assetState: 'available',
+    assetLabel: 'Hackbox game landing page',
+    image: hackboxLanding,
+    imageAlt: 'Hackbox Season 1 game landing page',
+    logo: hackboxLogo,
+    logoAlt: 'Hackbox app icon',
+    screenshots: [
+      { src: hackboxHome, alt: 'Hackbox simulated mobile desktop with Terminal, Bank, Mail, and Files apps', label: 'Simulated desktop', format: 'portrait' },
+      { src: hackboxTerminal, alt: 'Hackbox mobile terminal investigating a fictional network service', label: 'Terminal investigation', format: 'portrait' },
+      { src: hackboxHackhub, alt: 'Hackbox HackHub wordlist and tools interface', label: 'HackHub tools', format: 'portrait' },
+      { src: hackboxProgress, alt: 'Hackbox OPEN CIRCUIT campaign and collectible progress', label: 'Season progress', format: 'portrait' },
+      { src: hackboxHardware, alt: 'Hackbox hardware shop with simulated computer resources', label: 'Hardware shop', format: 'portrait' },
+      { src: hackboxLanding, alt: 'Hackbox public landing page with supported mobile platforms', label: 'Game landing page' },
+    ],
+  },
   {
     id: 'stonecode',
     workCategory: 'software',
@@ -68,6 +172,8 @@ export const PROJECTS = [
         alt: 'Stonecode landing page for its AI programming tutor',
         label: 'Product landing page',
       },
+      { src: stonecodeAssessment, alt: 'Stonecode personalized programming assessment with a multiple-choice question', label: 'Learning assessment' },
+      { src: stonecodeWorkspace, alt: 'Stonecode development demo showing course modules, code editor, and exercise feedback', label: 'Workspace · demo session' },
     ],
     logo: stonecodeLogo,
     logoAlt: 'Stonecode logo',
@@ -111,6 +217,11 @@ export const PROJECTS = [
     imageAlt: 'Anonymail disposable inbox dashboard',
     logo: anonymailLogo,
     logoAlt: 'Anonymail logo',
+    screenshots: [
+      { src: anonymailPreview, alt: 'Anonymail disposable inbox dashboard', label: 'Disposable inbox' },
+      { src: anonymailLanding, alt: 'Anonymail product website introducing the Chrome extension', label: 'Extension website' },
+      { src: anonymailPrivacy, alt: 'Anonymail privacy page explaining local storage and permissions', label: 'Privacy and permissions' },
+    ],
   },
   {
     id: 'bikebaju',
@@ -143,6 +254,11 @@ export const PROJECTS = [
     imageAlt: 'BikeBaju cycling apparel storefront homepage',
     logo: bikebajuLogo,
     logoAlt: 'BikeBaju logo',
+    screenshots: [
+      { src: bikebajuPreview, alt: 'BikeBaju cycling apparel storefront homepage', label: 'Storefront homepage' },
+      { src: bikebajuCollection, alt: 'BikeBaju jersey collection with product filtering and apparel photography', label: 'Jersey collection' },
+      { src: bikebajuProduct, alt: 'BikeBaju Galaxy jersey page with size selection and product photography', label: 'Product and sizing' },
+    ],
   },
   {
     id: 'kasijobs',
@@ -184,6 +300,12 @@ export const PROJECTS = [
     imageAlt: 'KasiJobs web app interface screenshot',
     logo: kasijobsLogo,
     logoAlt: 'KasiJobs logo',
+    screenshots: [
+      { src: kasijobReview, alt: 'KasiJobs web app interface', label: 'Product overview' },
+      { src: kasijobsLanding, alt: 'KasiJobs public marketplace landing page', label: 'Marketplace website' },
+      { src: kasijobsMarketplace, alt: 'KasiJobs public jobs-board preview with example gigs', label: 'Jobs board · public preview' },
+      { src: kasijobsMobile, alt: 'KasiJobs responsive public homepage on mobile', label: 'Homepage · mobile', format: 'portrait' },
+    ],
   },
   {
     id: 'yello-skincare',

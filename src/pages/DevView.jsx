@@ -1,9 +1,10 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Mail, MapPin, Phone, Info, Linkedin, Instagram, ChevronDown, X } from 'lucide-react';
+import { Terminal, Briefcase, User, FileText, ArrowLeft, Shield, Wifi, Battery, ExternalLink, Github, Mail, MapPin, Phone, Info, Linkedin, Instagram, ChevronDown } from 'lucide-react';
 import SlotMachineNav from '../components/dev/SlotMachineNav';
 import MatrixRain from '../components/dev/MatrixRain';
 import BootScreen from '../components/dev/BootScreen';
+import ProjectScreenshots from '../components/dev/ProjectScreenshots';
 import resumePdf from '../assets/resume.pdf';
 import portraitImage from '../assets/haider-portrait.png';
 import { PROFILE } from '../content/profile';
@@ -339,7 +340,6 @@ const DevView = () => {
   const [selectedWorkFilter, setSelectedWorkFilter] = useState('all');
   const [openProjectSections, setOpenProjectSections] = useState(['features', 'tech']);
   const [hasPlayedHomeIntro, setHasPlayedHomeIntro] = useState(false);
-  const [selectedProjectPreview, setSelectedProjectPreview] = useState(null);
   const homeLayoutRef = useRef(null);
   const homeProfileRef = useRef(null);
   const homeNavRef = useRef(null);
@@ -348,11 +348,6 @@ const DevView = () => {
   const homeInstructionsRef = useRef(null);
   const homeIntroStartedRef = useRef(false);
   const homeIntroCompletedRef = useRef(false);
-  const projectScreenshots = selectedProject
-    ? selectedProject.screenshots ?? (selectedProject.image
-      ? [{ src: selectedProject.image, alt: selectedProject.imageAlt, label: selectedProject.assetLabel }]
-      : [])
-    : [];
 
   useLayoutEffect(() => {
     if (
@@ -553,19 +548,7 @@ const DevView = () => {
     };
   }, [isBooting, view]);
 
-  useEffect(() => {
-    if (!selectedProjectPreview) return undefined;
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') setSelectedProjectPreview(null);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedProjectPreview]);
-
   const handleOpenProject = (project) => {
-    setSelectedProjectPreview(null);
     setOpenProjectSections(['features', 'tech']);
     setSelectedProject(project);
     handleNavigate('project_details');
@@ -1016,7 +999,7 @@ const DevView = () => {
                       <div className="mt-4 flex flex-wrap gap-3">
                         {selectedProject.liveUrl && (
                           <a href={selectedProject.liveUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 border-2 border-pip bg-pip px-4 py-2 text-sm font-black text-pip-bg transition-colors hover:bg-pip-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
-                            <ExternalLink size={16} /> LIVE SITE
+                            <ExternalLink size={16} /> {(selectedProject.liveLabel ?? 'Live Site').toUpperCase()}
                           </a>
                         )}
                         {selectedProject.repoUrl && (
@@ -1025,37 +1008,10 @@ const DevView = () => {
                           </a>
                         )}
                       </div>
+                      {selectedProject.liveNote && <p className="mt-3 text-xs text-pip-light">{selectedProject.liveNote}</p>}
                     </div>
 
-                    {projectScreenshots.length > 0 && (
-                      <section aria-labelledby="project-screenshots-heading">
-                        <div className="mb-3 flex items-end justify-between gap-4">
-                          <h3 id="project-screenshots-heading" className="text-sm font-black uppercase tracking-[0.18em] text-white md:text-base">Product Screens</h3>
-                          <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-pip/65">Tap to expand</span>
-                        </div>
-                        <div className="-mr-4 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 pr-[22vw] pip-scrollbar md:mr-0 md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:pr-0 xl:grid-cols-3">
-                          {projectScreenshots.map((screenshot, index) => (
-                            <button
-                              key={screenshot.src}
-                              type="button"
-                              onClick={() => setSelectedProjectPreview(screenshot)}
-                              className="group w-[76vw] shrink-0 snap-start overflow-hidden border border-pip/35 bg-black text-left transition-colors hover:border-pip focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pip md:w-auto"
-                              aria-label={`Open ${screenshot.label} preview`}
-                            >
-                              <div className="aspect-[16/10] bg-black">
-                                <img
-                                  src={screenshot.src}
-                                  alt={screenshot.alt}
-                                  loading={index === 0 ? 'eager' : 'lazy'}
-                                  className="h-full w-full object-contain"
-                                />
-                              </div>
-                              <span className="block border-t border-pip/20 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-pip-light">{screenshot.label}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </section>
-                    )}
+                    <ProjectScreenshots key={selectedProject.id} project={selectedProject} />
 
                     <div className="divide-y divide-pip/20 border-y border-pip/20">
                       {PROJECT_DETAIL_SECTIONS.map((section) => {
@@ -1119,43 +1075,6 @@ const DevView = () => {
         </div>
       )}
 
-      {selectedProjectPreview && selectedProject && (
-        <div
-          className="project-preview-modal fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4 md:p-8"
-          role="presentation"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) setSelectedProjectPreview(null);
-          }}
-        >
-          <section
-            className="project-preview-dialog relative flex max-h-full w-full max-w-6xl flex-col overflow-hidden border border-pip/45 bg-pip-bg shadow-2xl"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="project-preview-title"
-          >
-            <div className="flex items-center justify-between gap-4 border-b border-pip/25 px-4 py-3 md:px-5">
-              <p id="project-preview-title" className="min-w-0 truncate text-xs font-black uppercase tracking-[0.16em] text-pip-light md:text-sm">
-                {selectedProject.title} — {selectedProjectPreview.label}
-              </p>
-              <button
-                type="button"
-                onClick={() => setSelectedProjectPreview(null)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center text-pip transition-colors hover:bg-pip hover:text-pip-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                aria-label="Close image preview"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="min-h-0 overflow-auto bg-black p-3 md:p-5 pip-scrollbar">
-              <img
-                src={selectedProjectPreview.src}
-                alt={selectedProjectPreview.alt}
-                className="mx-auto block max-h-[calc(100vh-10rem)] w-auto max-w-full object-contain"
-              />
-            </div>
-          </section>
-        </div>
-      )}
 
       <style>{`
         /* 1. Base64 SVG Noise Pattern */
@@ -1210,10 +1129,10 @@ const DevView = () => {
           background: rgba(20, 184, 166, 0.4);
           border-radius: 4px;
         }
-        .project-preview-modal {
+        .project-image-dialog[open] {
           animation: project-preview-fade-in 180ms ease-out both;
         }
-        .project-preview-dialog {
+        .project-image-panel {
           animation: project-preview-scale-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         @keyframes project-preview-fade-in {
@@ -1225,8 +1144,8 @@ const DevView = () => {
           to { opacity: 1; transform: scale(1); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .project-preview-modal,
-          .project-preview-dialog {
+          .project-image-dialog[open],
+          .project-image-panel {
             animation: none;
           }
         }

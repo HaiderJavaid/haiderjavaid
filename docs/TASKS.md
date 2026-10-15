@@ -30,6 +30,8 @@
 - [ ] Add analytics only with a clear privacy-safe purpose.
 
 ## Completed
+- [x] Add Replenish Beauty first and Hackbox second, with verified case studies and a Game filter; defer unfinished Dead Fit.
+- [x] Add 20 optimized product captures across six projects; expand screenshot rails and full-size keyboard/thumbnail navigation. Yello retains its one supplied image.
 - [x] Replace inline-expanding project media with compact, clean screenshot galleries and an accessible dimmed preview modal; the mobile gallery shows the next screen peeking into view.
 - [x] Preserve the selected project position when returning from its detail view; order detail content as Key Features, Tech Stack, My Role, and Outcome, with the first two sections open by default.
 - [x] React + Vite + Tailwind scaffold.
